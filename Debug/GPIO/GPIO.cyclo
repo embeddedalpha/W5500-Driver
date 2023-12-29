@@ -1,0 +1,8 @@
+../Inc/core_cm4.h:1696:22:__NVIC_EnableIRQ	2
+../Inc/core_cm4.h:1824:22:__NVIC_SetPriority	2
+../GPIO/GPIO.c:13:6:GPIO_Interrupt_Setup	14
+../GPIO/GPIO.c:69:6:GPIO_Pin_High	1
+../GPIO/GPIO.c:75:6:GPIO_Pin_Low	1
+../GPIO/GPIO.c:81:5:GPIO_Clock_Disable	7
+../GPIO/GPIO.c:109:5:GPIO_Clock_Enable	7
+../GPIO/GPIO.c:138:6:GPIO_Pin_Init	2
