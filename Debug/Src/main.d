@@ -6,7 +6,10 @@ Src/main.o: ../Src/main.c ../Inc/main.h ../Inc/stm32f407xx.h \
  D:/STM32F407_Firmware/W5500_Driver/GPIO/GPIO_Defs.h \
  D:/STM32F407_Firmware/W5500_Driver/SPI/SPI_Defs.h \
  D:/STM32F407_Firmware/W5500_Driver/W5500/W5500.h \
- D:/STM32F407_Firmware/W5500_Driver/W5500/W5500_Defs.h
+ D:/STM32F407_Firmware/W5500_Driver/W5500/W5500_Defs.h \
+ D:/STM32F407_Firmware/W5500_Driver/Console/Console.h \
+ D:/STM32F407_Firmware/W5500_Driver/USART/USART.h \
+ D:/STM32F407_Firmware/W5500_Driver/USART/USART_Defs.h
 ../Inc/main.h:
 ../Inc/stm32f407xx.h:
 ../Inc/core_cm4.h:
@@ -22,3 +25,6 @@ D:/STM32F407_Firmware/W5500_Driver/GPIO/GPIO_Defs.h:
 D:/STM32F407_Firmware/W5500_Driver/SPI/SPI_Defs.h:
 D:/STM32F407_Firmware/W5500_Driver/W5500/W5500.h:
 D:/STM32F407_Firmware/W5500_Driver/W5500/W5500_Defs.h:
+D:/STM32F407_Firmware/W5500_Driver/Console/Console.h:
+D:/STM32F407_Firmware/W5500_Driver/USART/USART.h:
+D:/STM32F407_Firmware/W5500_Driver/USART/USART_Defs.h:

@@ -1,0 +1,5 @@
+../Inc/main.h:107:26:Delay_ms	24	static
+../W5500/W5500_UDP.c:16:8:W5500_UDP_Socket_Open	24	static
+../W5500/W5500_UDP.c:55:8:W5500_UDP_Socket_Send_Packet	48	static
+../W5500/W5500_UDP.c:86:8:W5500_UDP_Socket_Get_Packet	576	static
+../W5500/W5500_UDP.c:145:8:W5500_UDP_Socket_Close	24	static

@@ -1,20 +1,25 @@
 #include "main.h"
 #include "SPI.h"
 #include "W5500.h"
+#include "Console.h"
+//#include "DHCP.h"
 
 
 SPI_Config xDevice;
 
-uint16_t Read_Byte(void);
 
 W5500_Config xW5500;
 W5500_Socket_Config xW5500_Socket0;
+
+
 
 
 int main(void)
 {
 	MCU_Clock_Setup();
 	Delay_Config();
+	Console_Init(USART1, 9600);
+
 
 
 
@@ -36,35 +41,51 @@ int main(void)
 	xW5500.Source_Hardware_Address = Source_Hardware_Address;
 	xW5500.Source_IP_Address = Source_IP_Address;
 	xW5500.Subnet_Mask_Address = Subnet_Mask_Address;
+	xW5500.Source_Port = 48567;
 
 	W5500_Init(&xW5500);
 
 	xW5500_Socket0.Hardware_Socket_Number = W5500_Hardware_Socket.Socket_1;
 	xW5500_Socket0.Mode = W5500_Socket_Mode.UDP;
-	xW5500_Socket0.client_server = W5500_Socket_Type.Client;
-	xW5500_Socket0.Source_Port = 48569;
 	xW5500_Socket0.Destination_Port = 48569; //48569
 
 	uint8_t Destination_Hardware_Address[] = { 0x00,0xe0,0x4c,0x68,0x9e,0x2c};
-	uint8_t Destination_IP_Address[] = {169,254,26,103}; //169.254.26.103
+	uint8_t Destination_IP_Address[] = {169,254,149,36}; //169.254.26.103
 	xW5500_Socket0.Destination_Hardware_Address = Destination_Hardware_Address;
 	xW5500_Socket0.Destination_IP_Address = Destination_IP_Address;
 
-	uint8_t data[] = {'K','u','n','a','l',' ', 'S', 'a', 'l', 'v', 'i'};
-	xW5500_Socket0.data = data;
-	xW5500_Socket0.data_len = 11;
-
-	W5500_Socket_UDP_Setup(&xW5500, &xW5500_Socket0);
 
 
 
-	for(;;)
+	uint8_t IP[4];
+	uint16_t Port;
+	uint16_t Payload_Length;
+	uint8_t Payload[200];
+
+
+
+
+	int i = 0;
+
+	while(i < 10000)
 	{
+		uint8_t data[] = {'K','u','n','a','l',' ', 'S', 'a', 'l', 'v', 'i',i};
+		xW5500_Socket0.data = &data[0];
+		xW5500_Socket0.data_len = 12;
+		W5500_UDP_Socket_Open(&xW5500, &xW5500_Socket0);
+		W5500_UDP_Socket_Send_Packet(&xW5500, &xW5500_Socket0);
+		W5500_UDP_Socket_Get_Packet(&xW5500, &xW5500_Socket0, &IP, &Port, &Payload, &Payload_Length);
+		W5500_UDP_Socket_Close(&xW5500, &xW5500_Socket0);
 
-		W5500_Socket_UDP_Send_Data(&xW5500, &xW5500_Socket0);
-		Delay_ms(100);
+		printConsole("%d\r\n",Port);
+		printConsole("%d\r\n",Payload_Length);
+
+		Delay_s(5);
+		i++;
 	}
+
+
 }
 
-
+//hello
 

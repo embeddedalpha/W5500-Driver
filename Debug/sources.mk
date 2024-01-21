@@ -22,10 +22,12 @@ C_DEPS :=
 
 # Every subdirectory with source files must be described here
 SUBDIRS := \
+Console \
 GPIO \
-Network_Driver/DHCP \
+Network_Driver \
 SPI \
 Src \
 Startup \
+USART \
 W5500 \
 

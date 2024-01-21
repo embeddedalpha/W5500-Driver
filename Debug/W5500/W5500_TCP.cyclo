@@ -1,0 +1,5 @@
+../Inc/main.h:107:26:Delay_ms	2
+../W5500/W5500_TCP.c:18:8:W5500_TCP_Socket_Open	7
+../W5500/W5500_TCP.c:78:8:W5500_TCP_Socket_Get_Packet	6
+../W5500/W5500_TCP.c:138:8:W5500_TCP_Socket_Send_Packet	1
+../W5500/W5500_TCP.c:170:8:W5500_TCP_Socket_Close	4

@@ -35,6 +35,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/GPIO}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/SPI}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/W5500}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/Console}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/USART}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/Network_Driver}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input.760483172" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input"/>
 							</tool>
@@ -52,6 +55,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/GPIO}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/SPI}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/W5500}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/Console}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/USART}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/Network_Driver}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.2018604719" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>
@@ -78,12 +84,14 @@
 						</toolChain>
 					</folderInfo>
 					<sourceEntries>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="Console"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="GPIO"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Inc"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Network_Driver"/>
 						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="SPI"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Src"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="Startup"/>
+						<entry flags="VALUE_WORKSPACE_PATH" kind="sourcePath" name="USART"/>
 						<entry flags="VALUE_WORKSPACE_PATH|RESOLVED" kind="sourcePath" name="W5500"/>
 					</sourceEntries>
 				</configuration>
@@ -121,6 +129,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/GPIO}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/SPI}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/W5500}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/Console}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/USART}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/Network_Driver}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input.1446644896" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.assembler.input"/>
 							</tool>
@@ -137,6 +148,9 @@
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/GPIO}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/SPI}&quot;"/>
 									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/W5500}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/Console}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/USART}&quot;"/>
+									<listOptionValue builtIn="false" value="&quot;${workspace_loc:/W5500_Driver/Network_Driver}&quot;"/>
 								</option>
 								<inputType id="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c.1141648179" superClass="com.st.stm32cube.ide.mcu.gnu.managedbuild.tool.c.compiler.input.c"/>
 							</tool>

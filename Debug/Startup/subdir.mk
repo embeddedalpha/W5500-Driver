@@ -16,7 +16,7 @@ S_DEPS += \
 
 # Each subdirectory must supply rules for building sources it contributes
 Startup/%.o: ../Startup/%.s Startup/subdir.mk
-	arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -I"D:/STM32F407_Firmware/W5500_Driver/GPIO" -I"D:/STM32F407_Firmware/W5500_Driver/SPI" -I"D:/STM32F407_Firmware/W5500_Driver/W5500" -x assembler-with-cpp -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@" "$<"
+	arm-none-eabi-gcc -mcpu=cortex-m4 -g3 -DDEBUG -c -I"D:/STM32F407_Firmware/W5500_Driver/GPIO" -I"D:/STM32F407_Firmware/W5500_Driver/SPI" -I"D:/STM32F407_Firmware/W5500_Driver/W5500" -I"D:/STM32F407_Firmware/W5500_Driver/Console" -I"D:/STM32F407_Firmware/W5500_Driver/USART" -I"D:/STM32F407_Firmware/W5500_Driver/Network_Driver" -x assembler-with-cpp -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@" "$<"
 
 clean: clean-Startup
 

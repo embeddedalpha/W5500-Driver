@@ -1,0 +1,5 @@
+../Inc/main.h:107:26:Delay_ms	24	static
+../W5500/W5500_TCP.c:18:8:W5500_TCP_Socket_Open	24	static
+../W5500/W5500_TCP.c:78:8:W5500_TCP_Socket_Get_Packet	568	static
+../W5500/W5500_TCP.c:138:8:W5500_TCP_Socket_Send_Packet	48	static
+../W5500/W5500_TCP.c:170:8:W5500_TCP_Socket_Close	24	static

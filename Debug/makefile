@@ -10,11 +10,13 @@ RM := rm -rf
 # All of the sources participating in the build are defined here
 -include sources.mk
 -include W5500/subdir.mk
+-include USART/subdir.mk
 -include Startup/subdir.mk
 -include Src/subdir.mk
 -include SPI/subdir.mk
--include Network_Driver/DHCP/subdir.mk
+-include Network_Driver/subdir.mk
 -include GPIO/subdir.mk
+-include Console/subdir.mk
 -include objects.mk
 
 ifneq ($(MAKECMDGOALS),clean)
