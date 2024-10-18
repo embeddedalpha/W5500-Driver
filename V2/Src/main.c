@@ -19,7 +19,6 @@
 #include <stdint.h>
 #include "main.h"
 #include "Logs/Logs.h"
-#include "W5500_Defs.h"
 
 int main(void)
 {
