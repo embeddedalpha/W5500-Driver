@@ -1,0 +1,12 @@
+../Inc/main.h:107:26:Delay_ms	24	static
+../Inc/main.h:118:26:Delay_s	16	static
+../W5500/W5500.c:23:5:W5500_Init	24	static
+../W5500/W5500.c:82:6:W5500_Socket_Mutlticast_UDP_Init	24	static
+../W5500/W5500.c:105:8:W5500_Socket_Multicast_UDP_Send_Packet	40	static
+../W5500/W5500.c:187:8:W5500_Socket_TCP_Open	24	static
+../W5500/W5500.c:227:8:W5500_Socket_TCP_Send_Data	32	static
+../W5500/W5500.c:248:8:W5500_Socket_TCP_Close	24	static
+../W5500/W5500.c:263:8:W5500_Socket_TCP_Disconnect	24	static
+../W5500/W5500.c:292:8:W5500_Socket_UDP_Setup	24	static
+../W5500/W5500.c:321:8:W5500_Socket_UDP_Send_Packet	32	static
+../W5500/W5500.c:395:8:Send_Packet	72	static

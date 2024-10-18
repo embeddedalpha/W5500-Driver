@@ -1,0 +1,3913 @@
+
+W5500_Driver.elf:     file format elf32-littlearm
+
+Sections:
+Idx Name          Size      VMA       LMA       File off  Algn
+  0 .isr_vector   00000188  08000000  08000000  00001000  2**0
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  1 .text         00001788  08000188  08000188  00001188  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, CODE
+  2 .rodata       00000010  08001910  08001910  00002910  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  3 .ARM.extab    00000000  08001920  08001920  00003004  2**0
+                  CONTENTS
+  4 .ARM          00000000  08001920  08001920  00003004  2**0
+                  CONTENTS
+  5 .preinit_array 00000000  08001920  08001920  00003004  2**0
+                  CONTENTS, ALLOC, LOAD, DATA
+  6 .init_array   00000004  08001920  08001920  00002920  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  7 .fini_array   00000004  08001924  08001924  00002924  2**2
+                  CONTENTS, ALLOC, LOAD, READONLY, DATA
+  8 .data         00000004  20000000  08001928  00003000  2**2
+                  CONTENTS, ALLOC, LOAD, DATA
+  9 .ccmram       00000000  10000000  10000000  00003004  2**0
+                  CONTENTS
+ 10 .bss          0000028c  20000004  20000004  00003004  2**2
+                  ALLOC
+ 11 ._user_heap_stack 00000600  20000290  20000290  00003004  2**0
+                  ALLOC
+ 12 .ARM.attributes 00000030  00000000  00000000  00003004  2**0
+                  CONTENTS, READONLY
+ 13 .debug_info   00003654  00000000  00000000  00003034  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 14 .debug_abbrev 000005a1  00000000  00000000  00006688  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 15 .debug_aranges 00000170  00000000  00000000  00006c30  2**3
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 16 .debug_rnglists 00000116  00000000  00000000  00006da0  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 17 .debug_macro  0001991d  00000000  00000000  00006eb6  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 18 .debug_line   000023ee  00000000  00000000  000207d3  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 19 .debug_str    0008f99e  00000000  00000000  00022bc1  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 20 .comment      00000043  00000000  00000000  000b255f  2**0
+                  CONTENTS, READONLY
+ 21 .debug_frame  000004b8  00000000  00000000  000b25a4  2**2
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+ 22 .debug_line_str 00000054  00000000  00000000  000b2a5c  2**0
+                  CONTENTS, READONLY, DEBUGGING, OCTETS
+
+Disassembly of section .text:
+
+08000188 <__do_global_dtors_aux>:
+ 8000188:	b510      	push	{r4, lr}
+ 800018a:	4c05      	ldr	r4, [pc, #20]	@ (80001a0 <__do_global_dtors_aux+0x18>)
+ 800018c:	7823      	ldrb	r3, [r4, #0]
+ 800018e:	b933      	cbnz	r3, 800019e <__do_global_dtors_aux+0x16>
+ 8000190:	4b04      	ldr	r3, [pc, #16]	@ (80001a4 <__do_global_dtors_aux+0x1c>)
+ 8000192:	b113      	cbz	r3, 800019a <__do_global_dtors_aux+0x12>
+ 8000194:	4804      	ldr	r0, [pc, #16]	@ (80001a8 <__do_global_dtors_aux+0x20>)
+ 8000196:	f3af 8000 	nop.w
+ 800019a:	2301      	movs	r3, #1
+ 800019c:	7023      	strb	r3, [r4, #0]
+ 800019e:	bd10      	pop	{r4, pc}
+ 80001a0:	20000004 	.word	0x20000004
+ 80001a4:	00000000 	.word	0x00000000
+ 80001a8:	080018f8 	.word	0x080018f8
+
+080001ac <frame_dummy>:
+ 80001ac:	b508      	push	{r3, lr}
+ 80001ae:	4b03      	ldr	r3, [pc, #12]	@ (80001bc <frame_dummy+0x10>)
+ 80001b0:	b11b      	cbz	r3, 80001ba <frame_dummy+0xe>
+ 80001b2:	4903      	ldr	r1, [pc, #12]	@ (80001c0 <frame_dummy+0x14>)
+ 80001b4:	4803      	ldr	r0, [pc, #12]	@ (80001c4 <frame_dummy+0x18>)
+ 80001b6:	f3af 8000 	nop.w
+ 80001ba:	bd08      	pop	{r3, pc}
+ 80001bc:	00000000 	.word	0x00000000
+ 80001c0:	20000008 	.word	0x20000008
+ 80001c4:	080018f8 	.word	0x080018f8
+
+080001c8 <DMA1_Stream0_IRQHandler>:
+ * status flags for FIFO error, direct mode error, transfer error, half
+ * transfer complete, and transfer complete, and clears the respective
+ * interrupt flag after handling it.
+ */
+void DMA1_Stream0_IRQHandler(void)
+{
+ 80001c8:	b480      	push	{r7}
+ 80001ca:	af00      	add	r7, sp, #0
+	if(DMA1 -> LISR & DMA_LISR_FEIF0)
+ 80001cc:	4b54      	ldr	r3, [pc, #336]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 80001ce:	681b      	ldr	r3, [r3, #0]
+ 80001d0:	f003 0301 	and.w	r3, r3, #1
+ 80001d4:	2b00      	cmp	r3, #0
+ 80001d6:	d01a      	beq.n	800020e <DMA1_Stream0_IRQHandler+0x46>
+	{
+		TIM5_CH3_DMA_Flag.Fifo_Error_Flag = true;
+ 80001d8:	4b52      	ldr	r3, [pc, #328]	@ (8000324 <DMA1_Stream0_IRQHandler+0x15c>)
+ 80001da:	2201      	movs	r2, #1
+ 80001dc:	715a      	strb	r2, [r3, #5]
+		TIM4_CH1_DMA_Flag.Fifo_Error_Flag = true;
+ 80001de:	4b52      	ldr	r3, [pc, #328]	@ (8000328 <DMA1_Stream0_IRQHandler+0x160>)
+ 80001e0:	2201      	movs	r2, #1
+ 80001e2:	715a      	strb	r2, [r3, #5]
+		USART8_RX_DMA_Flag.Fifo_Error_Flag = true;
+ 80001e4:	4b51      	ldr	r3, [pc, #324]	@ (800032c <DMA1_Stream0_IRQHandler+0x164>)
+ 80001e6:	2201      	movs	r2, #1
+ 80001e8:	715a      	strb	r2, [r3, #5]
+		USART5_RX_DMA_Flag.Fifo_Error_Flag = true;
+ 80001ea:	4b51      	ldr	r3, [pc, #324]	@ (8000330 <DMA1_Stream0_IRQHandler+0x168>)
+ 80001ec:	2201      	movs	r2, #1
+ 80001ee:	715a      	strb	r2, [r3, #5]
+		I2C1_RX_DMA_Flag.Fifo_Error_Flag = true;
+ 80001f0:	4b50      	ldr	r3, [pc, #320]	@ (8000334 <DMA1_Stream0_IRQHandler+0x16c>)
+ 80001f2:	2201      	movs	r2, #1
+ 80001f4:	715a      	strb	r2, [r3, #5]
+		SPI3_RX_DMA_Flag.Fifo_Error_Flag = true;
+ 80001f6:	4b50      	ldr	r3, [pc, #320]	@ (8000338 <DMA1_Stream0_IRQHandler+0x170>)
+ 80001f8:	2201      	movs	r2, #1
+ 80001fa:	715a      	strb	r2, [r3, #5]
+		DMA1_Stream0_Flag.Fifo_Error_Flag = true;
+ 80001fc:	4b4f      	ldr	r3, [pc, #316]	@ (800033c <DMA1_Stream0_IRQHandler+0x174>)
+ 80001fe:	2201      	movs	r2, #1
+ 8000200:	715a      	strb	r2, [r3, #5]
+		DMA1 -> LIFCR |= DMA_LIFCR_CFEIF0;
+ 8000202:	4b47      	ldr	r3, [pc, #284]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 8000204:	689b      	ldr	r3, [r3, #8]
+ 8000206:	4a46      	ldr	r2, [pc, #280]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 8000208:	f043 0301 	orr.w	r3, r3, #1
+ 800020c:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_DMEIF0)
+ 800020e:	4b44      	ldr	r3, [pc, #272]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 8000210:	681b      	ldr	r3, [r3, #0]
+ 8000212:	f003 0304 	and.w	r3, r3, #4
+ 8000216:	2b00      	cmp	r3, #0
+ 8000218:	d01a      	beq.n	8000250 <DMA1_Stream0_IRQHandler+0x88>
+	{
+		TIM5_CH3_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 800021a:	4b42      	ldr	r3, [pc, #264]	@ (8000324 <DMA1_Stream0_IRQHandler+0x15c>)
+ 800021c:	2201      	movs	r2, #1
+ 800021e:	711a      	strb	r2, [r3, #4]
+		TIM4_CH1_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000220:	4b41      	ldr	r3, [pc, #260]	@ (8000328 <DMA1_Stream0_IRQHandler+0x160>)
+ 8000222:	2201      	movs	r2, #1
+ 8000224:	711a      	strb	r2, [r3, #4]
+		USART8_RX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000226:	4b41      	ldr	r3, [pc, #260]	@ (800032c <DMA1_Stream0_IRQHandler+0x164>)
+ 8000228:	2201      	movs	r2, #1
+ 800022a:	711a      	strb	r2, [r3, #4]
+		USART5_RX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 800022c:	4b40      	ldr	r3, [pc, #256]	@ (8000330 <DMA1_Stream0_IRQHandler+0x168>)
+ 800022e:	2201      	movs	r2, #1
+ 8000230:	711a      	strb	r2, [r3, #4]
+		I2C1_RX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000232:	4b40      	ldr	r3, [pc, #256]	@ (8000334 <DMA1_Stream0_IRQHandler+0x16c>)
+ 8000234:	2201      	movs	r2, #1
+ 8000236:	711a      	strb	r2, [r3, #4]
+		SPI3_RX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000238:	4b3f      	ldr	r3, [pc, #252]	@ (8000338 <DMA1_Stream0_IRQHandler+0x170>)
+ 800023a:	2201      	movs	r2, #1
+ 800023c:	711a      	strb	r2, [r3, #4]
+		DMA1_Stream0_Flag.Direct_Mode_Error_Flag = true;
+ 800023e:	4b3f      	ldr	r3, [pc, #252]	@ (800033c <DMA1_Stream0_IRQHandler+0x174>)
+ 8000240:	2201      	movs	r2, #1
+ 8000242:	711a      	strb	r2, [r3, #4]
+		DMA1 -> LIFCR |= DMA_LIFCR_CDMEIF0;
+ 8000244:	4b36      	ldr	r3, [pc, #216]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 8000246:	689b      	ldr	r3, [r3, #8]
+ 8000248:	4a35      	ldr	r2, [pc, #212]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 800024a:	f043 0304 	orr.w	r3, r3, #4
+ 800024e:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_TEIF0)
+ 8000250:	4b33      	ldr	r3, [pc, #204]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 8000252:	681b      	ldr	r3, [r3, #0]
+ 8000254:	f003 0308 	and.w	r3, r3, #8
+ 8000258:	2b00      	cmp	r3, #0
+ 800025a:	d01a      	beq.n	8000292 <DMA1_Stream0_IRQHandler+0xca>
+	{
+		TIM5_CH3_DMA_Flag.Transfer_Error_Flag= true;
+ 800025c:	4b31      	ldr	r3, [pc, #196]	@ (8000324 <DMA1_Stream0_IRQHandler+0x15c>)
+ 800025e:	2201      	movs	r2, #1
+ 8000260:	70da      	strb	r2, [r3, #3]
+		TIM4_CH1_DMA_Flag.Transfer_Error_Flag = true;
+ 8000262:	4b31      	ldr	r3, [pc, #196]	@ (8000328 <DMA1_Stream0_IRQHandler+0x160>)
+ 8000264:	2201      	movs	r2, #1
+ 8000266:	70da      	strb	r2, [r3, #3]
+		USART8_RX_DMA_Flag.Transfer_Error_Flag = true;
+ 8000268:	4b30      	ldr	r3, [pc, #192]	@ (800032c <DMA1_Stream0_IRQHandler+0x164>)
+ 800026a:	2201      	movs	r2, #1
+ 800026c:	70da      	strb	r2, [r3, #3]
+		USART5_RX_DMA_Flag.Transfer_Error_Flag = true;
+ 800026e:	4b30      	ldr	r3, [pc, #192]	@ (8000330 <DMA1_Stream0_IRQHandler+0x168>)
+ 8000270:	2201      	movs	r2, #1
+ 8000272:	70da      	strb	r2, [r3, #3]
+		I2C1_RX_DMA_Flag.Transfer_Error_Flag = true;
+ 8000274:	4b2f      	ldr	r3, [pc, #188]	@ (8000334 <DMA1_Stream0_IRQHandler+0x16c>)
+ 8000276:	2201      	movs	r2, #1
+ 8000278:	70da      	strb	r2, [r3, #3]
+		SPI3_RX_DMA_Flag.Transfer_Error_Flag = true;
+ 800027a:	4b2f      	ldr	r3, [pc, #188]	@ (8000338 <DMA1_Stream0_IRQHandler+0x170>)
+ 800027c:	2201      	movs	r2, #1
+ 800027e:	70da      	strb	r2, [r3, #3]
+		DMA1_Stream0_Flag.Transfer_Error_Flag = true;
+ 8000280:	4b2e      	ldr	r3, [pc, #184]	@ (800033c <DMA1_Stream0_IRQHandler+0x174>)
+ 8000282:	2201      	movs	r2, #1
+ 8000284:	70da      	strb	r2, [r3, #3]
+		DMA1 -> LIFCR |= DMA_LIFCR_CTEIF0;
+ 8000286:	4b26      	ldr	r3, [pc, #152]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 8000288:	689b      	ldr	r3, [r3, #8]
+ 800028a:	4a25      	ldr	r2, [pc, #148]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 800028c:	f043 0308 	orr.w	r3, r3, #8
+ 8000290:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_HTIF0)
+ 8000292:	4b23      	ldr	r3, [pc, #140]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 8000294:	681b      	ldr	r3, [r3, #0]
+ 8000296:	f003 0310 	and.w	r3, r3, #16
+ 800029a:	2b00      	cmp	r3, #0
+ 800029c:	d01a      	beq.n	80002d4 <DMA1_Stream0_IRQHandler+0x10c>
+	{
+		TIM5_CH3_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 800029e:	4b21      	ldr	r3, [pc, #132]	@ (8000324 <DMA1_Stream0_IRQHandler+0x15c>)
+ 80002a0:	2201      	movs	r2, #1
+ 80002a2:	709a      	strb	r2, [r3, #2]
+		TIM4_CH1_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80002a4:	4b20      	ldr	r3, [pc, #128]	@ (8000328 <DMA1_Stream0_IRQHandler+0x160>)
+ 80002a6:	2201      	movs	r2, #1
+ 80002a8:	709a      	strb	r2, [r3, #2]
+		USART8_RX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80002aa:	4b20      	ldr	r3, [pc, #128]	@ (800032c <DMA1_Stream0_IRQHandler+0x164>)
+ 80002ac:	2201      	movs	r2, #1
+ 80002ae:	709a      	strb	r2, [r3, #2]
+		USART5_RX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80002b0:	4b1f      	ldr	r3, [pc, #124]	@ (8000330 <DMA1_Stream0_IRQHandler+0x168>)
+ 80002b2:	2201      	movs	r2, #1
+ 80002b4:	709a      	strb	r2, [r3, #2]
+		I2C1_RX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80002b6:	4b1f      	ldr	r3, [pc, #124]	@ (8000334 <DMA1_Stream0_IRQHandler+0x16c>)
+ 80002b8:	2201      	movs	r2, #1
+ 80002ba:	709a      	strb	r2, [r3, #2]
+		SPI3_RX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80002bc:	4b1e      	ldr	r3, [pc, #120]	@ (8000338 <DMA1_Stream0_IRQHandler+0x170>)
+ 80002be:	2201      	movs	r2, #1
+ 80002c0:	709a      	strb	r2, [r3, #2]
+		DMA1_Stream0_Flag.Half_Transfer_Complete_Flag = true;
+ 80002c2:	4b1e      	ldr	r3, [pc, #120]	@ (800033c <DMA1_Stream0_IRQHandler+0x174>)
+ 80002c4:	2201      	movs	r2, #1
+ 80002c6:	709a      	strb	r2, [r3, #2]
+		DMA1 -> LIFCR |= DMA_LIFCR_CHTIF0;
+ 80002c8:	4b15      	ldr	r3, [pc, #84]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 80002ca:	689b      	ldr	r3, [r3, #8]
+ 80002cc:	4a14      	ldr	r2, [pc, #80]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 80002ce:	f043 0310 	orr.w	r3, r3, #16
+ 80002d2:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_TCIF0)
+ 80002d4:	4b12      	ldr	r3, [pc, #72]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 80002d6:	681b      	ldr	r3, [r3, #0]
+ 80002d8:	f003 0320 	and.w	r3, r3, #32
+ 80002dc:	2b00      	cmp	r3, #0
+ 80002de:	d01a      	beq.n	8000316 <DMA1_Stream0_IRQHandler+0x14e>
+	{
+		TIM5_CH3_DMA_Flag.Transfer_Complete_Flag = true;
+ 80002e0:	4b10      	ldr	r3, [pc, #64]	@ (8000324 <DMA1_Stream0_IRQHandler+0x15c>)
+ 80002e2:	2201      	movs	r2, #1
+ 80002e4:	705a      	strb	r2, [r3, #1]
+		TIM4_CH1_DMA_Flag.Transfer_Complete_Flag = true;
+ 80002e6:	4b10      	ldr	r3, [pc, #64]	@ (8000328 <DMA1_Stream0_IRQHandler+0x160>)
+ 80002e8:	2201      	movs	r2, #1
+ 80002ea:	705a      	strb	r2, [r3, #1]
+		USART8_RX_DMA_Flag.Transfer_Complete_Flag = true;
+ 80002ec:	4b0f      	ldr	r3, [pc, #60]	@ (800032c <DMA1_Stream0_IRQHandler+0x164>)
+ 80002ee:	2201      	movs	r2, #1
+ 80002f0:	705a      	strb	r2, [r3, #1]
+		USART5_RX_DMA_Flag.Transfer_Complete_Flag = true;
+ 80002f2:	4b0f      	ldr	r3, [pc, #60]	@ (8000330 <DMA1_Stream0_IRQHandler+0x168>)
+ 80002f4:	2201      	movs	r2, #1
+ 80002f6:	705a      	strb	r2, [r3, #1]
+		I2C1_RX_DMA_Flag.Transfer_Complete_Flag = true;
+ 80002f8:	4b0e      	ldr	r3, [pc, #56]	@ (8000334 <DMA1_Stream0_IRQHandler+0x16c>)
+ 80002fa:	2201      	movs	r2, #1
+ 80002fc:	705a      	strb	r2, [r3, #1]
+		SPI3_RX_DMA_Flag.Transfer_Complete_Flag = true;
+ 80002fe:	4b0e      	ldr	r3, [pc, #56]	@ (8000338 <DMA1_Stream0_IRQHandler+0x170>)
+ 8000300:	2201      	movs	r2, #1
+ 8000302:	705a      	strb	r2, [r3, #1]
+		DMA1_Stream0_Flag.Transfer_Complete_Flag = true;
+ 8000304:	4b0d      	ldr	r3, [pc, #52]	@ (800033c <DMA1_Stream0_IRQHandler+0x174>)
+ 8000306:	2201      	movs	r2, #1
+ 8000308:	705a      	strb	r2, [r3, #1]
+		DMA1 -> LIFCR |= DMA_LIFCR_CTCIF0;
+ 800030a:	4b05      	ldr	r3, [pc, #20]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 800030c:	689b      	ldr	r3, [r3, #8]
+ 800030e:	4a04      	ldr	r2, [pc, #16]	@ (8000320 <DMA1_Stream0_IRQHandler+0x158>)
+ 8000310:	f043 0320 	orr.w	r3, r3, #32
+ 8000314:	6093      	str	r3, [r2, #8]
+	}
+}
+ 8000316:	bf00      	nop
+ 8000318:	46bd      	mov	sp, r7
+ 800031a:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800031e:	4770      	bx	lr
+ 8000320:	40026000 	.word	0x40026000
+ 8000324:	200001c8 	.word	0x200001c8
+ 8000328:	200001a8 	.word	0x200001a8
+ 800032c:	200000e8 	.word	0x200000e8
+ 8000330:	200000c0 	.word	0x200000c0
+ 8000334:	20000038 	.word	0x20000038
+ 8000338:	20000068 	.word	0x20000068
+ 800033c:	20000210 	.word	0x20000210
+
+08000340 <DMA1_Stream1_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA1_Stream1_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA1_Stream1_IRQHandler(void)
+{
+ 8000340:	b480      	push	{r7}
+ 8000342:	af00      	add	r7, sp, #0
+	if(DMA1 -> LISR & DMA_LISR_FEIF1)
+ 8000344:	4b45      	ldr	r3, [pc, #276]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 8000346:	681b      	ldr	r3, [r3, #0]
+ 8000348:	f003 0340 	and.w	r3, r3, #64	@ 0x40
+ 800034c:	2b00      	cmp	r3, #0
+ 800034e:	d014      	beq.n	800037a <DMA1_Stream1_IRQHandler+0x3a>
+	{
+		TIM2_CH3_DMA_Flag.Fifo_Error_Flag = true;
+ 8000350:	4b43      	ldr	r3, [pc, #268]	@ (8000460 <DMA1_Stream1_IRQHandler+0x120>)
+ 8000352:	2201      	movs	r2, #1
+ 8000354:	715a      	strb	r2, [r3, #5]
+		TIM6_UP_DMA_Flag.Fifo_Error_Flag = true;
+ 8000356:	4b43      	ldr	r3, [pc, #268]	@ (8000464 <DMA1_Stream1_IRQHandler+0x124>)
+ 8000358:	2201      	movs	r2, #1
+ 800035a:	715a      	strb	r2, [r3, #5]
+		USART7_RX_DMA_Flag.Fifo_Error_Flag = true;
+ 800035c:	4b42      	ldr	r3, [pc, #264]	@ (8000468 <DMA1_Stream1_IRQHandler+0x128>)
+ 800035e:	2201      	movs	r2, #1
+ 8000360:	715a      	strb	r2, [r3, #5]
+		USART3_RX_DMA_Flag.Fifo_Error_Flag = true;
+ 8000362:	4b42      	ldr	r3, [pc, #264]	@ (800046c <DMA1_Stream1_IRQHandler+0x12c>)
+ 8000364:	2201      	movs	r2, #1
+ 8000366:	715a      	strb	r2, [r3, #5]
+		DMA1_Stream1_Flag.Fifo_Error_Flag = true;
+ 8000368:	4b41      	ldr	r3, [pc, #260]	@ (8000470 <DMA1_Stream1_IRQHandler+0x130>)
+ 800036a:	2201      	movs	r2, #1
+ 800036c:	715a      	strb	r2, [r3, #5]
+		DMA1 -> LIFCR |= DMA_LIFCR_CFEIF1;
+ 800036e:	4b3b      	ldr	r3, [pc, #236]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 8000370:	689b      	ldr	r3, [r3, #8]
+ 8000372:	4a3a      	ldr	r2, [pc, #232]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 8000374:	f043 0340 	orr.w	r3, r3, #64	@ 0x40
+ 8000378:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_DMEIF1)
+ 800037a:	4b38      	ldr	r3, [pc, #224]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 800037c:	681b      	ldr	r3, [r3, #0]
+ 800037e:	f403 7380 	and.w	r3, r3, #256	@ 0x100
+ 8000382:	2b00      	cmp	r3, #0
+ 8000384:	d014      	beq.n	80003b0 <DMA1_Stream1_IRQHandler+0x70>
+	{
+		TIM2_CH3_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000386:	4b36      	ldr	r3, [pc, #216]	@ (8000460 <DMA1_Stream1_IRQHandler+0x120>)
+ 8000388:	2201      	movs	r2, #1
+ 800038a:	711a      	strb	r2, [r3, #4]
+		TIM6_UP_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 800038c:	4b35      	ldr	r3, [pc, #212]	@ (8000464 <DMA1_Stream1_IRQHandler+0x124>)
+ 800038e:	2201      	movs	r2, #1
+ 8000390:	711a      	strb	r2, [r3, #4]
+		USART7_RX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000392:	4b35      	ldr	r3, [pc, #212]	@ (8000468 <DMA1_Stream1_IRQHandler+0x128>)
+ 8000394:	2201      	movs	r2, #1
+ 8000396:	711a      	strb	r2, [r3, #4]
+		USART3_RX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000398:	4b34      	ldr	r3, [pc, #208]	@ (800046c <DMA1_Stream1_IRQHandler+0x12c>)
+ 800039a:	2201      	movs	r2, #1
+ 800039c:	711a      	strb	r2, [r3, #4]
+		DMA1_Stream1_Flag.Direct_Mode_Error_Flag = true;
+ 800039e:	4b34      	ldr	r3, [pc, #208]	@ (8000470 <DMA1_Stream1_IRQHandler+0x130>)
+ 80003a0:	2201      	movs	r2, #1
+ 80003a2:	711a      	strb	r2, [r3, #4]
+		DMA1 -> LIFCR |= DMA_LIFCR_CDMEIF1;
+ 80003a4:	4b2d      	ldr	r3, [pc, #180]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 80003a6:	689b      	ldr	r3, [r3, #8]
+ 80003a8:	4a2c      	ldr	r2, [pc, #176]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 80003aa:	f443 7380 	orr.w	r3, r3, #256	@ 0x100
+ 80003ae:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_TEIF1)
+ 80003b0:	4b2a      	ldr	r3, [pc, #168]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 80003b2:	681b      	ldr	r3, [r3, #0]
+ 80003b4:	f403 7300 	and.w	r3, r3, #512	@ 0x200
+ 80003b8:	2b00      	cmp	r3, #0
+ 80003ba:	d014      	beq.n	80003e6 <DMA1_Stream1_IRQHandler+0xa6>
+	{
+		TIM2_CH3_DMA_Flag.Transfer_Error_Flag = true;
+ 80003bc:	4b28      	ldr	r3, [pc, #160]	@ (8000460 <DMA1_Stream1_IRQHandler+0x120>)
+ 80003be:	2201      	movs	r2, #1
+ 80003c0:	70da      	strb	r2, [r3, #3]
+		TIM6_UP_DMA_Flag.Transfer_Error_Flag = true;
+ 80003c2:	4b28      	ldr	r3, [pc, #160]	@ (8000464 <DMA1_Stream1_IRQHandler+0x124>)
+ 80003c4:	2201      	movs	r2, #1
+ 80003c6:	70da      	strb	r2, [r3, #3]
+		USART7_RX_DMA_Flag.Transfer_Error_Flag = true;
+ 80003c8:	4b27      	ldr	r3, [pc, #156]	@ (8000468 <DMA1_Stream1_IRQHandler+0x128>)
+ 80003ca:	2201      	movs	r2, #1
+ 80003cc:	70da      	strb	r2, [r3, #3]
+		USART3_RX_DMA_Flag.Transfer_Error_Flag = true;
+ 80003ce:	4b27      	ldr	r3, [pc, #156]	@ (800046c <DMA1_Stream1_IRQHandler+0x12c>)
+ 80003d0:	2201      	movs	r2, #1
+ 80003d2:	70da      	strb	r2, [r3, #3]
+		DMA1_Stream1_Flag.Transfer_Error_Flag = true;
+ 80003d4:	4b26      	ldr	r3, [pc, #152]	@ (8000470 <DMA1_Stream1_IRQHandler+0x130>)
+ 80003d6:	2201      	movs	r2, #1
+ 80003d8:	70da      	strb	r2, [r3, #3]
+		DMA1 -> LIFCR |= DMA_LIFCR_CTEIF1;
+ 80003da:	4b20      	ldr	r3, [pc, #128]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 80003dc:	689b      	ldr	r3, [r3, #8]
+ 80003de:	4a1f      	ldr	r2, [pc, #124]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 80003e0:	f443 7300 	orr.w	r3, r3, #512	@ 0x200
+ 80003e4:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_HTIF1)
+ 80003e6:	4b1d      	ldr	r3, [pc, #116]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 80003e8:	681b      	ldr	r3, [r3, #0]
+ 80003ea:	f403 6380 	and.w	r3, r3, #1024	@ 0x400
+ 80003ee:	2b00      	cmp	r3, #0
+ 80003f0:	d014      	beq.n	800041c <DMA1_Stream1_IRQHandler+0xdc>
+	{
+		TIM2_CH3_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80003f2:	4b1b      	ldr	r3, [pc, #108]	@ (8000460 <DMA1_Stream1_IRQHandler+0x120>)
+ 80003f4:	2201      	movs	r2, #1
+ 80003f6:	709a      	strb	r2, [r3, #2]
+		TIM6_UP_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80003f8:	4b1a      	ldr	r3, [pc, #104]	@ (8000464 <DMA1_Stream1_IRQHandler+0x124>)
+ 80003fa:	2201      	movs	r2, #1
+ 80003fc:	709a      	strb	r2, [r3, #2]
+		USART7_RX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80003fe:	4b1a      	ldr	r3, [pc, #104]	@ (8000468 <DMA1_Stream1_IRQHandler+0x128>)
+ 8000400:	2201      	movs	r2, #1
+ 8000402:	709a      	strb	r2, [r3, #2]
+		USART3_RX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000404:	4b19      	ldr	r3, [pc, #100]	@ (800046c <DMA1_Stream1_IRQHandler+0x12c>)
+ 8000406:	2201      	movs	r2, #1
+ 8000408:	709a      	strb	r2, [r3, #2]
+		DMA1_Stream1_Flag.Half_Transfer_Complete_Flag = true;
+ 800040a:	4b19      	ldr	r3, [pc, #100]	@ (8000470 <DMA1_Stream1_IRQHandler+0x130>)
+ 800040c:	2201      	movs	r2, #1
+ 800040e:	709a      	strb	r2, [r3, #2]
+		DMA1 -> LIFCR |= DMA_LIFCR_CHTIF1;
+ 8000410:	4b12      	ldr	r3, [pc, #72]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 8000412:	689b      	ldr	r3, [r3, #8]
+ 8000414:	4a11      	ldr	r2, [pc, #68]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 8000416:	f443 6380 	orr.w	r3, r3, #1024	@ 0x400
+ 800041a:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_TCIF1)
+ 800041c:	4b0f      	ldr	r3, [pc, #60]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 800041e:	681b      	ldr	r3, [r3, #0]
+ 8000420:	f403 6300 	and.w	r3, r3, #2048	@ 0x800
+ 8000424:	2b00      	cmp	r3, #0
+ 8000426:	d014      	beq.n	8000452 <DMA1_Stream1_IRQHandler+0x112>
+	{
+		TIM2_CH3_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000428:	4b0d      	ldr	r3, [pc, #52]	@ (8000460 <DMA1_Stream1_IRQHandler+0x120>)
+ 800042a:	2201      	movs	r2, #1
+ 800042c:	705a      	strb	r2, [r3, #1]
+		TIM6_UP_DMA_Flag.Transfer_Complete_Flag = true;
+ 800042e:	4b0d      	ldr	r3, [pc, #52]	@ (8000464 <DMA1_Stream1_IRQHandler+0x124>)
+ 8000430:	2201      	movs	r2, #1
+ 8000432:	705a      	strb	r2, [r3, #1]
+		USART7_RX_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000434:	4b0c      	ldr	r3, [pc, #48]	@ (8000468 <DMA1_Stream1_IRQHandler+0x128>)
+ 8000436:	2201      	movs	r2, #1
+ 8000438:	705a      	strb	r2, [r3, #1]
+		USART3_RX_DMA_Flag.Transfer_Complete_Flag = true;
+ 800043a:	4b0c      	ldr	r3, [pc, #48]	@ (800046c <DMA1_Stream1_IRQHandler+0x12c>)
+ 800043c:	2201      	movs	r2, #1
+ 800043e:	705a      	strb	r2, [r3, #1]
+		DMA1_Stream1_Flag.Transfer_Complete_Flag = true;
+ 8000440:	4b0b      	ldr	r3, [pc, #44]	@ (8000470 <DMA1_Stream1_IRQHandler+0x130>)
+ 8000442:	2201      	movs	r2, #1
+ 8000444:	705a      	strb	r2, [r3, #1]
+		DMA1 -> LIFCR |= DMA_LIFCR_CTCIF1;
+ 8000446:	4b05      	ldr	r3, [pc, #20]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 8000448:	689b      	ldr	r3, [r3, #8]
+ 800044a:	4a04      	ldr	r2, [pc, #16]	@ (800045c <DMA1_Stream1_IRQHandler+0x11c>)
+ 800044c:	f443 6300 	orr.w	r3, r3, #2048	@ 0x800
+ 8000450:	6093      	str	r3, [r2, #8]
+	}
+}
+ 8000452:	bf00      	nop
+ 8000454:	46bd      	mov	sp, r7
+ 8000456:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800045a:	4770      	bx	lr
+ 800045c:	40026000 	.word	0x40026000
+ 8000460:	20000178 	.word	0x20000178
+ 8000464:	200001d8 	.word	0x200001d8
+ 8000468:	200000e0 	.word	0x200000e0
+ 800046c:	200000a8 	.word	0x200000a8
+ 8000470:	20000218 	.word	0x20000218
+
+08000474 <DMA1_Stream2_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA1_Stream2_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA1_Stream2_IRQHandler(void)
+{
+ 8000474:	b480      	push	{r7}
+ 8000476:	af00      	add	r7, sp, #0
+	if(DMA1 -> LISR & DMA_LISR_FEIF2)
+ 8000478:	4b2f      	ldr	r3, [pc, #188]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 800047a:	681b      	ldr	r3, [r3, #0]
+ 800047c:	f403 3380 	and.w	r3, r3, #65536	@ 0x10000
+ 8000480:	2b00      	cmp	r3, #0
+ 8000482:	d00b      	beq.n	800049c <DMA1_Stream2_IRQHandler+0x28>
+	{
+		USART3_TX_DMA_Flag.Fifo_Error_Flag = true;
+ 8000484:	4b2d      	ldr	r3, [pc, #180]	@ (800053c <DMA1_Stream2_IRQHandler+0xc8>)
+ 8000486:	2201      	movs	r2, #1
+ 8000488:	715a      	strb	r2, [r3, #5]
+		DMA1_Stream2_Flag.Fifo_Error_Flag = true;
+ 800048a:	4b2d      	ldr	r3, [pc, #180]	@ (8000540 <DMA1_Stream2_IRQHandler+0xcc>)
+ 800048c:	2201      	movs	r2, #1
+ 800048e:	715a      	strb	r2, [r3, #5]
+		DMA1 -> LIFCR |= DMA_LIFCR_CFEIF2;
+ 8000490:	4b29      	ldr	r3, [pc, #164]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 8000492:	689b      	ldr	r3, [r3, #8]
+ 8000494:	4a28      	ldr	r2, [pc, #160]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 8000496:	f443 3380 	orr.w	r3, r3, #65536	@ 0x10000
+ 800049a:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_DMEIF2)
+ 800049c:	4b26      	ldr	r3, [pc, #152]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 800049e:	681b      	ldr	r3, [r3, #0]
+ 80004a0:	f403 2380 	and.w	r3, r3, #262144	@ 0x40000
+ 80004a4:	2b00      	cmp	r3, #0
+ 80004a6:	d00b      	beq.n	80004c0 <DMA1_Stream2_IRQHandler+0x4c>
+	{
+		USART3_TX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 80004a8:	4b24      	ldr	r3, [pc, #144]	@ (800053c <DMA1_Stream2_IRQHandler+0xc8>)
+ 80004aa:	2201      	movs	r2, #1
+ 80004ac:	711a      	strb	r2, [r3, #4]
+		DMA1_Stream2_Flag.Direct_Mode_Error_Flag = true;
+ 80004ae:	4b24      	ldr	r3, [pc, #144]	@ (8000540 <DMA1_Stream2_IRQHandler+0xcc>)
+ 80004b0:	2201      	movs	r2, #1
+ 80004b2:	711a      	strb	r2, [r3, #4]
+		DMA1 -> LIFCR |= DMA_LIFCR_CDMEIF2;
+ 80004b4:	4b20      	ldr	r3, [pc, #128]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 80004b6:	689b      	ldr	r3, [r3, #8]
+ 80004b8:	4a1f      	ldr	r2, [pc, #124]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 80004ba:	f443 2380 	orr.w	r3, r3, #262144	@ 0x40000
+ 80004be:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_TEIF2)
+ 80004c0:	4b1d      	ldr	r3, [pc, #116]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 80004c2:	681b      	ldr	r3, [r3, #0]
+ 80004c4:	f403 2300 	and.w	r3, r3, #524288	@ 0x80000
+ 80004c8:	2b00      	cmp	r3, #0
+ 80004ca:	d00b      	beq.n	80004e4 <DMA1_Stream2_IRQHandler+0x70>
+	{
+		USART3_TX_DMA_Flag.Transfer_Error_Flag = true;
+ 80004cc:	4b1b      	ldr	r3, [pc, #108]	@ (800053c <DMA1_Stream2_IRQHandler+0xc8>)
+ 80004ce:	2201      	movs	r2, #1
+ 80004d0:	70da      	strb	r2, [r3, #3]
+		DMA1_Stream2_Flag.Transfer_Error_Flag = true;
+ 80004d2:	4b1b      	ldr	r3, [pc, #108]	@ (8000540 <DMA1_Stream2_IRQHandler+0xcc>)
+ 80004d4:	2201      	movs	r2, #1
+ 80004d6:	70da      	strb	r2, [r3, #3]
+		DMA1 -> LIFCR |= DMA_LIFCR_CTEIF2;
+ 80004d8:	4b17      	ldr	r3, [pc, #92]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 80004da:	689b      	ldr	r3, [r3, #8]
+ 80004dc:	4a16      	ldr	r2, [pc, #88]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 80004de:	f443 2300 	orr.w	r3, r3, #524288	@ 0x80000
+ 80004e2:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_HTIF2)
+ 80004e4:	4b14      	ldr	r3, [pc, #80]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 80004e6:	681b      	ldr	r3, [r3, #0]
+ 80004e8:	f403 1380 	and.w	r3, r3, #1048576	@ 0x100000
+ 80004ec:	2b00      	cmp	r3, #0
+ 80004ee:	d00b      	beq.n	8000508 <DMA1_Stream2_IRQHandler+0x94>
+	{
+		USART3_TX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80004f0:	4b12      	ldr	r3, [pc, #72]	@ (800053c <DMA1_Stream2_IRQHandler+0xc8>)
+ 80004f2:	2201      	movs	r2, #1
+ 80004f4:	709a      	strb	r2, [r3, #2]
+		DMA1_Stream2_Flag.Half_Transfer_Complete_Flag = true;
+ 80004f6:	4b12      	ldr	r3, [pc, #72]	@ (8000540 <DMA1_Stream2_IRQHandler+0xcc>)
+ 80004f8:	2201      	movs	r2, #1
+ 80004fa:	709a      	strb	r2, [r3, #2]
+		DMA1 -> LIFCR |= DMA_LIFCR_CHTIF2;
+ 80004fc:	4b0e      	ldr	r3, [pc, #56]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 80004fe:	689b      	ldr	r3, [r3, #8]
+ 8000500:	4a0d      	ldr	r2, [pc, #52]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 8000502:	f443 1380 	orr.w	r3, r3, #1048576	@ 0x100000
+ 8000506:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_TCIF2)
+ 8000508:	4b0b      	ldr	r3, [pc, #44]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 800050a:	681b      	ldr	r3, [r3, #0]
+ 800050c:	f403 1300 	and.w	r3, r3, #2097152	@ 0x200000
+ 8000510:	2b00      	cmp	r3, #0
+ 8000512:	d00b      	beq.n	800052c <DMA1_Stream2_IRQHandler+0xb8>
+	{
+		USART3_TX_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000514:	4b09      	ldr	r3, [pc, #36]	@ (800053c <DMA1_Stream2_IRQHandler+0xc8>)
+ 8000516:	2201      	movs	r2, #1
+ 8000518:	705a      	strb	r2, [r3, #1]
+		DMA1_Stream2_Flag.Transfer_Complete_Flag = true;
+ 800051a:	4b09      	ldr	r3, [pc, #36]	@ (8000540 <DMA1_Stream2_IRQHandler+0xcc>)
+ 800051c:	2201      	movs	r2, #1
+ 800051e:	705a      	strb	r2, [r3, #1]
+		DMA1 -> LIFCR |= DMA_LIFCR_CTCIF2;
+ 8000520:	4b05      	ldr	r3, [pc, #20]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 8000522:	689b      	ldr	r3, [r3, #8]
+ 8000524:	4a04      	ldr	r2, [pc, #16]	@ (8000538 <DMA1_Stream2_IRQHandler+0xc4>)
+ 8000526:	f443 1300 	orr.w	r3, r3, #2097152	@ 0x200000
+ 800052a:	6093      	str	r3, [r2, #8]
+	}
+}
+ 800052c:	bf00      	nop
+ 800052e:	46bd      	mov	sp, r7
+ 8000530:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000534:	4770      	bx	lr
+ 8000536:	bf00      	nop
+ 8000538:	40026000 	.word	0x40026000
+ 800053c:	200000b0 	.word	0x200000b0
+ 8000540:	20000220 	.word	0x20000220
+
+08000544 <DMA1_Stream3_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA1_Stream3_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA1_Stream3_IRQHandler(void)
+{
+ 8000544:	b480      	push	{r7}
+ 8000546:	af00      	add	r7, sp, #0
+	if(DMA1 -> LISR & DMA_LISR_FEIF3)
+ 8000548:	4b54      	ldr	r3, [pc, #336]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 800054a:	681b      	ldr	r3, [r3, #0]
+ 800054c:	f403 0380 	and.w	r3, r3, #4194304	@ 0x400000
+ 8000550:	2b00      	cmp	r3, #0
+ 8000552:	d01a      	beq.n	800058a <DMA1_Stream3_IRQHandler+0x46>
+	{
+		TIM5_TRIG_DMA_Flag.Fifo_Error_Flag = true;
+ 8000554:	4b52      	ldr	r3, [pc, #328]	@ (80006a0 <DMA1_Stream3_IRQHandler+0x15c>)
+ 8000556:	2201      	movs	r2, #1
+ 8000558:	715a      	strb	r2, [r3, #5]
+		TIM4_CH2_DMA_Flag.Fifo_Error_Flag = true;
+ 800055a:	4b52      	ldr	r3, [pc, #328]	@ (80006a4 <DMA1_Stream3_IRQHandler+0x160>)
+ 800055c:	2201      	movs	r2, #1
+ 800055e:	715a      	strb	r2, [r3, #5]
+		USART7_RX_DMA_Flag.Fifo_Error_Flag = true;
+ 8000560:	4b51      	ldr	r3, [pc, #324]	@ (80006a8 <DMA1_Stream3_IRQHandler+0x164>)
+ 8000562:	2201      	movs	r2, #1
+ 8000564:	715a      	strb	r2, [r3, #5]
+		USART3_TX_DMA_Flag.Fifo_Error_Flag = true;
+ 8000566:	4b51      	ldr	r3, [pc, #324]	@ (80006ac <DMA1_Stream3_IRQHandler+0x168>)
+ 8000568:	2201      	movs	r2, #1
+ 800056a:	715a      	strb	r2, [r3, #5]
+		I2S2_RX_DMA_Flag.Fifo_Error_Flag = true;
+ 800056c:	4b50      	ldr	r3, [pc, #320]	@ (80006b0 <DMA1_Stream3_IRQHandler+0x16c>)
+ 800056e:	2201      	movs	r2, #1
+ 8000570:	715a      	strb	r2, [r3, #5]
+		SPI2_RX_DMA_Flag.Fifo_Error_Flag = true;
+ 8000572:	4b50      	ldr	r3, [pc, #320]	@ (80006b4 <DMA1_Stream3_IRQHandler+0x170>)
+ 8000574:	2201      	movs	r2, #1
+ 8000576:	715a      	strb	r2, [r3, #5]
+		DMA1_Stream3_Flag.Fifo_Error_Flag = true;
+ 8000578:	4b4f      	ldr	r3, [pc, #316]	@ (80006b8 <DMA1_Stream3_IRQHandler+0x174>)
+ 800057a:	2201      	movs	r2, #1
+ 800057c:	715a      	strb	r2, [r3, #5]
+		DMA1 -> LIFCR |= DMA_LIFCR_CFEIF3;
+ 800057e:	4b47      	ldr	r3, [pc, #284]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 8000580:	689b      	ldr	r3, [r3, #8]
+ 8000582:	4a46      	ldr	r2, [pc, #280]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 8000584:	f443 0380 	orr.w	r3, r3, #4194304	@ 0x400000
+ 8000588:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_DMEIF3)
+ 800058a:	4b44      	ldr	r3, [pc, #272]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 800058c:	681b      	ldr	r3, [r3, #0]
+ 800058e:	f003 7380 	and.w	r3, r3, #16777216	@ 0x1000000
+ 8000592:	2b00      	cmp	r3, #0
+ 8000594:	d01a      	beq.n	80005cc <DMA1_Stream3_IRQHandler+0x88>
+	{
+		TIM5_TRIG_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000596:	4b42      	ldr	r3, [pc, #264]	@ (80006a0 <DMA1_Stream3_IRQHandler+0x15c>)
+ 8000598:	2201      	movs	r2, #1
+ 800059a:	711a      	strb	r2, [r3, #4]
+		TIM4_CH2_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 800059c:	4b41      	ldr	r3, [pc, #260]	@ (80006a4 <DMA1_Stream3_IRQHandler+0x160>)
+ 800059e:	2201      	movs	r2, #1
+ 80005a0:	711a      	strb	r2, [r3, #4]
+		USART7_RX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 80005a2:	4b41      	ldr	r3, [pc, #260]	@ (80006a8 <DMA1_Stream3_IRQHandler+0x164>)
+ 80005a4:	2201      	movs	r2, #1
+ 80005a6:	711a      	strb	r2, [r3, #4]
+		USART3_TX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 80005a8:	4b40      	ldr	r3, [pc, #256]	@ (80006ac <DMA1_Stream3_IRQHandler+0x168>)
+ 80005aa:	2201      	movs	r2, #1
+ 80005ac:	711a      	strb	r2, [r3, #4]
+		I2S2_RX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 80005ae:	4b40      	ldr	r3, [pc, #256]	@ (80006b0 <DMA1_Stream3_IRQHandler+0x16c>)
+ 80005b0:	2201      	movs	r2, #1
+ 80005b2:	711a      	strb	r2, [r3, #4]
+		SPI2_RX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 80005b4:	4b3f      	ldr	r3, [pc, #252]	@ (80006b4 <DMA1_Stream3_IRQHandler+0x170>)
+ 80005b6:	2201      	movs	r2, #1
+ 80005b8:	711a      	strb	r2, [r3, #4]
+		DMA1_Stream3_Flag.Direct_Mode_Error_Flag = true;
+ 80005ba:	4b3f      	ldr	r3, [pc, #252]	@ (80006b8 <DMA1_Stream3_IRQHandler+0x174>)
+ 80005bc:	2201      	movs	r2, #1
+ 80005be:	711a      	strb	r2, [r3, #4]
+		DMA1 -> LIFCR |= DMA_LIFCR_CDMEIF3;
+ 80005c0:	4b36      	ldr	r3, [pc, #216]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 80005c2:	689b      	ldr	r3, [r3, #8]
+ 80005c4:	4a35      	ldr	r2, [pc, #212]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 80005c6:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
+ 80005ca:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_TEIF3)
+ 80005cc:	4b33      	ldr	r3, [pc, #204]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 80005ce:	681b      	ldr	r3, [r3, #0]
+ 80005d0:	f003 7300 	and.w	r3, r3, #33554432	@ 0x2000000
+ 80005d4:	2b00      	cmp	r3, #0
+ 80005d6:	d01a      	beq.n	800060e <DMA1_Stream3_IRQHandler+0xca>
+	{
+		TIM5_TRIG_DMA_Flag.Transfer_Error_Flag = true;
+ 80005d8:	4b31      	ldr	r3, [pc, #196]	@ (80006a0 <DMA1_Stream3_IRQHandler+0x15c>)
+ 80005da:	2201      	movs	r2, #1
+ 80005dc:	70da      	strb	r2, [r3, #3]
+		TIM4_CH2_DMA_Flag.Transfer_Error_Flag = true;
+ 80005de:	4b31      	ldr	r3, [pc, #196]	@ (80006a4 <DMA1_Stream3_IRQHandler+0x160>)
+ 80005e0:	2201      	movs	r2, #1
+ 80005e2:	70da      	strb	r2, [r3, #3]
+		USART7_RX_DMA_Flag.Transfer_Error_Flag = true;
+ 80005e4:	4b30      	ldr	r3, [pc, #192]	@ (80006a8 <DMA1_Stream3_IRQHandler+0x164>)
+ 80005e6:	2201      	movs	r2, #1
+ 80005e8:	70da      	strb	r2, [r3, #3]
+		USART3_TX_DMA_Flag.Transfer_Error_Flag = true;
+ 80005ea:	4b30      	ldr	r3, [pc, #192]	@ (80006ac <DMA1_Stream3_IRQHandler+0x168>)
+ 80005ec:	2201      	movs	r2, #1
+ 80005ee:	70da      	strb	r2, [r3, #3]
+		I2S2_RX_DMA_Flag.Transfer_Error_Flag = true;
+ 80005f0:	4b2f      	ldr	r3, [pc, #188]	@ (80006b0 <DMA1_Stream3_IRQHandler+0x16c>)
+ 80005f2:	2201      	movs	r2, #1
+ 80005f4:	70da      	strb	r2, [r3, #3]
+		SPI2_RX_DMA_Flag.Transfer_Error_Flag = true;
+ 80005f6:	4b2f      	ldr	r3, [pc, #188]	@ (80006b4 <DMA1_Stream3_IRQHandler+0x170>)
+ 80005f8:	2201      	movs	r2, #1
+ 80005fa:	70da      	strb	r2, [r3, #3]
+		DMA1_Stream3_Flag.Transfer_Error_Flag = true;
+ 80005fc:	4b2e      	ldr	r3, [pc, #184]	@ (80006b8 <DMA1_Stream3_IRQHandler+0x174>)
+ 80005fe:	2201      	movs	r2, #1
+ 8000600:	70da      	strb	r2, [r3, #3]
+		DMA1 -> LIFCR |= DMA_LIFCR_CTEIF3;
+ 8000602:	4b26      	ldr	r3, [pc, #152]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 8000604:	689b      	ldr	r3, [r3, #8]
+ 8000606:	4a25      	ldr	r2, [pc, #148]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 8000608:	f043 7300 	orr.w	r3, r3, #33554432	@ 0x2000000
+ 800060c:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_HTIF3)
+ 800060e:	4b23      	ldr	r3, [pc, #140]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 8000610:	681b      	ldr	r3, [r3, #0]
+ 8000612:	f003 6380 	and.w	r3, r3, #67108864	@ 0x4000000
+ 8000616:	2b00      	cmp	r3, #0
+ 8000618:	d01a      	beq.n	8000650 <DMA1_Stream3_IRQHandler+0x10c>
+	{
+		TIM5_TRIG_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 800061a:	4b21      	ldr	r3, [pc, #132]	@ (80006a0 <DMA1_Stream3_IRQHandler+0x15c>)
+ 800061c:	2201      	movs	r2, #1
+ 800061e:	709a      	strb	r2, [r3, #2]
+		TIM4_CH2_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000620:	4b20      	ldr	r3, [pc, #128]	@ (80006a4 <DMA1_Stream3_IRQHandler+0x160>)
+ 8000622:	2201      	movs	r2, #1
+ 8000624:	709a      	strb	r2, [r3, #2]
+		USART7_RX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000626:	4b20      	ldr	r3, [pc, #128]	@ (80006a8 <DMA1_Stream3_IRQHandler+0x164>)
+ 8000628:	2201      	movs	r2, #1
+ 800062a:	709a      	strb	r2, [r3, #2]
+		USART3_TX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 800062c:	4b1f      	ldr	r3, [pc, #124]	@ (80006ac <DMA1_Stream3_IRQHandler+0x168>)
+ 800062e:	2201      	movs	r2, #1
+ 8000630:	709a      	strb	r2, [r3, #2]
+		I2S2_RX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000632:	4b1f      	ldr	r3, [pc, #124]	@ (80006b0 <DMA1_Stream3_IRQHandler+0x16c>)
+ 8000634:	2201      	movs	r2, #1
+ 8000636:	709a      	strb	r2, [r3, #2]
+		SPI2_RX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000638:	4b1e      	ldr	r3, [pc, #120]	@ (80006b4 <DMA1_Stream3_IRQHandler+0x170>)
+ 800063a:	2201      	movs	r2, #1
+ 800063c:	709a      	strb	r2, [r3, #2]
+		DMA1_Stream3_Flag.Half_Transfer_Complete_Flag = true;
+ 800063e:	4b1e      	ldr	r3, [pc, #120]	@ (80006b8 <DMA1_Stream3_IRQHandler+0x174>)
+ 8000640:	2201      	movs	r2, #1
+ 8000642:	709a      	strb	r2, [r3, #2]
+		DMA1 -> LIFCR |= DMA_LIFCR_CHTIF3;
+ 8000644:	4b15      	ldr	r3, [pc, #84]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 8000646:	689b      	ldr	r3, [r3, #8]
+ 8000648:	4a14      	ldr	r2, [pc, #80]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 800064a:	f043 6380 	orr.w	r3, r3, #67108864	@ 0x4000000
+ 800064e:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> LISR & DMA_LISR_TCIF3)
+ 8000650:	4b12      	ldr	r3, [pc, #72]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 8000652:	681b      	ldr	r3, [r3, #0]
+ 8000654:	f003 6300 	and.w	r3, r3, #134217728	@ 0x8000000
+ 8000658:	2b00      	cmp	r3, #0
+ 800065a:	d01a      	beq.n	8000692 <DMA1_Stream3_IRQHandler+0x14e>
+	{
+		TIM5_TRIG_DMA_Flag.Transfer_Complete_Flag = true;
+ 800065c:	4b10      	ldr	r3, [pc, #64]	@ (80006a0 <DMA1_Stream3_IRQHandler+0x15c>)
+ 800065e:	2201      	movs	r2, #1
+ 8000660:	705a      	strb	r2, [r3, #1]
+		TIM4_CH2_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000662:	4b10      	ldr	r3, [pc, #64]	@ (80006a4 <DMA1_Stream3_IRQHandler+0x160>)
+ 8000664:	2201      	movs	r2, #1
+ 8000666:	705a      	strb	r2, [r3, #1]
+		USART7_RX_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000668:	4b0f      	ldr	r3, [pc, #60]	@ (80006a8 <DMA1_Stream3_IRQHandler+0x164>)
+ 800066a:	2201      	movs	r2, #1
+ 800066c:	705a      	strb	r2, [r3, #1]
+		USART3_TX_DMA_Flag.Transfer_Complete_Flag = true;
+ 800066e:	4b0f      	ldr	r3, [pc, #60]	@ (80006ac <DMA1_Stream3_IRQHandler+0x168>)
+ 8000670:	2201      	movs	r2, #1
+ 8000672:	705a      	strb	r2, [r3, #1]
+		I2S2_RX_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000674:	4b0e      	ldr	r3, [pc, #56]	@ (80006b0 <DMA1_Stream3_IRQHandler+0x16c>)
+ 8000676:	2201      	movs	r2, #1
+ 8000678:	705a      	strb	r2, [r3, #1]
+		SPI2_RX_DMA_Flag.Transfer_Complete_Flag = true;
+ 800067a:	4b0e      	ldr	r3, [pc, #56]	@ (80006b4 <DMA1_Stream3_IRQHandler+0x170>)
+ 800067c:	2201      	movs	r2, #1
+ 800067e:	705a      	strb	r2, [r3, #1]
+		DMA1_Stream3_Flag.Transfer_Complete_Flag = true;
+ 8000680:	4b0d      	ldr	r3, [pc, #52]	@ (80006b8 <DMA1_Stream3_IRQHandler+0x174>)
+ 8000682:	2201      	movs	r2, #1
+ 8000684:	705a      	strb	r2, [r3, #1]
+		DMA1 -> LIFCR |= DMA_LIFCR_CTCIF3;
+ 8000686:	4b05      	ldr	r3, [pc, #20]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 8000688:	689b      	ldr	r3, [r3, #8]
+ 800068a:	4a04      	ldr	r2, [pc, #16]	@ (800069c <DMA1_Stream3_IRQHandler+0x158>)
+ 800068c:	f043 6300 	orr.w	r3, r3, #134217728	@ 0x8000000
+ 8000690:	6093      	str	r3, [r2, #8]
+	}
+}
+ 8000692:	bf00      	nop
+ 8000694:	46bd      	mov	sp, r7
+ 8000696:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800069a:	4770      	bx	lr
+ 800069c:	40026000 	.word	0x40026000
+ 80006a0:	200001d0 	.word	0x200001d0
+ 80006a4:	200001b0 	.word	0x200001b0
+ 80006a8:	200000e0 	.word	0x200000e0
+ 80006ac:	200000b0 	.word	0x200000b0
+ 80006b0:	20000020 	.word	0x20000020
+ 80006b4:	20000060 	.word	0x20000060
+ 80006b8:	20000228 	.word	0x20000228
+
+080006bc <DMA1_Stream4_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA1_Stream4_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA1_Stream4_IRQHandler(void)
+{
+ 80006bc:	b480      	push	{r7}
+ 80006be:	af00      	add	r7, sp, #0
+	if(DMA1 -> HISR & DMA_HISR_FEIF4)
+ 80006c0:	4b54      	ldr	r3, [pc, #336]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 80006c2:	685b      	ldr	r3, [r3, #4]
+ 80006c4:	f003 0301 	and.w	r3, r3, #1
+ 80006c8:	2b00      	cmp	r3, #0
+ 80006ca:	d01a      	beq.n	8000702 <DMA1_Stream4_IRQHandler+0x46>
+	{
+		TIM5_CH2_DMA_Flag.Fifo_Error_Flag = true;
+ 80006cc:	4b52      	ldr	r3, [pc, #328]	@ (8000818 <DMA1_Stream4_IRQHandler+0x15c>)
+ 80006ce:	2201      	movs	r2, #1
+ 80006d0:	715a      	strb	r2, [r3, #5]
+		TIM3_CH1_DMA_Flag.Fifo_Error_Flag = true;
+ 80006d2:	4b52      	ldr	r3, [pc, #328]	@ (800081c <DMA1_Stream4_IRQHandler+0x160>)
+ 80006d4:	2201      	movs	r2, #1
+ 80006d6:	715a      	strb	r2, [r3, #5]
+		USART4_TX_DMA_Flag.Fifo_Error_Flag = true;
+ 80006d8:	4b51      	ldr	r3, [pc, #324]	@ (8000820 <DMA1_Stream4_IRQHandler+0x164>)
+ 80006da:	2201      	movs	r2, #1
+ 80006dc:	715a      	strb	r2, [r3, #5]
+		I2C3_TX_DMA_Flag.Fifo_Error_Flag = true;
+ 80006de:	4b51      	ldr	r3, [pc, #324]	@ (8000824 <DMA1_Stream4_IRQHandler+0x168>)
+ 80006e0:	2201      	movs	r2, #1
+ 80006e2:	715a      	strb	r2, [r3, #5]
+		I2S2_TX_DMA_Flag.Fifo_Error_Flag = true;
+ 80006e4:	4b50      	ldr	r3, [pc, #320]	@ (8000828 <DMA1_Stream4_IRQHandler+0x16c>)
+ 80006e6:	2201      	movs	r2, #1
+ 80006e8:	715a      	strb	r2, [r3, #5]
+		SPI2_TX_DMA_Flag.Fifo_Error_Flag = true;
+ 80006ea:	4b50      	ldr	r3, [pc, #320]	@ (800082c <DMA1_Stream4_IRQHandler+0x170>)
+ 80006ec:	2201      	movs	r2, #1
+ 80006ee:	715a      	strb	r2, [r3, #5]
+		DMA1_Stream4_Flag.Fifo_Error_Flag = true;
+ 80006f0:	4b4f      	ldr	r3, [pc, #316]	@ (8000830 <DMA1_Stream4_IRQHandler+0x174>)
+ 80006f2:	2201      	movs	r2, #1
+ 80006f4:	715a      	strb	r2, [r3, #5]
+		DMA1 -> HIFCR |= DMA_HIFCR_CFEIF4;
+ 80006f6:	4b47      	ldr	r3, [pc, #284]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 80006f8:	68db      	ldr	r3, [r3, #12]
+ 80006fa:	4a46      	ldr	r2, [pc, #280]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 80006fc:	f043 0301 	orr.w	r3, r3, #1
+ 8000700:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_DMEIF4)
+ 8000702:	4b44      	ldr	r3, [pc, #272]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 8000704:	685b      	ldr	r3, [r3, #4]
+ 8000706:	f003 0304 	and.w	r3, r3, #4
+ 800070a:	2b00      	cmp	r3, #0
+ 800070c:	d01a      	beq.n	8000744 <DMA1_Stream4_IRQHandler+0x88>
+	{
+		TIM5_CH2_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 800070e:	4b42      	ldr	r3, [pc, #264]	@ (8000818 <DMA1_Stream4_IRQHandler+0x15c>)
+ 8000710:	2201      	movs	r2, #1
+ 8000712:	711a      	strb	r2, [r3, #4]
+		TIM3_CH1_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000714:	4b41      	ldr	r3, [pc, #260]	@ (800081c <DMA1_Stream4_IRQHandler+0x160>)
+ 8000716:	2201      	movs	r2, #1
+ 8000718:	711a      	strb	r2, [r3, #4]
+		USART4_TX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 800071a:	4b41      	ldr	r3, [pc, #260]	@ (8000820 <DMA1_Stream4_IRQHandler+0x164>)
+ 800071c:	2201      	movs	r2, #1
+ 800071e:	711a      	strb	r2, [r3, #4]
+		I2C3_TX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000720:	4b40      	ldr	r3, [pc, #256]	@ (8000824 <DMA1_Stream4_IRQHandler+0x168>)
+ 8000722:	2201      	movs	r2, #1
+ 8000724:	711a      	strb	r2, [r3, #4]
+		I2S2_TX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000726:	4b40      	ldr	r3, [pc, #256]	@ (8000828 <DMA1_Stream4_IRQHandler+0x16c>)
+ 8000728:	2201      	movs	r2, #1
+ 800072a:	711a      	strb	r2, [r3, #4]
+		SPI2_TX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 800072c:	4b3f      	ldr	r3, [pc, #252]	@ (800082c <DMA1_Stream4_IRQHandler+0x170>)
+ 800072e:	2201      	movs	r2, #1
+ 8000730:	711a      	strb	r2, [r3, #4]
+		DMA1_Stream4_Flag.Direct_Mode_Error_Flag = true;
+ 8000732:	4b3f      	ldr	r3, [pc, #252]	@ (8000830 <DMA1_Stream4_IRQHandler+0x174>)
+ 8000734:	2201      	movs	r2, #1
+ 8000736:	711a      	strb	r2, [r3, #4]
+		DMA1 -> HIFCR |= DMA_HIFCR_CDMEIF4;
+ 8000738:	4b36      	ldr	r3, [pc, #216]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 800073a:	68db      	ldr	r3, [r3, #12]
+ 800073c:	4a35      	ldr	r2, [pc, #212]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 800073e:	f043 0304 	orr.w	r3, r3, #4
+ 8000742:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_TEIF4)
+ 8000744:	4b33      	ldr	r3, [pc, #204]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 8000746:	685b      	ldr	r3, [r3, #4]
+ 8000748:	f003 0308 	and.w	r3, r3, #8
+ 800074c:	2b00      	cmp	r3, #0
+ 800074e:	d01a      	beq.n	8000786 <DMA1_Stream4_IRQHandler+0xca>
+	{
+		TIM5_CH2_DMA_Flag.Transfer_Error_Flag = true;
+ 8000750:	4b31      	ldr	r3, [pc, #196]	@ (8000818 <DMA1_Stream4_IRQHandler+0x15c>)
+ 8000752:	2201      	movs	r2, #1
+ 8000754:	70da      	strb	r2, [r3, #3]
+		TIM3_CH1_DMA_Flag.Transfer_Error_Flag = true;
+ 8000756:	4b31      	ldr	r3, [pc, #196]	@ (800081c <DMA1_Stream4_IRQHandler+0x160>)
+ 8000758:	2201      	movs	r2, #1
+ 800075a:	70da      	strb	r2, [r3, #3]
+		USART4_TX_DMA_Flag.Transfer_Error_Flag = true;
+ 800075c:	4b30      	ldr	r3, [pc, #192]	@ (8000820 <DMA1_Stream4_IRQHandler+0x164>)
+ 800075e:	2201      	movs	r2, #1
+ 8000760:	70da      	strb	r2, [r3, #3]
+		I2C3_TX_DMA_Flag.Transfer_Error_Flag = true;
+ 8000762:	4b30      	ldr	r3, [pc, #192]	@ (8000824 <DMA1_Stream4_IRQHandler+0x168>)
+ 8000764:	2201      	movs	r2, #1
+ 8000766:	70da      	strb	r2, [r3, #3]
+		I2S2_TX_DMA_Flag.Transfer_Error_Flag = true;
+ 8000768:	4b2f      	ldr	r3, [pc, #188]	@ (8000828 <DMA1_Stream4_IRQHandler+0x16c>)
+ 800076a:	2201      	movs	r2, #1
+ 800076c:	70da      	strb	r2, [r3, #3]
+		SPI2_TX_DMA_Flag.Transfer_Error_Flag = true;
+ 800076e:	4b2f      	ldr	r3, [pc, #188]	@ (800082c <DMA1_Stream4_IRQHandler+0x170>)
+ 8000770:	2201      	movs	r2, #1
+ 8000772:	70da      	strb	r2, [r3, #3]
+		DMA1_Stream4_Flag.Transfer_Error_Flag = true;
+ 8000774:	4b2e      	ldr	r3, [pc, #184]	@ (8000830 <DMA1_Stream4_IRQHandler+0x174>)
+ 8000776:	2201      	movs	r2, #1
+ 8000778:	70da      	strb	r2, [r3, #3]
+		DMA1 -> HIFCR |= DMA_HIFCR_CTEIF4;
+ 800077a:	4b26      	ldr	r3, [pc, #152]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 800077c:	68db      	ldr	r3, [r3, #12]
+ 800077e:	4a25      	ldr	r2, [pc, #148]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 8000780:	f043 0308 	orr.w	r3, r3, #8
+ 8000784:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_HTIF4)
+ 8000786:	4b23      	ldr	r3, [pc, #140]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 8000788:	685b      	ldr	r3, [r3, #4]
+ 800078a:	f003 0310 	and.w	r3, r3, #16
+ 800078e:	2b00      	cmp	r3, #0
+ 8000790:	d01a      	beq.n	80007c8 <DMA1_Stream4_IRQHandler+0x10c>
+	{
+		TIM5_CH2_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000792:	4b21      	ldr	r3, [pc, #132]	@ (8000818 <DMA1_Stream4_IRQHandler+0x15c>)
+ 8000794:	2201      	movs	r2, #1
+ 8000796:	709a      	strb	r2, [r3, #2]
+		TIM3_CH1_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000798:	4b20      	ldr	r3, [pc, #128]	@ (800081c <DMA1_Stream4_IRQHandler+0x160>)
+ 800079a:	2201      	movs	r2, #1
+ 800079c:	709a      	strb	r2, [r3, #2]
+		USART4_TX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 800079e:	4b20      	ldr	r3, [pc, #128]	@ (8000820 <DMA1_Stream4_IRQHandler+0x164>)
+ 80007a0:	2201      	movs	r2, #1
+ 80007a2:	709a      	strb	r2, [r3, #2]
+		I2C3_TX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80007a4:	4b1f      	ldr	r3, [pc, #124]	@ (8000824 <DMA1_Stream4_IRQHandler+0x168>)
+ 80007a6:	2201      	movs	r2, #1
+ 80007a8:	709a      	strb	r2, [r3, #2]
+		I2S2_TX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80007aa:	4b1f      	ldr	r3, [pc, #124]	@ (8000828 <DMA1_Stream4_IRQHandler+0x16c>)
+ 80007ac:	2201      	movs	r2, #1
+ 80007ae:	709a      	strb	r2, [r3, #2]
+		SPI2_TX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80007b0:	4b1e      	ldr	r3, [pc, #120]	@ (800082c <DMA1_Stream4_IRQHandler+0x170>)
+ 80007b2:	2201      	movs	r2, #1
+ 80007b4:	709a      	strb	r2, [r3, #2]
+		DMA1_Stream4_Flag.Half_Transfer_Complete_Flag = true;
+ 80007b6:	4b1e      	ldr	r3, [pc, #120]	@ (8000830 <DMA1_Stream4_IRQHandler+0x174>)
+ 80007b8:	2201      	movs	r2, #1
+ 80007ba:	709a      	strb	r2, [r3, #2]
+		DMA1 -> HIFCR |= DMA_HIFCR_CHTIF4;
+ 80007bc:	4b15      	ldr	r3, [pc, #84]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 80007be:	68db      	ldr	r3, [r3, #12]
+ 80007c0:	4a14      	ldr	r2, [pc, #80]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 80007c2:	f043 0310 	orr.w	r3, r3, #16
+ 80007c6:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_TCIF4)
+ 80007c8:	4b12      	ldr	r3, [pc, #72]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 80007ca:	685b      	ldr	r3, [r3, #4]
+ 80007cc:	f003 0320 	and.w	r3, r3, #32
+ 80007d0:	2b00      	cmp	r3, #0
+ 80007d2:	d01a      	beq.n	800080a <DMA1_Stream4_IRQHandler+0x14e>
+	{
+		TIM5_CH2_DMA_Flag.Transfer_Complete_Flag = true;
+ 80007d4:	4b10      	ldr	r3, [pc, #64]	@ (8000818 <DMA1_Stream4_IRQHandler+0x15c>)
+ 80007d6:	2201      	movs	r2, #1
+ 80007d8:	705a      	strb	r2, [r3, #1]
+		TIM3_CH1_DMA_Flag.Transfer_Complete_Flag = true;
+ 80007da:	4b10      	ldr	r3, [pc, #64]	@ (800081c <DMA1_Stream4_IRQHandler+0x160>)
+ 80007dc:	2201      	movs	r2, #1
+ 80007de:	705a      	strb	r2, [r3, #1]
+		USART4_TX_DMA_Flag.Transfer_Complete_Flag = true;
+ 80007e0:	4b0f      	ldr	r3, [pc, #60]	@ (8000820 <DMA1_Stream4_IRQHandler+0x164>)
+ 80007e2:	2201      	movs	r2, #1
+ 80007e4:	705a      	strb	r2, [r3, #1]
+		I2C3_TX_DMA_Flag.Transfer_Complete_Flag = true;
+ 80007e6:	4b0f      	ldr	r3, [pc, #60]	@ (8000824 <DMA1_Stream4_IRQHandler+0x168>)
+ 80007e8:	2201      	movs	r2, #1
+ 80007ea:	705a      	strb	r2, [r3, #1]
+		I2S2_TX_DMA_Flag.Transfer_Complete_Flag = true;
+ 80007ec:	4b0e      	ldr	r3, [pc, #56]	@ (8000828 <DMA1_Stream4_IRQHandler+0x16c>)
+ 80007ee:	2201      	movs	r2, #1
+ 80007f0:	705a      	strb	r2, [r3, #1]
+		SPI2_TX_DMA_Flag.Transfer_Complete_Flag = true;
+ 80007f2:	4b0e      	ldr	r3, [pc, #56]	@ (800082c <DMA1_Stream4_IRQHandler+0x170>)
+ 80007f4:	2201      	movs	r2, #1
+ 80007f6:	705a      	strb	r2, [r3, #1]
+		DMA1_Stream4_Flag.Transfer_Complete_Flag = true;
+ 80007f8:	4b0d      	ldr	r3, [pc, #52]	@ (8000830 <DMA1_Stream4_IRQHandler+0x174>)
+ 80007fa:	2201      	movs	r2, #1
+ 80007fc:	705a      	strb	r2, [r3, #1]
+		DMA1 -> HIFCR |= DMA_HIFCR_CTCIF4;
+ 80007fe:	4b05      	ldr	r3, [pc, #20]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 8000800:	68db      	ldr	r3, [r3, #12]
+ 8000802:	4a04      	ldr	r2, [pc, #16]	@ (8000814 <DMA1_Stream4_IRQHandler+0x158>)
+ 8000804:	f043 0320 	orr.w	r3, r3, #32
+ 8000808:	60d3      	str	r3, [r2, #12]
+	}
+}
+ 800080a:	bf00      	nop
+ 800080c:	46bd      	mov	sp, r7
+ 800080e:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000812:	4770      	bx	lr
+ 8000814:	40026000 	.word	0x40026000
+ 8000818:	200001c0 	.word	0x200001c0
+ 800081c:	20000188 	.word	0x20000188
+ 8000820:	200000b8 	.word	0x200000b8
+ 8000824:	20000050 	.word	0x20000050
+ 8000828:	20000028 	.word	0x20000028
+ 800082c:	20000078 	.word	0x20000078
+ 8000830:	20000230 	.word	0x20000230
+
+08000834 <DMA1_Stream5_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA1_Stream5_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA1_Stream5_IRQHandler(void)
+{
+ 8000834:	b480      	push	{r7}
+ 8000836:	af00      	add	r7, sp, #0
+	if(DMA1 -> HISR & DMA_HISR_FEIF5)
+ 8000838:	4b54      	ldr	r3, [pc, #336]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 800083a:	685b      	ldr	r3, [r3, #4]
+ 800083c:	f003 0340 	and.w	r3, r3, #64	@ 0x40
+ 8000840:	2b00      	cmp	r3, #0
+ 8000842:	d01a      	beq.n	800087a <DMA1_Stream5_IRQHandler+0x46>
+	{
+		SPI3_TX_DMA_Flag.Fifo_Error_Flag = true;
+ 8000844:	4b52      	ldr	r3, [pc, #328]	@ (8000990 <DMA1_Stream5_IRQHandler+0x15c>)
+ 8000846:	2201      	movs	r2, #1
+ 8000848:	715a      	strb	r2, [r3, #5]
+		TIM3_TRIG_DMA_Flag.Fifo_Error_Flag = true;
+ 800084a:	4b52      	ldr	r3, [pc, #328]	@ (8000994 <DMA1_Stream5_IRQHandler+0x160>)
+ 800084c:	2201      	movs	r2, #1
+ 800084e:	715a      	strb	r2, [r3, #5]
+		TIM2_CH1_DMA_Flag.Fifo_Error_Flag =  true;
+ 8000850:	4b51      	ldr	r3, [pc, #324]	@ (8000998 <DMA1_Stream5_IRQHandler+0x164>)
+ 8000852:	2201      	movs	r2, #1
+ 8000854:	715a      	strb	r2, [r3, #5]
+		DAC2_DMA_Flag.Fifo_Error_Flag = true;
+ 8000856:	4b51      	ldr	r3, [pc, #324]	@ (800099c <DMA1_Stream5_IRQHandler+0x168>)
+ 8000858:	2201      	movs	r2, #1
+ 800085a:	715a      	strb	r2, [r3, #5]
+		TIM3_CH2_DMA_Flag.Fifo_Error_Flag = true;
+ 800085c:	4b50      	ldr	r3, [pc, #320]	@ (80009a0 <DMA1_Stream5_IRQHandler+0x16c>)
+ 800085e:	2201      	movs	r2, #1
+ 8000860:	715a      	strb	r2, [r3, #5]
+		USART2_RX_DMA_Flag.Fifo_Error_Flag = true;
+ 8000862:	4b50      	ldr	r3, [pc, #320]	@ (80009a4 <DMA1_Stream5_IRQHandler+0x170>)
+ 8000864:	2201      	movs	r2, #1
+ 8000866:	715a      	strb	r2, [r3, #5]
+		DMA1_Stream5_Flag.Fifo_Error_Flag = true;
+ 8000868:	4b4f      	ldr	r3, [pc, #316]	@ (80009a8 <DMA1_Stream5_IRQHandler+0x174>)
+ 800086a:	2201      	movs	r2, #1
+ 800086c:	715a      	strb	r2, [r3, #5]
+		DMA1 -> HIFCR |= DMA_HIFCR_CFEIF5;
+ 800086e:	4b47      	ldr	r3, [pc, #284]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 8000870:	68db      	ldr	r3, [r3, #12]
+ 8000872:	4a46      	ldr	r2, [pc, #280]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 8000874:	f043 0340 	orr.w	r3, r3, #64	@ 0x40
+ 8000878:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_DMEIF5)
+ 800087a:	4b44      	ldr	r3, [pc, #272]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 800087c:	685b      	ldr	r3, [r3, #4]
+ 800087e:	f403 7380 	and.w	r3, r3, #256	@ 0x100
+ 8000882:	2b00      	cmp	r3, #0
+ 8000884:	d01a      	beq.n	80008bc <DMA1_Stream5_IRQHandler+0x88>
+	{
+		SPI3_TX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000886:	4b42      	ldr	r3, [pc, #264]	@ (8000990 <DMA1_Stream5_IRQHandler+0x15c>)
+ 8000888:	2201      	movs	r2, #1
+ 800088a:	711a      	strb	r2, [r3, #4]
+		TIM3_TRIG_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 800088c:	4b41      	ldr	r3, [pc, #260]	@ (8000994 <DMA1_Stream5_IRQHandler+0x160>)
+ 800088e:	2201      	movs	r2, #1
+ 8000890:	711a      	strb	r2, [r3, #4]
+		TIM2_CH1_DMA_Flag.Direct_Mode_Error_Flag =  true;
+ 8000892:	4b41      	ldr	r3, [pc, #260]	@ (8000998 <DMA1_Stream5_IRQHandler+0x164>)
+ 8000894:	2201      	movs	r2, #1
+ 8000896:	711a      	strb	r2, [r3, #4]
+		DAC2_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000898:	4b40      	ldr	r3, [pc, #256]	@ (800099c <DMA1_Stream5_IRQHandler+0x168>)
+ 800089a:	2201      	movs	r2, #1
+ 800089c:	711a      	strb	r2, [r3, #4]
+		TIM3_CH2_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 800089e:	4b40      	ldr	r3, [pc, #256]	@ (80009a0 <DMA1_Stream5_IRQHandler+0x16c>)
+ 80008a0:	2201      	movs	r2, #1
+ 80008a2:	711a      	strb	r2, [r3, #4]
+		USART2_RX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 80008a4:	4b3f      	ldr	r3, [pc, #252]	@ (80009a4 <DMA1_Stream5_IRQHandler+0x170>)
+ 80008a6:	2201      	movs	r2, #1
+ 80008a8:	711a      	strb	r2, [r3, #4]
+		DMA1_Stream5_Flag.Direct_Mode_Error_Flag = true;
+ 80008aa:	4b3f      	ldr	r3, [pc, #252]	@ (80009a8 <DMA1_Stream5_IRQHandler+0x174>)
+ 80008ac:	2201      	movs	r2, #1
+ 80008ae:	711a      	strb	r2, [r3, #4]
+		DMA1 -> HIFCR |= DMA_HIFCR_CDMEIF5;
+ 80008b0:	4b36      	ldr	r3, [pc, #216]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 80008b2:	68db      	ldr	r3, [r3, #12]
+ 80008b4:	4a35      	ldr	r2, [pc, #212]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 80008b6:	f443 7380 	orr.w	r3, r3, #256	@ 0x100
+ 80008ba:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_TEIF5)
+ 80008bc:	4b33      	ldr	r3, [pc, #204]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 80008be:	685b      	ldr	r3, [r3, #4]
+ 80008c0:	f403 7300 	and.w	r3, r3, #512	@ 0x200
+ 80008c4:	2b00      	cmp	r3, #0
+ 80008c6:	d01a      	beq.n	80008fe <DMA1_Stream5_IRQHandler+0xca>
+	{
+		SPI3_TX_DMA_Flag.Transfer_Error_Flag = true;
+ 80008c8:	4b31      	ldr	r3, [pc, #196]	@ (8000990 <DMA1_Stream5_IRQHandler+0x15c>)
+ 80008ca:	2201      	movs	r2, #1
+ 80008cc:	70da      	strb	r2, [r3, #3]
+		TIM3_TRIG_DMA_Flag.Transfer_Error_Flag = true;
+ 80008ce:	4b31      	ldr	r3, [pc, #196]	@ (8000994 <DMA1_Stream5_IRQHandler+0x160>)
+ 80008d0:	2201      	movs	r2, #1
+ 80008d2:	70da      	strb	r2, [r3, #3]
+		TIM2_CH1_DMA_Flag.Transfer_Error_Flag =  true;
+ 80008d4:	4b30      	ldr	r3, [pc, #192]	@ (8000998 <DMA1_Stream5_IRQHandler+0x164>)
+ 80008d6:	2201      	movs	r2, #1
+ 80008d8:	70da      	strb	r2, [r3, #3]
+		DAC2_DMA_Flag.Transfer_Error_Flag = true;
+ 80008da:	4b30      	ldr	r3, [pc, #192]	@ (800099c <DMA1_Stream5_IRQHandler+0x168>)
+ 80008dc:	2201      	movs	r2, #1
+ 80008de:	70da      	strb	r2, [r3, #3]
+		TIM3_CH2_DMA_Flag.Transfer_Error_Flag = true;
+ 80008e0:	4b2f      	ldr	r3, [pc, #188]	@ (80009a0 <DMA1_Stream5_IRQHandler+0x16c>)
+ 80008e2:	2201      	movs	r2, #1
+ 80008e4:	70da      	strb	r2, [r3, #3]
+		USART2_RX_DMA_Flag.Transfer_Error_Flag = true;
+ 80008e6:	4b2f      	ldr	r3, [pc, #188]	@ (80009a4 <DMA1_Stream5_IRQHandler+0x170>)
+ 80008e8:	2201      	movs	r2, #1
+ 80008ea:	70da      	strb	r2, [r3, #3]
+		DMA1_Stream5_Flag.Transfer_Error_Flag = true;
+ 80008ec:	4b2e      	ldr	r3, [pc, #184]	@ (80009a8 <DMA1_Stream5_IRQHandler+0x174>)
+ 80008ee:	2201      	movs	r2, #1
+ 80008f0:	70da      	strb	r2, [r3, #3]
+		DMA1 -> HIFCR |= DMA_HIFCR_CTEIF5;
+ 80008f2:	4b26      	ldr	r3, [pc, #152]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 80008f4:	68db      	ldr	r3, [r3, #12]
+ 80008f6:	4a25      	ldr	r2, [pc, #148]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 80008f8:	f443 7300 	orr.w	r3, r3, #512	@ 0x200
+ 80008fc:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_HTIF5)
+ 80008fe:	4b23      	ldr	r3, [pc, #140]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 8000900:	685b      	ldr	r3, [r3, #4]
+ 8000902:	f403 6380 	and.w	r3, r3, #1024	@ 0x400
+ 8000906:	2b00      	cmp	r3, #0
+ 8000908:	d01a      	beq.n	8000940 <DMA1_Stream5_IRQHandler+0x10c>
+	{
+		SPI3_TX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 800090a:	4b21      	ldr	r3, [pc, #132]	@ (8000990 <DMA1_Stream5_IRQHandler+0x15c>)
+ 800090c:	2201      	movs	r2, #1
+ 800090e:	709a      	strb	r2, [r3, #2]
+		TIM3_TRIG_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000910:	4b20      	ldr	r3, [pc, #128]	@ (8000994 <DMA1_Stream5_IRQHandler+0x160>)
+ 8000912:	2201      	movs	r2, #1
+ 8000914:	709a      	strb	r2, [r3, #2]
+		TIM2_CH1_DMA_Flag.Half_Transfer_Complete_Flag =  true;
+ 8000916:	4b20      	ldr	r3, [pc, #128]	@ (8000998 <DMA1_Stream5_IRQHandler+0x164>)
+ 8000918:	2201      	movs	r2, #1
+ 800091a:	709a      	strb	r2, [r3, #2]
+		DAC2_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 800091c:	4b1f      	ldr	r3, [pc, #124]	@ (800099c <DMA1_Stream5_IRQHandler+0x168>)
+ 800091e:	2201      	movs	r2, #1
+ 8000920:	709a      	strb	r2, [r3, #2]
+		TIM3_CH2_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000922:	4b1f      	ldr	r3, [pc, #124]	@ (80009a0 <DMA1_Stream5_IRQHandler+0x16c>)
+ 8000924:	2201      	movs	r2, #1
+ 8000926:	709a      	strb	r2, [r3, #2]
+		USART2_RX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000928:	4b1e      	ldr	r3, [pc, #120]	@ (80009a4 <DMA1_Stream5_IRQHandler+0x170>)
+ 800092a:	2201      	movs	r2, #1
+ 800092c:	709a      	strb	r2, [r3, #2]
+		DMA1_Stream5_Flag.Half_Transfer_Complete_Flag = true;
+ 800092e:	4b1e      	ldr	r3, [pc, #120]	@ (80009a8 <DMA1_Stream5_IRQHandler+0x174>)
+ 8000930:	2201      	movs	r2, #1
+ 8000932:	709a      	strb	r2, [r3, #2]
+		DMA1 -> HIFCR |= DMA_HIFCR_CHTIF5;
+ 8000934:	4b15      	ldr	r3, [pc, #84]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 8000936:	68db      	ldr	r3, [r3, #12]
+ 8000938:	4a14      	ldr	r2, [pc, #80]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 800093a:	f443 6380 	orr.w	r3, r3, #1024	@ 0x400
+ 800093e:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_TCIF5)
+ 8000940:	4b12      	ldr	r3, [pc, #72]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 8000942:	685b      	ldr	r3, [r3, #4]
+ 8000944:	f403 6300 	and.w	r3, r3, #2048	@ 0x800
+ 8000948:	2b00      	cmp	r3, #0
+ 800094a:	d01a      	beq.n	8000982 <DMA1_Stream5_IRQHandler+0x14e>
+	{
+		SPI3_TX_DMA_Flag.Transfer_Complete_Flag = true;
+ 800094c:	4b10      	ldr	r3, [pc, #64]	@ (8000990 <DMA1_Stream5_IRQHandler+0x15c>)
+ 800094e:	2201      	movs	r2, #1
+ 8000950:	705a      	strb	r2, [r3, #1]
+		TIM3_TRIG_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000952:	4b10      	ldr	r3, [pc, #64]	@ (8000994 <DMA1_Stream5_IRQHandler+0x160>)
+ 8000954:	2201      	movs	r2, #1
+ 8000956:	705a      	strb	r2, [r3, #1]
+		TIM2_CH1_DMA_Flag.Transfer_Complete_Flag =  true;
+ 8000958:	4b0f      	ldr	r3, [pc, #60]	@ (8000998 <DMA1_Stream5_IRQHandler+0x164>)
+ 800095a:	2201      	movs	r2, #1
+ 800095c:	705a      	strb	r2, [r3, #1]
+		DAC2_DMA_Flag.Transfer_Complete_Flag = true;
+ 800095e:	4b0f      	ldr	r3, [pc, #60]	@ (800099c <DMA1_Stream5_IRQHandler+0x168>)
+ 8000960:	2201      	movs	r2, #1
+ 8000962:	705a      	strb	r2, [r3, #1]
+		TIM3_CH2_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000964:	4b0e      	ldr	r3, [pc, #56]	@ (80009a0 <DMA1_Stream5_IRQHandler+0x16c>)
+ 8000966:	2201      	movs	r2, #1
+ 8000968:	705a      	strb	r2, [r3, #1]
+		USART2_RX_DMA_Flag.Transfer_Complete_Flag = true;
+ 800096a:	4b0e      	ldr	r3, [pc, #56]	@ (80009a4 <DMA1_Stream5_IRQHandler+0x170>)
+ 800096c:	2201      	movs	r2, #1
+ 800096e:	705a      	strb	r2, [r3, #1]
+		DMA1_Stream5_Flag.Transfer_Complete_Flag = true;
+ 8000970:	4b0d      	ldr	r3, [pc, #52]	@ (80009a8 <DMA1_Stream5_IRQHandler+0x174>)
+ 8000972:	2201      	movs	r2, #1
+ 8000974:	705a      	strb	r2, [r3, #1]
+		DMA1 -> HIFCR |= DMA_HIFCR_CTCIF5;
+ 8000976:	4b05      	ldr	r3, [pc, #20]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 8000978:	68db      	ldr	r3, [r3, #12]
+ 800097a:	4a04      	ldr	r2, [pc, #16]	@ (800098c <DMA1_Stream5_IRQHandler+0x158>)
+ 800097c:	f443 6300 	orr.w	r3, r3, #2048	@ 0x800
+ 8000980:	60d3      	str	r3, [r2, #12]
+	}
+}
+ 8000982:	bf00      	nop
+ 8000984:	46bd      	mov	sp, r7
+ 8000986:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 800098a:	4770      	bx	lr
+ 800098c:	40026000 	.word	0x40026000
+ 8000990:	20000080 	.word	0x20000080
+ 8000994:	200001a0 	.word	0x200001a0
+ 8000998:	20000168 	.word	0x20000168
+ 800099c:	200001e0 	.word	0x200001e0
+ 80009a0:	20000190 	.word	0x20000190
+ 80009a4:	20000098 	.word	0x20000098
+ 80009a8:	20000238 	.word	0x20000238
+
+080009ac <DMA1_Stream6_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA1_Stream6_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA1_Stream6_IRQHandler(void)
+{
+ 80009ac:	b480      	push	{r7}
+ 80009ae:	af00      	add	r7, sp, #0
+	if(DMA1 -> HISR & DMA_HISR_FEIF6)
+ 80009b0:	4b47      	ldr	r3, [pc, #284]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 80009b2:	685b      	ldr	r3, [r3, #4]
+ 80009b4:	f403 3380 	and.w	r3, r3, #65536	@ 0x10000
+ 80009b8:	2b00      	cmp	r3, #0
+ 80009ba:	d017      	beq.n	80009ec <DMA1_Stream6_IRQHandler+0x40>
+	{
+		TIM3_CH3_DMA_Flag.Fifo_Error_Flag = true;
+ 80009bc:	4b45      	ldr	r3, [pc, #276]	@ (8000ad4 <DMA1_Stream6_IRQHandler+0x128>)
+ 80009be:	2201      	movs	r2, #1
+ 80009c0:	715a      	strb	r2, [r3, #5]
+		TIM2_UP_DMA_Flag.Fifo_Error_Flag = true;
+ 80009c2:	4b45      	ldr	r3, [pc, #276]	@ (8000ad8 <DMA1_Stream6_IRQHandler+0x12c>)
+ 80009c4:	2201      	movs	r2, #1
+ 80009c6:	715a      	strb	r2, [r3, #5]
+		USART8_RX_DMA_Flag.Fifo_Error_Flag = true;
+ 80009c8:	4b44      	ldr	r3, [pc, #272]	@ (8000adc <DMA1_Stream6_IRQHandler+0x130>)
+ 80009ca:	2201      	movs	r2, #1
+ 80009cc:	715a      	strb	r2, [r3, #5]
+		USART2_TX_DMA_Flag.Fifo_Error_Flag =  true;
+ 80009ce:	4b44      	ldr	r3, [pc, #272]	@ (8000ae0 <DMA1_Stream6_IRQHandler+0x134>)
+ 80009d0:	2201      	movs	r2, #1
+ 80009d2:	715a      	strb	r2, [r3, #5]
+		I2C1_TX_DMA_Flag.Fifo_Error_Flag = true;
+ 80009d4:	4b43      	ldr	r3, [pc, #268]	@ (8000ae4 <DMA1_Stream6_IRQHandler+0x138>)
+ 80009d6:	2201      	movs	r2, #1
+ 80009d8:	715a      	strb	r2, [r3, #5]
+		DMA1_Stream6_Flag.Fifo_Error_Flag = true;
+ 80009da:	4b43      	ldr	r3, [pc, #268]	@ (8000ae8 <DMA1_Stream6_IRQHandler+0x13c>)
+ 80009dc:	2201      	movs	r2, #1
+ 80009de:	715a      	strb	r2, [r3, #5]
+		DMA1 -> HIFCR |= DMA_HIFCR_CFEIF6;
+ 80009e0:	4b3b      	ldr	r3, [pc, #236]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 80009e2:	68db      	ldr	r3, [r3, #12]
+ 80009e4:	4a3a      	ldr	r2, [pc, #232]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 80009e6:	f443 3380 	orr.w	r3, r3, #65536	@ 0x10000
+ 80009ea:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_DMEIF6)
+ 80009ec:	4b38      	ldr	r3, [pc, #224]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 80009ee:	685b      	ldr	r3, [r3, #4]
+ 80009f0:	f403 2380 	and.w	r3, r3, #262144	@ 0x40000
+ 80009f4:	2b00      	cmp	r3, #0
+ 80009f6:	d014      	beq.n	8000a22 <DMA1_Stream6_IRQHandler+0x76>
+	{
+		TIM2_UP_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 80009f8:	4b37      	ldr	r3, [pc, #220]	@ (8000ad8 <DMA1_Stream6_IRQHandler+0x12c>)
+ 80009fa:	2201      	movs	r2, #1
+ 80009fc:	711a      	strb	r2, [r3, #4]
+		USART8_RX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 80009fe:	4b37      	ldr	r3, [pc, #220]	@ (8000adc <DMA1_Stream6_IRQHandler+0x130>)
+ 8000a00:	2201      	movs	r2, #1
+ 8000a02:	711a      	strb	r2, [r3, #4]
+		USART2_TX_DMA_Flag.Direct_Mode_Error_Flag =  true;
+ 8000a04:	4b36      	ldr	r3, [pc, #216]	@ (8000ae0 <DMA1_Stream6_IRQHandler+0x134>)
+ 8000a06:	2201      	movs	r2, #1
+ 8000a08:	711a      	strb	r2, [r3, #4]
+		I2C1_TX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000a0a:	4b36      	ldr	r3, [pc, #216]	@ (8000ae4 <DMA1_Stream6_IRQHandler+0x138>)
+ 8000a0c:	2201      	movs	r2, #1
+ 8000a0e:	711a      	strb	r2, [r3, #4]
+		DMA1_Stream6_Flag.Direct_Mode_Error_Flag = true;
+ 8000a10:	4b35      	ldr	r3, [pc, #212]	@ (8000ae8 <DMA1_Stream6_IRQHandler+0x13c>)
+ 8000a12:	2201      	movs	r2, #1
+ 8000a14:	711a      	strb	r2, [r3, #4]
+		DMA1 -> HIFCR |= DMA_HIFCR_CDMEIF6;
+ 8000a16:	4b2e      	ldr	r3, [pc, #184]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 8000a18:	68db      	ldr	r3, [r3, #12]
+ 8000a1a:	4a2d      	ldr	r2, [pc, #180]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 8000a1c:	f443 2380 	orr.w	r3, r3, #262144	@ 0x40000
+ 8000a20:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_TEIF6)
+ 8000a22:	4b2b      	ldr	r3, [pc, #172]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 8000a24:	685b      	ldr	r3, [r3, #4]
+ 8000a26:	f403 2300 	and.w	r3, r3, #524288	@ 0x80000
+ 8000a2a:	2b00      	cmp	r3, #0
+ 8000a2c:	d014      	beq.n	8000a58 <DMA1_Stream6_IRQHandler+0xac>
+	{
+		TIM2_UP_DMA_Flag.Transfer_Error_Flag = true;
+ 8000a2e:	4b2a      	ldr	r3, [pc, #168]	@ (8000ad8 <DMA1_Stream6_IRQHandler+0x12c>)
+ 8000a30:	2201      	movs	r2, #1
+ 8000a32:	70da      	strb	r2, [r3, #3]
+		USART8_RX_DMA_Flag.Transfer_Error_Flag = true;
+ 8000a34:	4b29      	ldr	r3, [pc, #164]	@ (8000adc <DMA1_Stream6_IRQHandler+0x130>)
+ 8000a36:	2201      	movs	r2, #1
+ 8000a38:	70da      	strb	r2, [r3, #3]
+		USART2_TX_DMA_Flag.Transfer_Error_Flag =  true;
+ 8000a3a:	4b29      	ldr	r3, [pc, #164]	@ (8000ae0 <DMA1_Stream6_IRQHandler+0x134>)
+ 8000a3c:	2201      	movs	r2, #1
+ 8000a3e:	70da      	strb	r2, [r3, #3]
+		I2C1_TX_DMA_Flag.Transfer_Error_Flag = true;
+ 8000a40:	4b28      	ldr	r3, [pc, #160]	@ (8000ae4 <DMA1_Stream6_IRQHandler+0x138>)
+ 8000a42:	2201      	movs	r2, #1
+ 8000a44:	70da      	strb	r2, [r3, #3]
+		DMA1_Stream6_Flag.Transfer_Error_Flag = true;
+ 8000a46:	4b28      	ldr	r3, [pc, #160]	@ (8000ae8 <DMA1_Stream6_IRQHandler+0x13c>)
+ 8000a48:	2201      	movs	r2, #1
+ 8000a4a:	70da      	strb	r2, [r3, #3]
+		DMA1 -> HIFCR |= DMA_HIFCR_CTEIF6;
+ 8000a4c:	4b20      	ldr	r3, [pc, #128]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 8000a4e:	68db      	ldr	r3, [r3, #12]
+ 8000a50:	4a1f      	ldr	r2, [pc, #124]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 8000a52:	f443 2300 	orr.w	r3, r3, #524288	@ 0x80000
+ 8000a56:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_HTIF6)
+ 8000a58:	4b1d      	ldr	r3, [pc, #116]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 8000a5a:	685b      	ldr	r3, [r3, #4]
+ 8000a5c:	f403 1380 	and.w	r3, r3, #1048576	@ 0x100000
+ 8000a60:	2b00      	cmp	r3, #0
+ 8000a62:	d014      	beq.n	8000a8e <DMA1_Stream6_IRQHandler+0xe2>
+	{
+		TIM2_UP_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000a64:	4b1c      	ldr	r3, [pc, #112]	@ (8000ad8 <DMA1_Stream6_IRQHandler+0x12c>)
+ 8000a66:	2201      	movs	r2, #1
+ 8000a68:	709a      	strb	r2, [r3, #2]
+		USART8_RX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000a6a:	4b1c      	ldr	r3, [pc, #112]	@ (8000adc <DMA1_Stream6_IRQHandler+0x130>)
+ 8000a6c:	2201      	movs	r2, #1
+ 8000a6e:	709a      	strb	r2, [r3, #2]
+		USART2_TX_DMA_Flag.Half_Transfer_Complete_Flag =  true;
+ 8000a70:	4b1b      	ldr	r3, [pc, #108]	@ (8000ae0 <DMA1_Stream6_IRQHandler+0x134>)
+ 8000a72:	2201      	movs	r2, #1
+ 8000a74:	709a      	strb	r2, [r3, #2]
+		I2C1_TX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000a76:	4b1b      	ldr	r3, [pc, #108]	@ (8000ae4 <DMA1_Stream6_IRQHandler+0x138>)
+ 8000a78:	2201      	movs	r2, #1
+ 8000a7a:	709a      	strb	r2, [r3, #2]
+		DMA1_Stream6_Flag.Half_Transfer_Complete_Flag = true;
+ 8000a7c:	4b1a      	ldr	r3, [pc, #104]	@ (8000ae8 <DMA1_Stream6_IRQHandler+0x13c>)
+ 8000a7e:	2201      	movs	r2, #1
+ 8000a80:	709a      	strb	r2, [r3, #2]
+		DMA1 -> HIFCR |= DMA_HIFCR_CHTIF6;
+ 8000a82:	4b13      	ldr	r3, [pc, #76]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 8000a84:	68db      	ldr	r3, [r3, #12]
+ 8000a86:	4a12      	ldr	r2, [pc, #72]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 8000a88:	f443 1380 	orr.w	r3, r3, #1048576	@ 0x100000
+ 8000a8c:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_TCIF6)
+ 8000a8e:	4b10      	ldr	r3, [pc, #64]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 8000a90:	685b      	ldr	r3, [r3, #4]
+ 8000a92:	f403 1300 	and.w	r3, r3, #2097152	@ 0x200000
+ 8000a96:	2b00      	cmp	r3, #0
+ 8000a98:	d014      	beq.n	8000ac4 <DMA1_Stream6_IRQHandler+0x118>
+	{
+		TIM2_UP_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000a9a:	4b0f      	ldr	r3, [pc, #60]	@ (8000ad8 <DMA1_Stream6_IRQHandler+0x12c>)
+ 8000a9c:	2201      	movs	r2, #1
+ 8000a9e:	705a      	strb	r2, [r3, #1]
+		USART8_RX_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000aa0:	4b0e      	ldr	r3, [pc, #56]	@ (8000adc <DMA1_Stream6_IRQHandler+0x130>)
+ 8000aa2:	2201      	movs	r2, #1
+ 8000aa4:	705a      	strb	r2, [r3, #1]
+		USART2_TX_DMA_Flag.Transfer_Complete_Flag =  true;
+ 8000aa6:	4b0e      	ldr	r3, [pc, #56]	@ (8000ae0 <DMA1_Stream6_IRQHandler+0x134>)
+ 8000aa8:	2201      	movs	r2, #1
+ 8000aaa:	705a      	strb	r2, [r3, #1]
+		I2C1_TX_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000aac:	4b0d      	ldr	r3, [pc, #52]	@ (8000ae4 <DMA1_Stream6_IRQHandler+0x138>)
+ 8000aae:	2201      	movs	r2, #1
+ 8000ab0:	705a      	strb	r2, [r3, #1]
+		DMA1_Stream6_Flag.Transfer_Complete_Flag = true;
+ 8000ab2:	4b0d      	ldr	r3, [pc, #52]	@ (8000ae8 <DMA1_Stream6_IRQHandler+0x13c>)
+ 8000ab4:	2201      	movs	r2, #1
+ 8000ab6:	705a      	strb	r2, [r3, #1]
+		DMA1 -> HIFCR |= DMA_HIFCR_CTCIF6;
+ 8000ab8:	4b05      	ldr	r3, [pc, #20]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 8000aba:	68db      	ldr	r3, [r3, #12]
+ 8000abc:	4a04      	ldr	r2, [pc, #16]	@ (8000ad0 <DMA1_Stream6_IRQHandler+0x124>)
+ 8000abe:	f443 1300 	orr.w	r3, r3, #2097152	@ 0x200000
+ 8000ac2:	60d3      	str	r3, [r2, #12]
+	}
+}
+ 8000ac4:	bf00      	nop
+ 8000ac6:	46bd      	mov	sp, r7
+ 8000ac8:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000acc:	4770      	bx	lr
+ 8000ace:	bf00      	nop
+ 8000ad0:	40026000 	.word	0x40026000
+ 8000ad4:	20000198 	.word	0x20000198
+ 8000ad8:	20000160 	.word	0x20000160
+ 8000adc:	200000e8 	.word	0x200000e8
+ 8000ae0:	200000a0 	.word	0x200000a0
+ 8000ae4:	20000040 	.word	0x20000040
+ 8000ae8:	20000240 	.word	0x20000240
+
+08000aec <DMA1_Stream7_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA1_Stream7_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA1_Stream7_IRQHandler(void)
+{
+ 8000aec:	b480      	push	{r7}
+ 8000aee:	af00      	add	r7, sp, #0
+	if(DMA1 -> HISR & DMA_HISR_FEIF7)
+ 8000af0:	4b54      	ldr	r3, [pc, #336]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000af2:	685b      	ldr	r3, [r3, #4]
+ 8000af4:	f403 0380 	and.w	r3, r3, #4194304	@ 0x400000
+ 8000af8:	2b00      	cmp	r3, #0
+ 8000afa:	d01a      	beq.n	8000b32 <DMA1_Stream7_IRQHandler+0x46>
+	{
+		I2S3_TX_DMA_Flag.Fifo_Error_Flag = true;
+ 8000afc:	4b52      	ldr	r3, [pc, #328]	@ (8000c48 <DMA1_Stream7_IRQHandler+0x15c>)
+ 8000afe:	2201      	movs	r2, #1
+ 8000b00:	715a      	strb	r2, [r3, #5]
+		I2C2_TX_DMA_Flag.Fifo_Error_Flag = true;
+ 8000b02:	4b52      	ldr	r3, [pc, #328]	@ (8000c4c <DMA1_Stream7_IRQHandler+0x160>)
+ 8000b04:	2201      	movs	r2, #1
+ 8000b06:	715a      	strb	r2, [r3, #5]
+		USART5_TX_DMA_Flag.Fifo_Error_Flag = true;
+ 8000b08:	4b51      	ldr	r3, [pc, #324]	@ (8000c50 <DMA1_Stream7_IRQHandler+0x164>)
+ 8000b0a:	2201      	movs	r2, #1
+ 8000b0c:	715a      	strb	r2, [r3, #5]
+		TIM4_CH3_DMA_Flag.Fifo_Error_Flag = true;
+ 8000b0e:	4b51      	ldr	r3, [pc, #324]	@ (8000c54 <DMA1_Stream7_IRQHandler+0x168>)
+ 8000b10:	2201      	movs	r2, #1
+ 8000b12:	715a      	strb	r2, [r3, #5]
+		TIM2_CH2_DMA_Flag.Fifo_Error_Flag = true;
+ 8000b14:	4b50      	ldr	r3, [pc, #320]	@ (8000c58 <DMA1_Stream7_IRQHandler+0x16c>)
+ 8000b16:	2201      	movs	r2, #1
+ 8000b18:	715a      	strb	r2, [r3, #5]
+		TIM2_CH4_DMA_Flag.Fifo_Error_Flag = true;
+ 8000b1a:	4b50      	ldr	r3, [pc, #320]	@ (8000c5c <DMA1_Stream7_IRQHandler+0x170>)
+ 8000b1c:	2201      	movs	r2, #1
+ 8000b1e:	715a      	strb	r2, [r3, #5]
+
+		DMA1_Stream7_Flag.Fifo_Error_Flag = true;
+ 8000b20:	4b4f      	ldr	r3, [pc, #316]	@ (8000c60 <DMA1_Stream7_IRQHandler+0x174>)
+ 8000b22:	2201      	movs	r2, #1
+ 8000b24:	715a      	strb	r2, [r3, #5]
+		DMA1 -> HIFCR |= DMA_HIFCR_CFEIF7;
+ 8000b26:	4b47      	ldr	r3, [pc, #284]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000b28:	68db      	ldr	r3, [r3, #12]
+ 8000b2a:	4a46      	ldr	r2, [pc, #280]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000b2c:	f443 0380 	orr.w	r3, r3, #4194304	@ 0x400000
+ 8000b30:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_DMEIF7)
+ 8000b32:	4b44      	ldr	r3, [pc, #272]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000b34:	685b      	ldr	r3, [r3, #4]
+ 8000b36:	f003 7380 	and.w	r3, r3, #16777216	@ 0x1000000
+ 8000b3a:	2b00      	cmp	r3, #0
+ 8000b3c:	d01a      	beq.n	8000b74 <DMA1_Stream7_IRQHandler+0x88>
+	{
+		I2S3_TX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000b3e:	4b42      	ldr	r3, [pc, #264]	@ (8000c48 <DMA1_Stream7_IRQHandler+0x15c>)
+ 8000b40:	2201      	movs	r2, #1
+ 8000b42:	711a      	strb	r2, [r3, #4]
+		I2C2_TX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000b44:	4b41      	ldr	r3, [pc, #260]	@ (8000c4c <DMA1_Stream7_IRQHandler+0x160>)
+ 8000b46:	2201      	movs	r2, #1
+ 8000b48:	711a      	strb	r2, [r3, #4]
+		USART5_TX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000b4a:	4b41      	ldr	r3, [pc, #260]	@ (8000c50 <DMA1_Stream7_IRQHandler+0x164>)
+ 8000b4c:	2201      	movs	r2, #1
+ 8000b4e:	711a      	strb	r2, [r3, #4]
+		TIM4_CH3_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000b50:	4b40      	ldr	r3, [pc, #256]	@ (8000c54 <DMA1_Stream7_IRQHandler+0x168>)
+ 8000b52:	2201      	movs	r2, #1
+ 8000b54:	711a      	strb	r2, [r3, #4]
+		TIM2_CH2_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000b56:	4b40      	ldr	r3, [pc, #256]	@ (8000c58 <DMA1_Stream7_IRQHandler+0x16c>)
+ 8000b58:	2201      	movs	r2, #1
+ 8000b5a:	711a      	strb	r2, [r3, #4]
+		TIM2_CH4_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000b5c:	4b3f      	ldr	r3, [pc, #252]	@ (8000c5c <DMA1_Stream7_IRQHandler+0x170>)
+ 8000b5e:	2201      	movs	r2, #1
+ 8000b60:	711a      	strb	r2, [r3, #4]
+		DMA1_Stream7_Flag.Direct_Mode_Error_Flag = true;
+ 8000b62:	4b3f      	ldr	r3, [pc, #252]	@ (8000c60 <DMA1_Stream7_IRQHandler+0x174>)
+ 8000b64:	2201      	movs	r2, #1
+ 8000b66:	711a      	strb	r2, [r3, #4]
+		DMA1 -> HIFCR |= DMA_HIFCR_CDMEIF7;
+ 8000b68:	4b36      	ldr	r3, [pc, #216]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000b6a:	68db      	ldr	r3, [r3, #12]
+ 8000b6c:	4a35      	ldr	r2, [pc, #212]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000b6e:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
+ 8000b72:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_TEIF7)
+ 8000b74:	4b33      	ldr	r3, [pc, #204]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000b76:	685b      	ldr	r3, [r3, #4]
+ 8000b78:	f003 7300 	and.w	r3, r3, #33554432	@ 0x2000000
+ 8000b7c:	2b00      	cmp	r3, #0
+ 8000b7e:	d01a      	beq.n	8000bb6 <DMA1_Stream7_IRQHandler+0xca>
+	{
+		I2S3_TX_DMA_Flag.Transfer_Error_Flag = true;
+ 8000b80:	4b31      	ldr	r3, [pc, #196]	@ (8000c48 <DMA1_Stream7_IRQHandler+0x15c>)
+ 8000b82:	2201      	movs	r2, #1
+ 8000b84:	70da      	strb	r2, [r3, #3]
+		I2C2_TX_DMA_Flag.Transfer_Error_Flag = true;
+ 8000b86:	4b31      	ldr	r3, [pc, #196]	@ (8000c4c <DMA1_Stream7_IRQHandler+0x160>)
+ 8000b88:	2201      	movs	r2, #1
+ 8000b8a:	70da      	strb	r2, [r3, #3]
+		USART5_TX_DMA_Flag.Transfer_Error_Flag = true;
+ 8000b8c:	4b30      	ldr	r3, [pc, #192]	@ (8000c50 <DMA1_Stream7_IRQHandler+0x164>)
+ 8000b8e:	2201      	movs	r2, #1
+ 8000b90:	70da      	strb	r2, [r3, #3]
+		TIM4_CH3_DMA_Flag.Transfer_Error_Flag = true;
+ 8000b92:	4b30      	ldr	r3, [pc, #192]	@ (8000c54 <DMA1_Stream7_IRQHandler+0x168>)
+ 8000b94:	2201      	movs	r2, #1
+ 8000b96:	70da      	strb	r2, [r3, #3]
+		TIM2_CH2_DMA_Flag.Transfer_Error_Flag = true;
+ 8000b98:	4b2f      	ldr	r3, [pc, #188]	@ (8000c58 <DMA1_Stream7_IRQHandler+0x16c>)
+ 8000b9a:	2201      	movs	r2, #1
+ 8000b9c:	70da      	strb	r2, [r3, #3]
+		TIM2_CH4_DMA_Flag.Transfer_Error_Flag = true;
+ 8000b9e:	4b2f      	ldr	r3, [pc, #188]	@ (8000c5c <DMA1_Stream7_IRQHandler+0x170>)
+ 8000ba0:	2201      	movs	r2, #1
+ 8000ba2:	70da      	strb	r2, [r3, #3]
+		DMA1_Stream7_Flag.Transfer_Error_Flag = true;
+ 8000ba4:	4b2e      	ldr	r3, [pc, #184]	@ (8000c60 <DMA1_Stream7_IRQHandler+0x174>)
+ 8000ba6:	2201      	movs	r2, #1
+ 8000ba8:	70da      	strb	r2, [r3, #3]
+		DMA1 -> HIFCR |= DMA_HIFCR_CTEIF7;
+ 8000baa:	4b26      	ldr	r3, [pc, #152]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000bac:	68db      	ldr	r3, [r3, #12]
+ 8000bae:	4a25      	ldr	r2, [pc, #148]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000bb0:	f043 7300 	orr.w	r3, r3, #33554432	@ 0x2000000
+ 8000bb4:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_HTIF7)
+ 8000bb6:	4b23      	ldr	r3, [pc, #140]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000bb8:	685b      	ldr	r3, [r3, #4]
+ 8000bba:	f003 6380 	and.w	r3, r3, #67108864	@ 0x4000000
+ 8000bbe:	2b00      	cmp	r3, #0
+ 8000bc0:	d01a      	beq.n	8000bf8 <DMA1_Stream7_IRQHandler+0x10c>
+	{
+		I2S3_TX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000bc2:	4b21      	ldr	r3, [pc, #132]	@ (8000c48 <DMA1_Stream7_IRQHandler+0x15c>)
+ 8000bc4:	2201      	movs	r2, #1
+ 8000bc6:	709a      	strb	r2, [r3, #2]
+		I2C2_TX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000bc8:	4b20      	ldr	r3, [pc, #128]	@ (8000c4c <DMA1_Stream7_IRQHandler+0x160>)
+ 8000bca:	2201      	movs	r2, #1
+ 8000bcc:	709a      	strb	r2, [r3, #2]
+		USART5_TX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000bce:	4b20      	ldr	r3, [pc, #128]	@ (8000c50 <DMA1_Stream7_IRQHandler+0x164>)
+ 8000bd0:	2201      	movs	r2, #1
+ 8000bd2:	709a      	strb	r2, [r3, #2]
+		TIM4_CH3_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000bd4:	4b1f      	ldr	r3, [pc, #124]	@ (8000c54 <DMA1_Stream7_IRQHandler+0x168>)
+ 8000bd6:	2201      	movs	r2, #1
+ 8000bd8:	709a      	strb	r2, [r3, #2]
+		TIM2_CH2_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000bda:	4b1f      	ldr	r3, [pc, #124]	@ (8000c58 <DMA1_Stream7_IRQHandler+0x16c>)
+ 8000bdc:	2201      	movs	r2, #1
+ 8000bde:	709a      	strb	r2, [r3, #2]
+		TIM2_CH4_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000be0:	4b1e      	ldr	r3, [pc, #120]	@ (8000c5c <DMA1_Stream7_IRQHandler+0x170>)
+ 8000be2:	2201      	movs	r2, #1
+ 8000be4:	709a      	strb	r2, [r3, #2]
+		DMA1_Stream7_Flag.Half_Transfer_Complete_Flag = true;
+ 8000be6:	4b1e      	ldr	r3, [pc, #120]	@ (8000c60 <DMA1_Stream7_IRQHandler+0x174>)
+ 8000be8:	2201      	movs	r2, #1
+ 8000bea:	709a      	strb	r2, [r3, #2]
+		DMA1 -> HIFCR |= DMA_HIFCR_CHTIF7;
+ 8000bec:	4b15      	ldr	r3, [pc, #84]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000bee:	68db      	ldr	r3, [r3, #12]
+ 8000bf0:	4a14      	ldr	r2, [pc, #80]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000bf2:	f043 6380 	orr.w	r3, r3, #67108864	@ 0x4000000
+ 8000bf6:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA1 -> HISR & DMA_HISR_TCIF7)
+ 8000bf8:	4b12      	ldr	r3, [pc, #72]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000bfa:	685b      	ldr	r3, [r3, #4]
+ 8000bfc:	f003 6300 	and.w	r3, r3, #134217728	@ 0x8000000
+ 8000c00:	2b00      	cmp	r3, #0
+ 8000c02:	d01a      	beq.n	8000c3a <DMA1_Stream7_IRQHandler+0x14e>
+	{
+		I2S3_TX_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000c04:	4b10      	ldr	r3, [pc, #64]	@ (8000c48 <DMA1_Stream7_IRQHandler+0x15c>)
+ 8000c06:	2201      	movs	r2, #1
+ 8000c08:	705a      	strb	r2, [r3, #1]
+		I2C2_TX_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000c0a:	4b10      	ldr	r3, [pc, #64]	@ (8000c4c <DMA1_Stream7_IRQHandler+0x160>)
+ 8000c0c:	2201      	movs	r2, #1
+ 8000c0e:	705a      	strb	r2, [r3, #1]
+		USART5_TX_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000c10:	4b0f      	ldr	r3, [pc, #60]	@ (8000c50 <DMA1_Stream7_IRQHandler+0x164>)
+ 8000c12:	2201      	movs	r2, #1
+ 8000c14:	705a      	strb	r2, [r3, #1]
+		TIM4_CH3_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000c16:	4b0f      	ldr	r3, [pc, #60]	@ (8000c54 <DMA1_Stream7_IRQHandler+0x168>)
+ 8000c18:	2201      	movs	r2, #1
+ 8000c1a:	705a      	strb	r2, [r3, #1]
+		TIM2_CH2_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000c1c:	4b0e      	ldr	r3, [pc, #56]	@ (8000c58 <DMA1_Stream7_IRQHandler+0x16c>)
+ 8000c1e:	2201      	movs	r2, #1
+ 8000c20:	705a      	strb	r2, [r3, #1]
+		TIM2_CH4_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000c22:	4b0e      	ldr	r3, [pc, #56]	@ (8000c5c <DMA1_Stream7_IRQHandler+0x170>)
+ 8000c24:	2201      	movs	r2, #1
+ 8000c26:	705a      	strb	r2, [r3, #1]
+		DMA1_Stream7_Flag.Transfer_Complete_Flag = true;
+ 8000c28:	4b0d      	ldr	r3, [pc, #52]	@ (8000c60 <DMA1_Stream7_IRQHandler+0x174>)
+ 8000c2a:	2201      	movs	r2, #1
+ 8000c2c:	705a      	strb	r2, [r3, #1]
+		DMA1 -> HIFCR |= DMA_HIFCR_CTCIF7;
+ 8000c2e:	4b05      	ldr	r3, [pc, #20]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000c30:	68db      	ldr	r3, [r3, #12]
+ 8000c32:	4a04      	ldr	r2, [pc, #16]	@ (8000c44 <DMA1_Stream7_IRQHandler+0x158>)
+ 8000c34:	f043 6300 	orr.w	r3, r3, #134217728	@ 0x8000000
+ 8000c38:	60d3      	str	r3, [r2, #12]
+	}
+}
+ 8000c3a:	bf00      	nop
+ 8000c3c:	46bd      	mov	sp, r7
+ 8000c3e:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000c42:	4770      	bx	lr
+ 8000c44:	40026000 	.word	0x40026000
+ 8000c48:	20000030 	.word	0x20000030
+ 8000c4c:	20000048 	.word	0x20000048
+ 8000c50:	200000c8 	.word	0x200000c8
+ 8000c54:	200001b8 	.word	0x200001b8
+ 8000c58:	20000170 	.word	0x20000170
+ 8000c5c:	20000180 	.word	0x20000180
+ 8000c60:	20000248 	.word	0x20000248
+
+08000c64 <DMA2_Stream0_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA2_Stream0_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA2_Stream0_IRQHandler(void)
+{
+ 8000c64:	b480      	push	{r7}
+ 8000c66:	af00      	add	r7, sp, #0
+	if(DMA2 -> LISR & DMA_LISR_FEIF0)
+ 8000c68:	4b45      	ldr	r3, [pc, #276]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000c6a:	681b      	ldr	r3, [r3, #0]
+ 8000c6c:	f003 0301 	and.w	r3, r3, #1
+ 8000c70:	2b00      	cmp	r3, #0
+ 8000c72:	d014      	beq.n	8000c9e <DMA2_Stream0_IRQHandler+0x3a>
+	{
+		SPI1_RX_DMA_Flag.Fifo_Error_Flag = true;
+ 8000c74:	4b43      	ldr	r3, [pc, #268]	@ (8000d84 <DMA2_Stream0_IRQHandler+0x120>)
+ 8000c76:	2201      	movs	r2, #1
+ 8000c78:	715a      	strb	r2, [r3, #5]
+		ADC1_DMA_Flag.Fifo_Error_Flag = true;
+ 8000c7a:	4b43      	ldr	r3, [pc, #268]	@ (8000d88 <DMA2_Stream0_IRQHandler+0x124>)
+ 8000c7c:	2201      	movs	r2, #1
+ 8000c7e:	715a      	strb	r2, [r3, #5]
+		TIM1_TRIG_DMA_Flag.Fifo_Error_Flag = true;
+ 8000c80:	4b42      	ldr	r3, [pc, #264]	@ (8000d8c <DMA2_Stream0_IRQHandler+0x128>)
+ 8000c82:	2201      	movs	r2, #1
+ 8000c84:	715a      	strb	r2, [r3, #5]
+		TIM1_COM_DMA_Flag.Fifo_Error_Flag = true;
+ 8000c86:	4b42      	ldr	r3, [pc, #264]	@ (8000d90 <DMA2_Stream0_IRQHandler+0x12c>)
+ 8000c88:	2201      	movs	r2, #1
+ 8000c8a:	715a      	strb	r2, [r3, #5]
+		DMA2_Stream0_Flag.Fifo_Error_Flag = true;
+ 8000c8c:	4b41      	ldr	r3, [pc, #260]	@ (8000d94 <DMA2_Stream0_IRQHandler+0x130>)
+ 8000c8e:	2201      	movs	r2, #1
+ 8000c90:	715a      	strb	r2, [r3, #5]
+		DMA2 -> LIFCR |= DMA_LIFCR_CFEIF0;
+ 8000c92:	4b3b      	ldr	r3, [pc, #236]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000c94:	689b      	ldr	r3, [r3, #8]
+ 8000c96:	4a3a      	ldr	r2, [pc, #232]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000c98:	f043 0301 	orr.w	r3, r3, #1
+ 8000c9c:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_DMEIF0)
+ 8000c9e:	4b38      	ldr	r3, [pc, #224]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000ca0:	681b      	ldr	r3, [r3, #0]
+ 8000ca2:	f003 0304 	and.w	r3, r3, #4
+ 8000ca6:	2b00      	cmp	r3, #0
+ 8000ca8:	d014      	beq.n	8000cd4 <DMA2_Stream0_IRQHandler+0x70>
+	{
+		SPI1_RX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000caa:	4b36      	ldr	r3, [pc, #216]	@ (8000d84 <DMA2_Stream0_IRQHandler+0x120>)
+ 8000cac:	2201      	movs	r2, #1
+ 8000cae:	711a      	strb	r2, [r3, #4]
+		ADC1_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000cb0:	4b35      	ldr	r3, [pc, #212]	@ (8000d88 <DMA2_Stream0_IRQHandler+0x124>)
+ 8000cb2:	2201      	movs	r2, #1
+ 8000cb4:	711a      	strb	r2, [r3, #4]
+		TIM1_TRIG_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000cb6:	4b35      	ldr	r3, [pc, #212]	@ (8000d8c <DMA2_Stream0_IRQHandler+0x128>)
+ 8000cb8:	2201      	movs	r2, #1
+ 8000cba:	711a      	strb	r2, [r3, #4]
+		TIM1_COM_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000cbc:	4b34      	ldr	r3, [pc, #208]	@ (8000d90 <DMA2_Stream0_IRQHandler+0x12c>)
+ 8000cbe:	2201      	movs	r2, #1
+ 8000cc0:	711a      	strb	r2, [r3, #4]
+		DMA2_Stream0_Flag.Direct_Mode_Error_Flag = true;
+ 8000cc2:	4b34      	ldr	r3, [pc, #208]	@ (8000d94 <DMA2_Stream0_IRQHandler+0x130>)
+ 8000cc4:	2201      	movs	r2, #1
+ 8000cc6:	711a      	strb	r2, [r3, #4]
+		DMA2 -> LIFCR |= DMA_LIFCR_CDMEIF0;
+ 8000cc8:	4b2d      	ldr	r3, [pc, #180]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000cca:	689b      	ldr	r3, [r3, #8]
+ 8000ccc:	4a2c      	ldr	r2, [pc, #176]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000cce:	f043 0304 	orr.w	r3, r3, #4
+ 8000cd2:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_TEIF0)
+ 8000cd4:	4b2a      	ldr	r3, [pc, #168]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000cd6:	681b      	ldr	r3, [r3, #0]
+ 8000cd8:	f003 0308 	and.w	r3, r3, #8
+ 8000cdc:	2b00      	cmp	r3, #0
+ 8000cde:	d014      	beq.n	8000d0a <DMA2_Stream0_IRQHandler+0xa6>
+	{
+		SPI1_RX_DMA_Flag.Transfer_Error_Flag = true;
+ 8000ce0:	4b28      	ldr	r3, [pc, #160]	@ (8000d84 <DMA2_Stream0_IRQHandler+0x120>)
+ 8000ce2:	2201      	movs	r2, #1
+ 8000ce4:	70da      	strb	r2, [r3, #3]
+		ADC1_DMA_Flag.Transfer_Error_Flag = true;
+ 8000ce6:	4b28      	ldr	r3, [pc, #160]	@ (8000d88 <DMA2_Stream0_IRQHandler+0x124>)
+ 8000ce8:	2201      	movs	r2, #1
+ 8000cea:	70da      	strb	r2, [r3, #3]
+		TIM1_TRIG_DMA_Flag.Transfer_Error_Flag = true;
+ 8000cec:	4b27      	ldr	r3, [pc, #156]	@ (8000d8c <DMA2_Stream0_IRQHandler+0x128>)
+ 8000cee:	2201      	movs	r2, #1
+ 8000cf0:	70da      	strb	r2, [r3, #3]
+		TIM1_COM_DMA_Flag.Transfer_Error_Flag = true;
+ 8000cf2:	4b27      	ldr	r3, [pc, #156]	@ (8000d90 <DMA2_Stream0_IRQHandler+0x12c>)
+ 8000cf4:	2201      	movs	r2, #1
+ 8000cf6:	70da      	strb	r2, [r3, #3]
+		DMA2_Stream0_Flag.Transfer_Error_Flag = true;
+ 8000cf8:	4b26      	ldr	r3, [pc, #152]	@ (8000d94 <DMA2_Stream0_IRQHandler+0x130>)
+ 8000cfa:	2201      	movs	r2, #1
+ 8000cfc:	70da      	strb	r2, [r3, #3]
+		DMA2 -> LIFCR |= DMA_LIFCR_CTEIF0;
+ 8000cfe:	4b20      	ldr	r3, [pc, #128]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000d00:	689b      	ldr	r3, [r3, #8]
+ 8000d02:	4a1f      	ldr	r2, [pc, #124]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000d04:	f043 0308 	orr.w	r3, r3, #8
+ 8000d08:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_HTIF0)
+ 8000d0a:	4b1d      	ldr	r3, [pc, #116]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000d0c:	681b      	ldr	r3, [r3, #0]
+ 8000d0e:	f003 0310 	and.w	r3, r3, #16
+ 8000d12:	2b00      	cmp	r3, #0
+ 8000d14:	d014      	beq.n	8000d40 <DMA2_Stream0_IRQHandler+0xdc>
+	{
+		SPI1_RX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000d16:	4b1b      	ldr	r3, [pc, #108]	@ (8000d84 <DMA2_Stream0_IRQHandler+0x120>)
+ 8000d18:	2201      	movs	r2, #1
+ 8000d1a:	709a      	strb	r2, [r3, #2]
+		ADC1_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000d1c:	4b1a      	ldr	r3, [pc, #104]	@ (8000d88 <DMA2_Stream0_IRQHandler+0x124>)
+ 8000d1e:	2201      	movs	r2, #1
+ 8000d20:	709a      	strb	r2, [r3, #2]
+		TIM1_TRIG_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000d22:	4b1a      	ldr	r3, [pc, #104]	@ (8000d8c <DMA2_Stream0_IRQHandler+0x128>)
+ 8000d24:	2201      	movs	r2, #1
+ 8000d26:	709a      	strb	r2, [r3, #2]
+		TIM1_COM_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000d28:	4b19      	ldr	r3, [pc, #100]	@ (8000d90 <DMA2_Stream0_IRQHandler+0x12c>)
+ 8000d2a:	2201      	movs	r2, #1
+ 8000d2c:	709a      	strb	r2, [r3, #2]
+		DMA2_Stream0_Flag.Half_Transfer_Complete_Flag = true;
+ 8000d2e:	4b19      	ldr	r3, [pc, #100]	@ (8000d94 <DMA2_Stream0_IRQHandler+0x130>)
+ 8000d30:	2201      	movs	r2, #1
+ 8000d32:	709a      	strb	r2, [r3, #2]
+		DMA2 -> LIFCR |= DMA_LIFCR_CHTIF0;
+ 8000d34:	4b12      	ldr	r3, [pc, #72]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000d36:	689b      	ldr	r3, [r3, #8]
+ 8000d38:	4a11      	ldr	r2, [pc, #68]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000d3a:	f043 0310 	orr.w	r3, r3, #16
+ 8000d3e:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_TCIF0)
+ 8000d40:	4b0f      	ldr	r3, [pc, #60]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000d42:	681b      	ldr	r3, [r3, #0]
+ 8000d44:	f003 0320 	and.w	r3, r3, #32
+ 8000d48:	2b00      	cmp	r3, #0
+ 8000d4a:	d014      	beq.n	8000d76 <DMA2_Stream0_IRQHandler+0x112>
+	{
+		SPI1_RX_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000d4c:	4b0d      	ldr	r3, [pc, #52]	@ (8000d84 <DMA2_Stream0_IRQHandler+0x120>)
+ 8000d4e:	2201      	movs	r2, #1
+ 8000d50:	705a      	strb	r2, [r3, #1]
+		ADC1_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000d52:	4b0d      	ldr	r3, [pc, #52]	@ (8000d88 <DMA2_Stream0_IRQHandler+0x124>)
+ 8000d54:	2201      	movs	r2, #1
+ 8000d56:	705a      	strb	r2, [r3, #1]
+		TIM1_TRIG_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000d58:	4b0c      	ldr	r3, [pc, #48]	@ (8000d8c <DMA2_Stream0_IRQHandler+0x128>)
+ 8000d5a:	2201      	movs	r2, #1
+ 8000d5c:	705a      	strb	r2, [r3, #1]
+		TIM1_COM_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000d5e:	4b0c      	ldr	r3, [pc, #48]	@ (8000d90 <DMA2_Stream0_IRQHandler+0x12c>)
+ 8000d60:	2201      	movs	r2, #1
+ 8000d62:	705a      	strb	r2, [r3, #1]
+		DMA2_Stream0_Flag.Transfer_Complete_Flag = true;
+ 8000d64:	4b0b      	ldr	r3, [pc, #44]	@ (8000d94 <DMA2_Stream0_IRQHandler+0x130>)
+ 8000d66:	2201      	movs	r2, #1
+ 8000d68:	705a      	strb	r2, [r3, #1]
+		DMA2 -> LIFCR |= DMA_LIFCR_CTCIF0;
+ 8000d6a:	4b05      	ldr	r3, [pc, #20]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000d6c:	689b      	ldr	r3, [r3, #8]
+ 8000d6e:	4a04      	ldr	r2, [pc, #16]	@ (8000d80 <DMA2_Stream0_IRQHandler+0x11c>)
+ 8000d70:	f043 0320 	orr.w	r3, r3, #32
+ 8000d74:	6093      	str	r3, [r2, #8]
+	}
+}
+ 8000d76:	bf00      	nop
+ 8000d78:	46bd      	mov	sp, r7
+ 8000d7a:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000d7e:	4770      	bx	lr
+ 8000d80:	40026400 	.word	0x40026400
+ 8000d84:	20000058 	.word	0x20000058
+ 8000d88:	200001f8 	.word	0x200001f8
+ 8000d8c:	20000118 	.word	0x20000118
+ 8000d90:	20000120 	.word	0x20000120
+ 8000d94:	20000250 	.word	0x20000250
+
+08000d98 <DMA2_Stream1_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA2_Stream1_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA2_Stream1_IRQHandler(void)
+{
+ 8000d98:	b480      	push	{r7}
+ 8000d9a:	af00      	add	r7, sp, #0
+	if(DMA2 -> LISR & DMA_LISR_FEIF1)
+ 8000d9c:	4b5c      	ldr	r3, [pc, #368]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000d9e:	681b      	ldr	r3, [r3, #0]
+ 8000da0:	f003 0340 	and.w	r3, r3, #64	@ 0x40
+ 8000da4:	2b00      	cmp	r3, #0
+ 8000da6:	d01d      	beq.n	8000de4 <DMA2_Stream1_IRQHandler+0x4c>
+	{
+		ADC3_DMA_Flag.Fifo_Error_Flag = true;
+ 8000da8:	4b5a      	ldr	r3, [pc, #360]	@ (8000f14 <DMA2_Stream1_IRQHandler+0x17c>)
+ 8000daa:	2201      	movs	r2, #1
+ 8000dac:	715a      	strb	r2, [r3, #5]
+		TIM1_CH1_DMA_Flag.Fifo_Error_Flag = true;
+ 8000dae:	4b5a      	ldr	r3, [pc, #360]	@ (8000f18 <DMA2_Stream1_IRQHandler+0x180>)
+ 8000db0:	2201      	movs	r2, #1
+ 8000db2:	715a      	strb	r2, [r3, #5]
+		TIM8_UP_DMA_Flag.Fifo_Error_Flag = true;
+ 8000db4:	4b59      	ldr	r3, [pc, #356]	@ (8000f1c <DMA2_Stream1_IRQHandler+0x184>)
+ 8000db6:	2201      	movs	r2, #1
+ 8000db8:	715a      	strb	r2, [r3, #5]
+		TIM8_TRIG_DMA_Flag.Fifo_Error_Flag = true;
+ 8000dba:	4b59      	ldr	r3, [pc, #356]	@ (8000f20 <DMA2_Stream1_IRQHandler+0x188>)
+ 8000dbc:	2201      	movs	r2, #1
+ 8000dbe:	715a      	strb	r2, [r3, #5]
+		TIM8_COM_DMA_Flag.Fifo_Error_Flag = true;
+ 8000dc0:	4b58      	ldr	r3, [pc, #352]	@ (8000f24 <DMA2_Stream1_IRQHandler+0x18c>)
+ 8000dc2:	2201      	movs	r2, #1
+ 8000dc4:	715a      	strb	r2, [r3, #5]
+		DCMI_DMA_Flag.Fifo_Error_Flag = true;
+ 8000dc6:	4b58      	ldr	r3, [pc, #352]	@ (8000f28 <DMA2_Stream1_IRQHandler+0x190>)
+ 8000dc8:	2201      	movs	r2, #1
+ 8000dca:	715a      	strb	r2, [r3, #5]
+		USART6_RX_DMA_Flag.Fifo_Error_Flag = true;
+ 8000dcc:	4b57      	ldr	r3, [pc, #348]	@ (8000f2c <DMA2_Stream1_IRQHandler+0x194>)
+ 8000dce:	2201      	movs	r2, #1
+ 8000dd0:	715a      	strb	r2, [r3, #5]
+		DMA2_Stream1_Flag.Fifo_Error_Flag = true;
+ 8000dd2:	4b57      	ldr	r3, [pc, #348]	@ (8000f30 <DMA2_Stream1_IRQHandler+0x198>)
+ 8000dd4:	2201      	movs	r2, #1
+ 8000dd6:	715a      	strb	r2, [r3, #5]
+		DMA2 -> LIFCR |= DMA_LIFCR_CFEIF1;
+ 8000dd8:	4b4d      	ldr	r3, [pc, #308]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000dda:	689b      	ldr	r3, [r3, #8]
+ 8000ddc:	4a4c      	ldr	r2, [pc, #304]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000dde:	f043 0340 	orr.w	r3, r3, #64	@ 0x40
+ 8000de2:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_DMEIF1)
+ 8000de4:	4b4a      	ldr	r3, [pc, #296]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000de6:	681b      	ldr	r3, [r3, #0]
+ 8000de8:	f403 7380 	and.w	r3, r3, #256	@ 0x100
+ 8000dec:	2b00      	cmp	r3, #0
+ 8000dee:	d01d      	beq.n	8000e2c <DMA2_Stream1_IRQHandler+0x94>
+	{
+		ADC3_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000df0:	4b48      	ldr	r3, [pc, #288]	@ (8000f14 <DMA2_Stream1_IRQHandler+0x17c>)
+ 8000df2:	2201      	movs	r2, #1
+ 8000df4:	711a      	strb	r2, [r3, #4]
+		TIM1_CH1_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000df6:	4b48      	ldr	r3, [pc, #288]	@ (8000f18 <DMA2_Stream1_IRQHandler+0x180>)
+ 8000df8:	2201      	movs	r2, #1
+ 8000dfa:	711a      	strb	r2, [r3, #4]
+		TIM8_UP_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000dfc:	4b47      	ldr	r3, [pc, #284]	@ (8000f1c <DMA2_Stream1_IRQHandler+0x184>)
+ 8000dfe:	2201      	movs	r2, #1
+ 8000e00:	711a      	strb	r2, [r3, #4]
+		TIM8_TRIG_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000e02:	4b47      	ldr	r3, [pc, #284]	@ (8000f20 <DMA2_Stream1_IRQHandler+0x188>)
+ 8000e04:	2201      	movs	r2, #1
+ 8000e06:	711a      	strb	r2, [r3, #4]
+		TIM8_COM_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000e08:	4b46      	ldr	r3, [pc, #280]	@ (8000f24 <DMA2_Stream1_IRQHandler+0x18c>)
+ 8000e0a:	2201      	movs	r2, #1
+ 8000e0c:	711a      	strb	r2, [r3, #4]
+		DCMI_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000e0e:	4b46      	ldr	r3, [pc, #280]	@ (8000f28 <DMA2_Stream1_IRQHandler+0x190>)
+ 8000e10:	2201      	movs	r2, #1
+ 8000e12:	711a      	strb	r2, [r3, #4]
+		USART6_RX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000e14:	4b45      	ldr	r3, [pc, #276]	@ (8000f2c <DMA2_Stream1_IRQHandler+0x194>)
+ 8000e16:	2201      	movs	r2, #1
+ 8000e18:	711a      	strb	r2, [r3, #4]
+		DMA2_Stream1_Flag.Direct_Mode_Error_Flag = true;
+ 8000e1a:	4b45      	ldr	r3, [pc, #276]	@ (8000f30 <DMA2_Stream1_IRQHandler+0x198>)
+ 8000e1c:	2201      	movs	r2, #1
+ 8000e1e:	711a      	strb	r2, [r3, #4]
+		DMA2 -> LIFCR |= DMA_LIFCR_CDMEIF1;
+ 8000e20:	4b3b      	ldr	r3, [pc, #236]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000e22:	689b      	ldr	r3, [r3, #8]
+ 8000e24:	4a3a      	ldr	r2, [pc, #232]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000e26:	f443 7380 	orr.w	r3, r3, #256	@ 0x100
+ 8000e2a:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_TEIF1)
+ 8000e2c:	4b38      	ldr	r3, [pc, #224]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000e2e:	681b      	ldr	r3, [r3, #0]
+ 8000e30:	f403 7300 	and.w	r3, r3, #512	@ 0x200
+ 8000e34:	2b00      	cmp	r3, #0
+ 8000e36:	d01d      	beq.n	8000e74 <DMA2_Stream1_IRQHandler+0xdc>
+	{
+		ADC3_DMA_Flag.Transfer_Error_Flag = true;
+ 8000e38:	4b36      	ldr	r3, [pc, #216]	@ (8000f14 <DMA2_Stream1_IRQHandler+0x17c>)
+ 8000e3a:	2201      	movs	r2, #1
+ 8000e3c:	70da      	strb	r2, [r3, #3]
+		TIM1_CH1_DMA_Flag.Transfer_Error_Flag = true;
+ 8000e3e:	4b36      	ldr	r3, [pc, #216]	@ (8000f18 <DMA2_Stream1_IRQHandler+0x180>)
+ 8000e40:	2201      	movs	r2, #1
+ 8000e42:	70da      	strb	r2, [r3, #3]
+		TIM8_UP_DMA_Flag.Transfer_Error_Flag = true;
+ 8000e44:	4b35      	ldr	r3, [pc, #212]	@ (8000f1c <DMA2_Stream1_IRQHandler+0x184>)
+ 8000e46:	2201      	movs	r2, #1
+ 8000e48:	70da      	strb	r2, [r3, #3]
+		TIM8_TRIG_DMA_Flag.Transfer_Error_Flag = true;
+ 8000e4a:	4b35      	ldr	r3, [pc, #212]	@ (8000f20 <DMA2_Stream1_IRQHandler+0x188>)
+ 8000e4c:	2201      	movs	r2, #1
+ 8000e4e:	70da      	strb	r2, [r3, #3]
+		TIM8_COM_DMA_Flag.Transfer_Error_Flag = true;
+ 8000e50:	4b34      	ldr	r3, [pc, #208]	@ (8000f24 <DMA2_Stream1_IRQHandler+0x18c>)
+ 8000e52:	2201      	movs	r2, #1
+ 8000e54:	70da      	strb	r2, [r3, #3]
+		DCMI_DMA_Flag.Transfer_Error_Flag = true;
+ 8000e56:	4b34      	ldr	r3, [pc, #208]	@ (8000f28 <DMA2_Stream1_IRQHandler+0x190>)
+ 8000e58:	2201      	movs	r2, #1
+ 8000e5a:	70da      	strb	r2, [r3, #3]
+		USART6_RX_DMA_Flag.Transfer_Error_Flag = true;
+ 8000e5c:	4b33      	ldr	r3, [pc, #204]	@ (8000f2c <DMA2_Stream1_IRQHandler+0x194>)
+ 8000e5e:	2201      	movs	r2, #1
+ 8000e60:	70da      	strb	r2, [r3, #3]
+		DMA2_Stream1_Flag.Transfer_Error_Flag = true;
+ 8000e62:	4b33      	ldr	r3, [pc, #204]	@ (8000f30 <DMA2_Stream1_IRQHandler+0x198>)
+ 8000e64:	2201      	movs	r2, #1
+ 8000e66:	70da      	strb	r2, [r3, #3]
+		DMA2 -> LIFCR |= DMA_LIFCR_CTEIF1;
+ 8000e68:	4b29      	ldr	r3, [pc, #164]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000e6a:	689b      	ldr	r3, [r3, #8]
+ 8000e6c:	4a28      	ldr	r2, [pc, #160]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000e6e:	f443 7300 	orr.w	r3, r3, #512	@ 0x200
+ 8000e72:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_HTIF1)
+ 8000e74:	4b26      	ldr	r3, [pc, #152]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000e76:	681b      	ldr	r3, [r3, #0]
+ 8000e78:	f403 6380 	and.w	r3, r3, #1024	@ 0x400
+ 8000e7c:	2b00      	cmp	r3, #0
+ 8000e7e:	d01d      	beq.n	8000ebc <DMA2_Stream1_IRQHandler+0x124>
+	{
+		ADC3_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000e80:	4b24      	ldr	r3, [pc, #144]	@ (8000f14 <DMA2_Stream1_IRQHandler+0x17c>)
+ 8000e82:	2201      	movs	r2, #1
+ 8000e84:	709a      	strb	r2, [r3, #2]
+		TIM1_CH1_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000e86:	4b24      	ldr	r3, [pc, #144]	@ (8000f18 <DMA2_Stream1_IRQHandler+0x180>)
+ 8000e88:	2201      	movs	r2, #1
+ 8000e8a:	709a      	strb	r2, [r3, #2]
+		TIM8_UP_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000e8c:	4b23      	ldr	r3, [pc, #140]	@ (8000f1c <DMA2_Stream1_IRQHandler+0x184>)
+ 8000e8e:	2201      	movs	r2, #1
+ 8000e90:	709a      	strb	r2, [r3, #2]
+		TIM8_TRIG_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000e92:	4b23      	ldr	r3, [pc, #140]	@ (8000f20 <DMA2_Stream1_IRQHandler+0x188>)
+ 8000e94:	2201      	movs	r2, #1
+ 8000e96:	709a      	strb	r2, [r3, #2]
+		TIM8_COM_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000e98:	4b22      	ldr	r3, [pc, #136]	@ (8000f24 <DMA2_Stream1_IRQHandler+0x18c>)
+ 8000e9a:	2201      	movs	r2, #1
+ 8000e9c:	709a      	strb	r2, [r3, #2]
+		DCMI_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000e9e:	4b22      	ldr	r3, [pc, #136]	@ (8000f28 <DMA2_Stream1_IRQHandler+0x190>)
+ 8000ea0:	2201      	movs	r2, #1
+ 8000ea2:	709a      	strb	r2, [r3, #2]
+		USART6_RX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000ea4:	4b21      	ldr	r3, [pc, #132]	@ (8000f2c <DMA2_Stream1_IRQHandler+0x194>)
+ 8000ea6:	2201      	movs	r2, #1
+ 8000ea8:	709a      	strb	r2, [r3, #2]
+		DMA2_Stream1_Flag.Half_Transfer_Complete_Flag = true;
+ 8000eaa:	4b21      	ldr	r3, [pc, #132]	@ (8000f30 <DMA2_Stream1_IRQHandler+0x198>)
+ 8000eac:	2201      	movs	r2, #1
+ 8000eae:	709a      	strb	r2, [r3, #2]
+		DMA2 -> LIFCR |= DMA_LIFCR_CHTIF1;
+ 8000eb0:	4b17      	ldr	r3, [pc, #92]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000eb2:	689b      	ldr	r3, [r3, #8]
+ 8000eb4:	4a16      	ldr	r2, [pc, #88]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000eb6:	f443 6380 	orr.w	r3, r3, #1024	@ 0x400
+ 8000eba:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_TCIF1)
+ 8000ebc:	4b14      	ldr	r3, [pc, #80]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000ebe:	681b      	ldr	r3, [r3, #0]
+ 8000ec0:	f403 6300 	and.w	r3, r3, #2048	@ 0x800
+ 8000ec4:	2b00      	cmp	r3, #0
+ 8000ec6:	d01d      	beq.n	8000f04 <DMA2_Stream1_IRQHandler+0x16c>
+	{
+		ADC3_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000ec8:	4b12      	ldr	r3, [pc, #72]	@ (8000f14 <DMA2_Stream1_IRQHandler+0x17c>)
+ 8000eca:	2201      	movs	r2, #1
+ 8000ecc:	705a      	strb	r2, [r3, #1]
+		TIM1_CH1_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000ece:	4b12      	ldr	r3, [pc, #72]	@ (8000f18 <DMA2_Stream1_IRQHandler+0x180>)
+ 8000ed0:	2201      	movs	r2, #1
+ 8000ed2:	705a      	strb	r2, [r3, #1]
+		TIM8_UP_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000ed4:	4b11      	ldr	r3, [pc, #68]	@ (8000f1c <DMA2_Stream1_IRQHandler+0x184>)
+ 8000ed6:	2201      	movs	r2, #1
+ 8000ed8:	705a      	strb	r2, [r3, #1]
+		TIM8_TRIG_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000eda:	4b11      	ldr	r3, [pc, #68]	@ (8000f20 <DMA2_Stream1_IRQHandler+0x188>)
+ 8000edc:	2201      	movs	r2, #1
+ 8000ede:	705a      	strb	r2, [r3, #1]
+		TIM8_COM_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000ee0:	4b10      	ldr	r3, [pc, #64]	@ (8000f24 <DMA2_Stream1_IRQHandler+0x18c>)
+ 8000ee2:	2201      	movs	r2, #1
+ 8000ee4:	705a      	strb	r2, [r3, #1]
+		DCMI_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000ee6:	4b10      	ldr	r3, [pc, #64]	@ (8000f28 <DMA2_Stream1_IRQHandler+0x190>)
+ 8000ee8:	2201      	movs	r2, #1
+ 8000eea:	705a      	strb	r2, [r3, #1]
+		USART6_RX_DMA_Flag.Transfer_Complete_Flag = true;
+ 8000eec:	4b0f      	ldr	r3, [pc, #60]	@ (8000f2c <DMA2_Stream1_IRQHandler+0x194>)
+ 8000eee:	2201      	movs	r2, #1
+ 8000ef0:	705a      	strb	r2, [r3, #1]
+		DMA2_Stream1_Flag.Transfer_Complete_Flag = true;
+ 8000ef2:	4b0f      	ldr	r3, [pc, #60]	@ (8000f30 <DMA2_Stream1_IRQHandler+0x198>)
+ 8000ef4:	2201      	movs	r2, #1
+ 8000ef6:	705a      	strb	r2, [r3, #1]
+		DMA2 -> LIFCR |= DMA_LIFCR_CTCIF1;
+ 8000ef8:	4b05      	ldr	r3, [pc, #20]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000efa:	689b      	ldr	r3, [r3, #8]
+ 8000efc:	4a04      	ldr	r2, [pc, #16]	@ (8000f10 <DMA2_Stream1_IRQHandler+0x178>)
+ 8000efe:	f443 6300 	orr.w	r3, r3, #2048	@ 0x800
+ 8000f02:	6093      	str	r3, [r2, #8]
+	}
+}
+ 8000f04:	bf00      	nop
+ 8000f06:	46bd      	mov	sp, r7
+ 8000f08:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8000f0c:	4770      	bx	lr
+ 8000f0e:	bf00      	nop
+ 8000f10:	40026400 	.word	0x40026400
+ 8000f14:	20000208 	.word	0x20000208
+ 8000f18:	200000f8 	.word	0x200000f8
+ 8000f1c:	20000128 	.word	0x20000128
+ 8000f20:	20000150 	.word	0x20000150
+ 8000f24:	20000158 	.word	0x20000158
+ 8000f28:	200001f0 	.word	0x200001f0
+ 8000f2c:	200000d0 	.word	0x200000d0
+ 8000f30:	20000258 	.word	0x20000258
+
+08000f34 <DMA2_Stream2_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA2_Stream2_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA2_Stream2_IRQHandler(void)
+{
+ 8000f34:	b480      	push	{r7}
+ 8000f36:	af00      	add	r7, sp, #0
+	if(DMA2 -> LISR & DMA_LISR_FEIF2)
+ 8000f38:	4b3e      	ldr	r3, [pc, #248]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 8000f3a:	681b      	ldr	r3, [r3, #0]
+ 8000f3c:	f403 3380 	and.w	r3, r3, #65536	@ 0x10000
+ 8000f40:	2b00      	cmp	r3, #0
+ 8000f42:	d011      	beq.n	8000f68 <DMA2_Stream2_IRQHandler+0x34>
+	{
+		TIM8_CH1_DMA_Flag.Fifo_Error_Flag = true;
+ 8000f44:	4b3c      	ldr	r3, [pc, #240]	@ (8001038 <DMA2_Stream2_IRQHandler+0x104>)
+ 8000f46:	2201      	movs	r2, #1
+ 8000f48:	715a      	strb	r2, [r3, #5]
+		USART1_RX_DMA_Flag.Fifo_Error_Flag = true;
+ 8000f4a:	4b3c      	ldr	r3, [pc, #240]	@ (800103c <DMA2_Stream2_IRQHandler+0x108>)
+ 8000f4c:	2201      	movs	r2, #1
+ 8000f4e:	715a      	strb	r2, [r3, #5]
+		ADC2_DMA_Flag.Fifo_Error_Flag = true;
+ 8000f50:	4b3b      	ldr	r3, [pc, #236]	@ (8001040 <DMA2_Stream2_IRQHandler+0x10c>)
+ 8000f52:	2201      	movs	r2, #1
+ 8000f54:	715a      	strb	r2, [r3, #5]
+		DMA2_Stream2_Flag.Fifo_Error_Flag = true;
+ 8000f56:	4b3b      	ldr	r3, [pc, #236]	@ (8001044 <DMA2_Stream2_IRQHandler+0x110>)
+ 8000f58:	2201      	movs	r2, #1
+ 8000f5a:	715a      	strb	r2, [r3, #5]
+		DMA2 -> LIFCR |= DMA_LIFCR_CFEIF2;
+ 8000f5c:	4b35      	ldr	r3, [pc, #212]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 8000f5e:	689b      	ldr	r3, [r3, #8]
+ 8000f60:	4a34      	ldr	r2, [pc, #208]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 8000f62:	f443 3380 	orr.w	r3, r3, #65536	@ 0x10000
+ 8000f66:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_DMEIF2)
+ 8000f68:	4b32      	ldr	r3, [pc, #200]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 8000f6a:	681b      	ldr	r3, [r3, #0]
+ 8000f6c:	f403 2380 	and.w	r3, r3, #262144	@ 0x40000
+ 8000f70:	2b00      	cmp	r3, #0
+ 8000f72:	d011      	beq.n	8000f98 <DMA2_Stream2_IRQHandler+0x64>
+	{
+		TIM8_CH1_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000f74:	4b30      	ldr	r3, [pc, #192]	@ (8001038 <DMA2_Stream2_IRQHandler+0x104>)
+ 8000f76:	2201      	movs	r2, #1
+ 8000f78:	711a      	strb	r2, [r3, #4]
+		USART1_RX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000f7a:	4b30      	ldr	r3, [pc, #192]	@ (800103c <DMA2_Stream2_IRQHandler+0x108>)
+ 8000f7c:	2201      	movs	r2, #1
+ 8000f7e:	711a      	strb	r2, [r3, #4]
+		ADC2_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8000f80:	4b2f      	ldr	r3, [pc, #188]	@ (8001040 <DMA2_Stream2_IRQHandler+0x10c>)
+ 8000f82:	2201      	movs	r2, #1
+ 8000f84:	711a      	strb	r2, [r3, #4]
+		DMA2_Stream2_Flag.Direct_Mode_Error_Flag = true;
+ 8000f86:	4b2f      	ldr	r3, [pc, #188]	@ (8001044 <DMA2_Stream2_IRQHandler+0x110>)
+ 8000f88:	2201      	movs	r2, #1
+ 8000f8a:	711a      	strb	r2, [r3, #4]
+		DMA2 -> LIFCR |= DMA_LIFCR_CDMEIF2;
+ 8000f8c:	4b29      	ldr	r3, [pc, #164]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 8000f8e:	689b      	ldr	r3, [r3, #8]
+ 8000f90:	4a28      	ldr	r2, [pc, #160]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 8000f92:	f443 2380 	orr.w	r3, r3, #262144	@ 0x40000
+ 8000f96:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_TEIF2)
+ 8000f98:	4b26      	ldr	r3, [pc, #152]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 8000f9a:	681b      	ldr	r3, [r3, #0]
+ 8000f9c:	f403 2300 	and.w	r3, r3, #524288	@ 0x80000
+ 8000fa0:	2b00      	cmp	r3, #0
+ 8000fa2:	d011      	beq.n	8000fc8 <DMA2_Stream2_IRQHandler+0x94>
+	{
+		TIM8_CH1_DMA_Flag.Transfer_Error_Flag = true;
+ 8000fa4:	4b24      	ldr	r3, [pc, #144]	@ (8001038 <DMA2_Stream2_IRQHandler+0x104>)
+ 8000fa6:	2201      	movs	r2, #1
+ 8000fa8:	70da      	strb	r2, [r3, #3]
+		USART1_RX_DMA_Flag.Transfer_Error_Flag = true;
+ 8000faa:	4b24      	ldr	r3, [pc, #144]	@ (800103c <DMA2_Stream2_IRQHandler+0x108>)
+ 8000fac:	2201      	movs	r2, #1
+ 8000fae:	70da      	strb	r2, [r3, #3]
+		ADC2_DMA_Flag.Transfer_Error_Flag = true;
+ 8000fb0:	4b23      	ldr	r3, [pc, #140]	@ (8001040 <DMA2_Stream2_IRQHandler+0x10c>)
+ 8000fb2:	2201      	movs	r2, #1
+ 8000fb4:	70da      	strb	r2, [r3, #3]
+		DMA2_Stream2_Flag.Transfer_Error_Flag = true;
+ 8000fb6:	4b23      	ldr	r3, [pc, #140]	@ (8001044 <DMA2_Stream2_IRQHandler+0x110>)
+ 8000fb8:	2201      	movs	r2, #1
+ 8000fba:	70da      	strb	r2, [r3, #3]
+		DMA2 -> LIFCR |= DMA_LIFCR_CTEIF2;
+ 8000fbc:	4b1d      	ldr	r3, [pc, #116]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 8000fbe:	689b      	ldr	r3, [r3, #8]
+ 8000fc0:	4a1c      	ldr	r2, [pc, #112]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 8000fc2:	f443 2300 	orr.w	r3, r3, #524288	@ 0x80000
+ 8000fc6:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_HTIF2)
+ 8000fc8:	4b1a      	ldr	r3, [pc, #104]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 8000fca:	681b      	ldr	r3, [r3, #0]
+ 8000fcc:	f403 1380 	and.w	r3, r3, #1048576	@ 0x100000
+ 8000fd0:	2b00      	cmp	r3, #0
+ 8000fd2:	d011      	beq.n	8000ff8 <DMA2_Stream2_IRQHandler+0xc4>
+	{
+		TIM8_CH1_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000fd4:	4b18      	ldr	r3, [pc, #96]	@ (8001038 <DMA2_Stream2_IRQHandler+0x104>)
+ 8000fd6:	2201      	movs	r2, #1
+ 8000fd8:	709a      	strb	r2, [r3, #2]
+		USART1_RX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000fda:	4b18      	ldr	r3, [pc, #96]	@ (800103c <DMA2_Stream2_IRQHandler+0x108>)
+ 8000fdc:	2201      	movs	r2, #1
+ 8000fde:	709a      	strb	r2, [r3, #2]
+		ADC2_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 8000fe0:	4b17      	ldr	r3, [pc, #92]	@ (8001040 <DMA2_Stream2_IRQHandler+0x10c>)
+ 8000fe2:	2201      	movs	r2, #1
+ 8000fe4:	709a      	strb	r2, [r3, #2]
+		DMA2_Stream2_Flag.Half_Transfer_Complete_Flag = true;
+ 8000fe6:	4b17      	ldr	r3, [pc, #92]	@ (8001044 <DMA2_Stream2_IRQHandler+0x110>)
+ 8000fe8:	2201      	movs	r2, #1
+ 8000fea:	709a      	strb	r2, [r3, #2]
+		DMA2 -> LIFCR |= DMA_LIFCR_CHTIF2;
+ 8000fec:	4b11      	ldr	r3, [pc, #68]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 8000fee:	689b      	ldr	r3, [r3, #8]
+ 8000ff0:	4a10      	ldr	r2, [pc, #64]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 8000ff2:	f443 1380 	orr.w	r3, r3, #1048576	@ 0x100000
+ 8000ff6:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_TCIF2)
+ 8000ff8:	4b0e      	ldr	r3, [pc, #56]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 8000ffa:	681b      	ldr	r3, [r3, #0]
+ 8000ffc:	f403 1300 	and.w	r3, r3, #2097152	@ 0x200000
+ 8001000:	2b00      	cmp	r3, #0
+ 8001002:	d011      	beq.n	8001028 <DMA2_Stream2_IRQHandler+0xf4>
+	{
+		TIM8_CH1_DMA_Flag.Transfer_Complete_Flag = true;
+ 8001004:	4b0c      	ldr	r3, [pc, #48]	@ (8001038 <DMA2_Stream2_IRQHandler+0x104>)
+ 8001006:	2201      	movs	r2, #1
+ 8001008:	705a      	strb	r2, [r3, #1]
+		USART1_RX_DMA_Flag.Transfer_Complete_Flag = true;
+ 800100a:	4b0c      	ldr	r3, [pc, #48]	@ (800103c <DMA2_Stream2_IRQHandler+0x108>)
+ 800100c:	2201      	movs	r2, #1
+ 800100e:	705a      	strb	r2, [r3, #1]
+		ADC2_DMA_Flag.Transfer_Complete_Flag = true;
+ 8001010:	4b0b      	ldr	r3, [pc, #44]	@ (8001040 <DMA2_Stream2_IRQHandler+0x10c>)
+ 8001012:	2201      	movs	r2, #1
+ 8001014:	705a      	strb	r2, [r3, #1]
+		DMA2_Stream2_Flag.Transfer_Complete_Flag = true;
+ 8001016:	4b0b      	ldr	r3, [pc, #44]	@ (8001044 <DMA2_Stream2_IRQHandler+0x110>)
+ 8001018:	2201      	movs	r2, #1
+ 800101a:	705a      	strb	r2, [r3, #1]
+		DMA2 -> LIFCR |= DMA_LIFCR_CTCIF2;
+ 800101c:	4b05      	ldr	r3, [pc, #20]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 800101e:	689b      	ldr	r3, [r3, #8]
+ 8001020:	4a04      	ldr	r2, [pc, #16]	@ (8001034 <DMA2_Stream2_IRQHandler+0x100>)
+ 8001022:	f443 1300 	orr.w	r3, r3, #2097152	@ 0x200000
+ 8001026:	6093      	str	r3, [r2, #8]
+	}
+}
+ 8001028:	bf00      	nop
+ 800102a:	46bd      	mov	sp, r7
+ 800102c:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001030:	4770      	bx	lr
+ 8001032:	bf00      	nop
+ 8001034:	40026400 	.word	0x40026400
+ 8001038:	20000130 	.word	0x20000130
+ 800103c:	20000088 	.word	0x20000088
+ 8001040:	20000200 	.word	0x20000200
+ 8001044:	20000260 	.word	0x20000260
+
+08001048 <DMA2_Stream3_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA2_Stream3_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA2_Stream3_IRQHandler(void)
+{
+ 8001048:	b480      	push	{r7}
+ 800104a:	af00      	add	r7, sp, #0
+	if(DMA2 -> LISR & DMA_LISR_FEIF3)
+ 800104c:	4b36      	ldr	r3, [pc, #216]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 800104e:	681b      	ldr	r3, [r3, #0]
+ 8001050:	f403 0380 	and.w	r3, r3, #4194304	@ 0x400000
+ 8001054:	2b00      	cmp	r3, #0
+ 8001056:	d00e      	beq.n	8001076 <DMA2_Stream3_IRQHandler+0x2e>
+	{
+		SDIO_RXTX_DMA_Flag.Fifo_Error_Flag = true;
+ 8001058:	4b34      	ldr	r3, [pc, #208]	@ (800112c <DMA2_Stream3_IRQHandler+0xe4>)
+ 800105a:	2201      	movs	r2, #1
+ 800105c:	715a      	strb	r2, [r3, #5]
+		SPI1_TX_DMA_Flag.Fifo_Error_Flag = true;
+ 800105e:	4b34      	ldr	r3, [pc, #208]	@ (8001130 <DMA2_Stream3_IRQHandler+0xe8>)
+ 8001060:	2201      	movs	r2, #1
+ 8001062:	715a      	strb	r2, [r3, #5]
+		DMA2_Stream3_Flag.Fifo_Error_Flag = true;
+ 8001064:	4b33      	ldr	r3, [pc, #204]	@ (8001134 <DMA2_Stream3_IRQHandler+0xec>)
+ 8001066:	2201      	movs	r2, #1
+ 8001068:	715a      	strb	r2, [r3, #5]
+		DMA2 -> LIFCR |= DMA_LIFCR_CFEIF3;
+ 800106a:	4b2f      	ldr	r3, [pc, #188]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 800106c:	689b      	ldr	r3, [r3, #8]
+ 800106e:	4a2e      	ldr	r2, [pc, #184]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 8001070:	f443 0380 	orr.w	r3, r3, #4194304	@ 0x400000
+ 8001074:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_DMEIF3)
+ 8001076:	4b2c      	ldr	r3, [pc, #176]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 8001078:	681b      	ldr	r3, [r3, #0]
+ 800107a:	f003 7380 	and.w	r3, r3, #16777216	@ 0x1000000
+ 800107e:	2b00      	cmp	r3, #0
+ 8001080:	d00e      	beq.n	80010a0 <DMA2_Stream3_IRQHandler+0x58>
+	{
+		SDIO_RXTX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8001082:	4b2a      	ldr	r3, [pc, #168]	@ (800112c <DMA2_Stream3_IRQHandler+0xe4>)
+ 8001084:	2201      	movs	r2, #1
+ 8001086:	711a      	strb	r2, [r3, #4]
+		SPI1_TX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8001088:	4b29      	ldr	r3, [pc, #164]	@ (8001130 <DMA2_Stream3_IRQHandler+0xe8>)
+ 800108a:	2201      	movs	r2, #1
+ 800108c:	711a      	strb	r2, [r3, #4]
+		DMA2_Stream3_Flag.Direct_Mode_Error_Flag = true;
+ 800108e:	4b29      	ldr	r3, [pc, #164]	@ (8001134 <DMA2_Stream3_IRQHandler+0xec>)
+ 8001090:	2201      	movs	r2, #1
+ 8001092:	711a      	strb	r2, [r3, #4]
+		DMA2 -> LIFCR |= DMA_LIFCR_CDMEIF3;
+ 8001094:	4b24      	ldr	r3, [pc, #144]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 8001096:	689b      	ldr	r3, [r3, #8]
+ 8001098:	4a23      	ldr	r2, [pc, #140]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 800109a:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
+ 800109e:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_TEIF3)
+ 80010a0:	4b21      	ldr	r3, [pc, #132]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 80010a2:	681b      	ldr	r3, [r3, #0]
+ 80010a4:	f003 7300 	and.w	r3, r3, #33554432	@ 0x2000000
+ 80010a8:	2b00      	cmp	r3, #0
+ 80010aa:	d00e      	beq.n	80010ca <DMA2_Stream3_IRQHandler+0x82>
+	{
+		SDIO_RXTX_DMA_Flag.Transfer_Error_Flag = true;
+ 80010ac:	4b1f      	ldr	r3, [pc, #124]	@ (800112c <DMA2_Stream3_IRQHandler+0xe4>)
+ 80010ae:	2201      	movs	r2, #1
+ 80010b0:	70da      	strb	r2, [r3, #3]
+		SPI1_TX_DMA_Flag.Transfer_Error_Flag = true;
+ 80010b2:	4b1f      	ldr	r3, [pc, #124]	@ (8001130 <DMA2_Stream3_IRQHandler+0xe8>)
+ 80010b4:	2201      	movs	r2, #1
+ 80010b6:	70da      	strb	r2, [r3, #3]
+		DMA2_Stream3_Flag.Transfer_Error_Flag = true;
+ 80010b8:	4b1e      	ldr	r3, [pc, #120]	@ (8001134 <DMA2_Stream3_IRQHandler+0xec>)
+ 80010ba:	2201      	movs	r2, #1
+ 80010bc:	70da      	strb	r2, [r3, #3]
+		DMA2 -> LIFCR |= DMA_LIFCR_CTEIF3;
+ 80010be:	4b1a      	ldr	r3, [pc, #104]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 80010c0:	689b      	ldr	r3, [r3, #8]
+ 80010c2:	4a19      	ldr	r2, [pc, #100]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 80010c4:	f043 7300 	orr.w	r3, r3, #33554432	@ 0x2000000
+ 80010c8:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_HTIF3)
+ 80010ca:	4b17      	ldr	r3, [pc, #92]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 80010cc:	681b      	ldr	r3, [r3, #0]
+ 80010ce:	f003 6380 	and.w	r3, r3, #67108864	@ 0x4000000
+ 80010d2:	2b00      	cmp	r3, #0
+ 80010d4:	d00e      	beq.n	80010f4 <DMA2_Stream3_IRQHandler+0xac>
+	{
+		SDIO_RXTX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80010d6:	4b15      	ldr	r3, [pc, #84]	@ (800112c <DMA2_Stream3_IRQHandler+0xe4>)
+ 80010d8:	2201      	movs	r2, #1
+ 80010da:	709a      	strb	r2, [r3, #2]
+		SPI1_TX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80010dc:	4b14      	ldr	r3, [pc, #80]	@ (8001130 <DMA2_Stream3_IRQHandler+0xe8>)
+ 80010de:	2201      	movs	r2, #1
+ 80010e0:	709a      	strb	r2, [r3, #2]
+		DMA2_Stream3_Flag.Half_Transfer_Complete_Flag = true;
+ 80010e2:	4b14      	ldr	r3, [pc, #80]	@ (8001134 <DMA2_Stream3_IRQHandler+0xec>)
+ 80010e4:	2201      	movs	r2, #1
+ 80010e6:	709a      	strb	r2, [r3, #2]
+		DMA2 -> LIFCR |= DMA_LIFCR_CHTIF3;
+ 80010e8:	4b0f      	ldr	r3, [pc, #60]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 80010ea:	689b      	ldr	r3, [r3, #8]
+ 80010ec:	4a0e      	ldr	r2, [pc, #56]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 80010ee:	f043 6380 	orr.w	r3, r3, #67108864	@ 0x4000000
+ 80010f2:	6093      	str	r3, [r2, #8]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> LISR & DMA_LISR_TCIF3)
+ 80010f4:	4b0c      	ldr	r3, [pc, #48]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 80010f6:	681b      	ldr	r3, [r3, #0]
+ 80010f8:	f003 6300 	and.w	r3, r3, #134217728	@ 0x8000000
+ 80010fc:	2b00      	cmp	r3, #0
+ 80010fe:	d00e      	beq.n	800111e <DMA2_Stream3_IRQHandler+0xd6>
+	{
+		SDIO_RXTX_DMA_Flag.Transfer_Complete_Flag = true;
+ 8001100:	4b0a      	ldr	r3, [pc, #40]	@ (800112c <DMA2_Stream3_IRQHandler+0xe4>)
+ 8001102:	2201      	movs	r2, #1
+ 8001104:	705a      	strb	r2, [r3, #1]
+		SPI1_TX_DMA_Flag.Transfer_Complete_Flag = true;
+ 8001106:	4b0a      	ldr	r3, [pc, #40]	@ (8001130 <DMA2_Stream3_IRQHandler+0xe8>)
+ 8001108:	2201      	movs	r2, #1
+ 800110a:	705a      	strb	r2, [r3, #1]
+		DMA2_Stream3_Flag.Transfer_Complete_Flag = true;
+ 800110c:	4b09      	ldr	r3, [pc, #36]	@ (8001134 <DMA2_Stream3_IRQHandler+0xec>)
+ 800110e:	2201      	movs	r2, #1
+ 8001110:	705a      	strb	r2, [r3, #1]
+		DMA2 -> LIFCR |= DMA_LIFCR_CTCIF3;
+ 8001112:	4b05      	ldr	r3, [pc, #20]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 8001114:	689b      	ldr	r3, [r3, #8]
+ 8001116:	4a04      	ldr	r2, [pc, #16]	@ (8001128 <DMA2_Stream3_IRQHandler+0xe0>)
+ 8001118:	f043 6300 	orr.w	r3, r3, #134217728	@ 0x8000000
+ 800111c:	6093      	str	r3, [r2, #8]
+	}
+}
+ 800111e:	bf00      	nop
+ 8001120:	46bd      	mov	sp, r7
+ 8001122:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001126:	4770      	bx	lr
+ 8001128:	40026400 	.word	0x40026400
+ 800112c:	200001e8 	.word	0x200001e8
+ 8001130:	20000070 	.word	0x20000070
+ 8001134:	20000268 	.word	0x20000268
+
+08001138 <DMA2_Stream4_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA2_Stream4_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA2_Stream4_IRQHandler(void)
+{
+ 8001138:	b480      	push	{r7}
+ 800113a:	af00      	add	r7, sp, #0
+	if(DMA2 -> HISR & DMA_HISR_FEIF4)
+ 800113c:	4b36      	ldr	r3, [pc, #216]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 800113e:	685b      	ldr	r3, [r3, #4]
+ 8001140:	f003 0301 	and.w	r3, r3, #1
+ 8001144:	2b00      	cmp	r3, #0
+ 8001146:	d00e      	beq.n	8001166 <DMA2_Stream4_IRQHandler+0x2e>
+	{
+		TIM1_CH4_DMA_Flag.Fifo_Error_Flag = true;
+ 8001148:	4b34      	ldr	r3, [pc, #208]	@ (800121c <DMA2_Stream4_IRQHandler+0xe4>)
+ 800114a:	2201      	movs	r2, #1
+ 800114c:	715a      	strb	r2, [r3, #5]
+		TIM8_CH2_DMA_Flag.Fifo_Error_Flag = true;
+ 800114e:	4b34      	ldr	r3, [pc, #208]	@ (8001220 <DMA2_Stream4_IRQHandler+0xe8>)
+ 8001150:	2201      	movs	r2, #1
+ 8001152:	715a      	strb	r2, [r3, #5]
+		DMA2_Stream4_Flag.Fifo_Error_Flag = true;
+ 8001154:	4b33      	ldr	r3, [pc, #204]	@ (8001224 <DMA2_Stream4_IRQHandler+0xec>)
+ 8001156:	2201      	movs	r2, #1
+ 8001158:	715a      	strb	r2, [r3, #5]
+		DMA2 -> HIFCR |= DMA_HIFCR_CFEIF4;
+ 800115a:	4b2f      	ldr	r3, [pc, #188]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 800115c:	68db      	ldr	r3, [r3, #12]
+ 800115e:	4a2e      	ldr	r2, [pc, #184]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 8001160:	f043 0301 	orr.w	r3, r3, #1
+ 8001164:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_DMEIF4)
+ 8001166:	4b2c      	ldr	r3, [pc, #176]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 8001168:	685b      	ldr	r3, [r3, #4]
+ 800116a:	f003 0304 	and.w	r3, r3, #4
+ 800116e:	2b00      	cmp	r3, #0
+ 8001170:	d00e      	beq.n	8001190 <DMA2_Stream4_IRQHandler+0x58>
+	{
+		TIM1_CH4_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8001172:	4b2a      	ldr	r3, [pc, #168]	@ (800121c <DMA2_Stream4_IRQHandler+0xe4>)
+ 8001174:	2201      	movs	r2, #1
+ 8001176:	711a      	strb	r2, [r3, #4]
+		TIM8_CH2_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8001178:	4b29      	ldr	r3, [pc, #164]	@ (8001220 <DMA2_Stream4_IRQHandler+0xe8>)
+ 800117a:	2201      	movs	r2, #1
+ 800117c:	711a      	strb	r2, [r3, #4]
+		DMA2_Stream4_Flag.Direct_Mode_Error_Flag = true;
+ 800117e:	4b29      	ldr	r3, [pc, #164]	@ (8001224 <DMA2_Stream4_IRQHandler+0xec>)
+ 8001180:	2201      	movs	r2, #1
+ 8001182:	711a      	strb	r2, [r3, #4]
+		DMA2 -> HIFCR |= DMA_HIFCR_CDMEIF4;
+ 8001184:	4b24      	ldr	r3, [pc, #144]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 8001186:	68db      	ldr	r3, [r3, #12]
+ 8001188:	4a23      	ldr	r2, [pc, #140]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 800118a:	f043 0304 	orr.w	r3, r3, #4
+ 800118e:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_TEIF4)
+ 8001190:	4b21      	ldr	r3, [pc, #132]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 8001192:	685b      	ldr	r3, [r3, #4]
+ 8001194:	f003 0308 	and.w	r3, r3, #8
+ 8001198:	2b00      	cmp	r3, #0
+ 800119a:	d00e      	beq.n	80011ba <DMA2_Stream4_IRQHandler+0x82>
+	{
+		TIM1_CH4_DMA_Flag.Transfer_Error_Flag = true;
+ 800119c:	4b1f      	ldr	r3, [pc, #124]	@ (800121c <DMA2_Stream4_IRQHandler+0xe4>)
+ 800119e:	2201      	movs	r2, #1
+ 80011a0:	70da      	strb	r2, [r3, #3]
+		TIM8_CH2_DMA_Flag.Transfer_Error_Flag = true;
+ 80011a2:	4b1f      	ldr	r3, [pc, #124]	@ (8001220 <DMA2_Stream4_IRQHandler+0xe8>)
+ 80011a4:	2201      	movs	r2, #1
+ 80011a6:	70da      	strb	r2, [r3, #3]
+		DMA2_Stream4_Flag.Transfer_Error_Flag = true;
+ 80011a8:	4b1e      	ldr	r3, [pc, #120]	@ (8001224 <DMA2_Stream4_IRQHandler+0xec>)
+ 80011aa:	2201      	movs	r2, #1
+ 80011ac:	70da      	strb	r2, [r3, #3]
+		DMA2 -> HIFCR |= DMA_HIFCR_CTEIF4;
+ 80011ae:	4b1a      	ldr	r3, [pc, #104]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 80011b0:	68db      	ldr	r3, [r3, #12]
+ 80011b2:	4a19      	ldr	r2, [pc, #100]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 80011b4:	f043 0308 	orr.w	r3, r3, #8
+ 80011b8:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_HTIF4)
+ 80011ba:	4b17      	ldr	r3, [pc, #92]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 80011bc:	685b      	ldr	r3, [r3, #4]
+ 80011be:	f003 0310 	and.w	r3, r3, #16
+ 80011c2:	2b00      	cmp	r3, #0
+ 80011c4:	d00e      	beq.n	80011e4 <DMA2_Stream4_IRQHandler+0xac>
+	{
+		TIM1_CH4_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80011c6:	4b15      	ldr	r3, [pc, #84]	@ (800121c <DMA2_Stream4_IRQHandler+0xe4>)
+ 80011c8:	2201      	movs	r2, #1
+ 80011ca:	709a      	strb	r2, [r3, #2]
+		TIM8_CH2_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80011cc:	4b14      	ldr	r3, [pc, #80]	@ (8001220 <DMA2_Stream4_IRQHandler+0xe8>)
+ 80011ce:	2201      	movs	r2, #1
+ 80011d0:	709a      	strb	r2, [r3, #2]
+		DMA2_Stream4_Flag.Half_Transfer_Complete_Flag = true;
+ 80011d2:	4b14      	ldr	r3, [pc, #80]	@ (8001224 <DMA2_Stream4_IRQHandler+0xec>)
+ 80011d4:	2201      	movs	r2, #1
+ 80011d6:	709a      	strb	r2, [r3, #2]
+		DMA2 -> HIFCR |= DMA_HIFCR_CHTIF4;
+ 80011d8:	4b0f      	ldr	r3, [pc, #60]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 80011da:	68db      	ldr	r3, [r3, #12]
+ 80011dc:	4a0e      	ldr	r2, [pc, #56]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 80011de:	f043 0310 	orr.w	r3, r3, #16
+ 80011e2:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_TCIF4)
+ 80011e4:	4b0c      	ldr	r3, [pc, #48]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 80011e6:	685b      	ldr	r3, [r3, #4]
+ 80011e8:	f003 0320 	and.w	r3, r3, #32
+ 80011ec:	2b00      	cmp	r3, #0
+ 80011ee:	d00e      	beq.n	800120e <DMA2_Stream4_IRQHandler+0xd6>
+	{
+		TIM1_CH4_DMA_Flag.Transfer_Complete_Flag = true;
+ 80011f0:	4b0a      	ldr	r3, [pc, #40]	@ (800121c <DMA2_Stream4_IRQHandler+0xe4>)
+ 80011f2:	2201      	movs	r2, #1
+ 80011f4:	705a      	strb	r2, [r3, #1]
+		TIM8_CH2_DMA_Flag.Transfer_Complete_Flag = true;
+ 80011f6:	4b0a      	ldr	r3, [pc, #40]	@ (8001220 <DMA2_Stream4_IRQHandler+0xe8>)
+ 80011f8:	2201      	movs	r2, #1
+ 80011fa:	705a      	strb	r2, [r3, #1]
+		DMA2_Stream4_Flag.Transfer_Complete_Flag = true;
+ 80011fc:	4b09      	ldr	r3, [pc, #36]	@ (8001224 <DMA2_Stream4_IRQHandler+0xec>)
+ 80011fe:	2201      	movs	r2, #1
+ 8001200:	705a      	strb	r2, [r3, #1]
+		DMA2 -> HIFCR |= DMA_HIFCR_CTCIF4;
+ 8001202:	4b05      	ldr	r3, [pc, #20]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 8001204:	68db      	ldr	r3, [r3, #12]
+ 8001206:	4a04      	ldr	r2, [pc, #16]	@ (8001218 <DMA2_Stream4_IRQHandler+0xe0>)
+ 8001208:	f043 0320 	orr.w	r3, r3, #32
+ 800120c:	60d3      	str	r3, [r2, #12]
+	}
+}
+ 800120e:	bf00      	nop
+ 8001210:	46bd      	mov	sp, r7
+ 8001212:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001216:	4770      	bx	lr
+ 8001218:	40026400 	.word	0x40026400
+ 800121c:	20000110 	.word	0x20000110
+ 8001220:	20000138 	.word	0x20000138
+ 8001224:	20000270 	.word	0x20000270
+
+08001228 <DMA2_Stream5_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA2_Stream5_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA2_Stream5_IRQHandler(void)
+{
+ 8001228:	b480      	push	{r7}
+ 800122a:	af00      	add	r7, sp, #0
+	if(DMA2 -> HISR & DMA_HISR_FEIF5)
+ 800122c:	4b2f      	ldr	r3, [pc, #188]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 800122e:	685b      	ldr	r3, [r3, #4]
+ 8001230:	f003 0340 	and.w	r3, r3, #64	@ 0x40
+ 8001234:	2b00      	cmp	r3, #0
+ 8001236:	d00b      	beq.n	8001250 <DMA2_Stream5_IRQHandler+0x28>
+	{
+		TIM1_UP_DMA_Flag.Fifo_Error_Flag = true;
+ 8001238:	4b2d      	ldr	r3, [pc, #180]	@ (80012f0 <DMA2_Stream5_IRQHandler+0xc8>)
+ 800123a:	2201      	movs	r2, #1
+ 800123c:	715a      	strb	r2, [r3, #5]
+		DMA2_Stream5_Flag.Fifo_Error_Flag = true;
+ 800123e:	4b2d      	ldr	r3, [pc, #180]	@ (80012f4 <DMA2_Stream5_IRQHandler+0xcc>)
+ 8001240:	2201      	movs	r2, #1
+ 8001242:	715a      	strb	r2, [r3, #5]
+		DMA2 -> HIFCR |= DMA_HIFCR_CFEIF5;
+ 8001244:	4b29      	ldr	r3, [pc, #164]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 8001246:	68db      	ldr	r3, [r3, #12]
+ 8001248:	4a28      	ldr	r2, [pc, #160]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 800124a:	f043 0340 	orr.w	r3, r3, #64	@ 0x40
+ 800124e:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_DMEIF5)
+ 8001250:	4b26      	ldr	r3, [pc, #152]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 8001252:	685b      	ldr	r3, [r3, #4]
+ 8001254:	f403 7380 	and.w	r3, r3, #256	@ 0x100
+ 8001258:	2b00      	cmp	r3, #0
+ 800125a:	d00b      	beq.n	8001274 <DMA2_Stream5_IRQHandler+0x4c>
+	{
+		TIM1_UP_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 800125c:	4b24      	ldr	r3, [pc, #144]	@ (80012f0 <DMA2_Stream5_IRQHandler+0xc8>)
+ 800125e:	2201      	movs	r2, #1
+ 8001260:	711a      	strb	r2, [r3, #4]
+		DMA2_Stream5_Flag.Direct_Mode_Error_Flag = true;
+ 8001262:	4b24      	ldr	r3, [pc, #144]	@ (80012f4 <DMA2_Stream5_IRQHandler+0xcc>)
+ 8001264:	2201      	movs	r2, #1
+ 8001266:	711a      	strb	r2, [r3, #4]
+		DMA2 -> HIFCR |= DMA_HIFCR_CDMEIF5;
+ 8001268:	4b20      	ldr	r3, [pc, #128]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 800126a:	68db      	ldr	r3, [r3, #12]
+ 800126c:	4a1f      	ldr	r2, [pc, #124]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 800126e:	f443 7380 	orr.w	r3, r3, #256	@ 0x100
+ 8001272:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_TEIF5)
+ 8001274:	4b1d      	ldr	r3, [pc, #116]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 8001276:	685b      	ldr	r3, [r3, #4]
+ 8001278:	f403 7300 	and.w	r3, r3, #512	@ 0x200
+ 800127c:	2b00      	cmp	r3, #0
+ 800127e:	d00b      	beq.n	8001298 <DMA2_Stream5_IRQHandler+0x70>
+	{
+		TIM1_UP_DMA_Flag.Transfer_Error_Flag = true;
+ 8001280:	4b1b      	ldr	r3, [pc, #108]	@ (80012f0 <DMA2_Stream5_IRQHandler+0xc8>)
+ 8001282:	2201      	movs	r2, #1
+ 8001284:	70da      	strb	r2, [r3, #3]
+		DMA2_Stream5_Flag.Transfer_Error_Flag = true;
+ 8001286:	4b1b      	ldr	r3, [pc, #108]	@ (80012f4 <DMA2_Stream5_IRQHandler+0xcc>)
+ 8001288:	2201      	movs	r2, #1
+ 800128a:	70da      	strb	r2, [r3, #3]
+		DMA2 -> HIFCR |= DMA_HIFCR_CTEIF5;
+ 800128c:	4b17      	ldr	r3, [pc, #92]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 800128e:	68db      	ldr	r3, [r3, #12]
+ 8001290:	4a16      	ldr	r2, [pc, #88]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 8001292:	f443 7300 	orr.w	r3, r3, #512	@ 0x200
+ 8001296:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_HTIF5)
+ 8001298:	4b14      	ldr	r3, [pc, #80]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 800129a:	685b      	ldr	r3, [r3, #4]
+ 800129c:	f403 6380 	and.w	r3, r3, #1024	@ 0x400
+ 80012a0:	2b00      	cmp	r3, #0
+ 80012a2:	d00b      	beq.n	80012bc <DMA2_Stream5_IRQHandler+0x94>
+	{
+		TIM1_UP_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80012a4:	4b12      	ldr	r3, [pc, #72]	@ (80012f0 <DMA2_Stream5_IRQHandler+0xc8>)
+ 80012a6:	2201      	movs	r2, #1
+ 80012a8:	709a      	strb	r2, [r3, #2]
+		DMA2_Stream5_Flag.Half_Transfer_Complete_Flag = true;
+ 80012aa:	4b12      	ldr	r3, [pc, #72]	@ (80012f4 <DMA2_Stream5_IRQHandler+0xcc>)
+ 80012ac:	2201      	movs	r2, #1
+ 80012ae:	709a      	strb	r2, [r3, #2]
+		DMA2 -> HIFCR |= DMA_HIFCR_CHTIF5;
+ 80012b0:	4b0e      	ldr	r3, [pc, #56]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 80012b2:	68db      	ldr	r3, [r3, #12]
+ 80012b4:	4a0d      	ldr	r2, [pc, #52]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 80012b6:	f443 6380 	orr.w	r3, r3, #1024	@ 0x400
+ 80012ba:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_TCIF5)
+ 80012bc:	4b0b      	ldr	r3, [pc, #44]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 80012be:	685b      	ldr	r3, [r3, #4]
+ 80012c0:	f403 6300 	and.w	r3, r3, #2048	@ 0x800
+ 80012c4:	2b00      	cmp	r3, #0
+ 80012c6:	d00b      	beq.n	80012e0 <DMA2_Stream5_IRQHandler+0xb8>
+	{
+		TIM1_UP_DMA_Flag.Transfer_Complete_Flag = true;
+ 80012c8:	4b09      	ldr	r3, [pc, #36]	@ (80012f0 <DMA2_Stream5_IRQHandler+0xc8>)
+ 80012ca:	2201      	movs	r2, #1
+ 80012cc:	705a      	strb	r2, [r3, #1]
+		DMA2_Stream5_Flag.Transfer_Complete_Flag = true;
+ 80012ce:	4b09      	ldr	r3, [pc, #36]	@ (80012f4 <DMA2_Stream5_IRQHandler+0xcc>)
+ 80012d0:	2201      	movs	r2, #1
+ 80012d2:	705a      	strb	r2, [r3, #1]
+		DMA2 -> HIFCR |= DMA_HIFCR_CTCIF5;
+ 80012d4:	4b05      	ldr	r3, [pc, #20]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 80012d6:	68db      	ldr	r3, [r3, #12]
+ 80012d8:	4a04      	ldr	r2, [pc, #16]	@ (80012ec <DMA2_Stream5_IRQHandler+0xc4>)
+ 80012da:	f443 6300 	orr.w	r3, r3, #2048	@ 0x800
+ 80012de:	60d3      	str	r3, [r2, #12]
+	}
+}
+ 80012e0:	bf00      	nop
+ 80012e2:	46bd      	mov	sp, r7
+ 80012e4:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 80012e8:	4770      	bx	lr
+ 80012ea:	bf00      	nop
+ 80012ec:	40026400 	.word	0x40026400
+ 80012f0:	200000f0 	.word	0x200000f0
+ 80012f4:	20000278 	.word	0x20000278
+
+080012f8 <DMA2_Stream6_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA2_Stream6_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA2_Stream6_IRQHandler(void)
+{
+ 80012f8:	b480      	push	{r7}
+ 80012fa:	af00      	add	r7, sp, #0
+	if(DMA2 -> HISR & DMA_HISR_FEIF6)
+ 80012fc:	4b45      	ldr	r3, [pc, #276]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 80012fe:	685b      	ldr	r3, [r3, #4]
+ 8001300:	f403 3380 	and.w	r3, r3, #65536	@ 0x10000
+ 8001304:	2b00      	cmp	r3, #0
+ 8001306:	d014      	beq.n	8001332 <DMA2_Stream6_IRQHandler+0x3a>
+	{
+		TIM1_CH2_DMA_Flag.Fifo_Error_Flag = true;
+ 8001308:	4b43      	ldr	r3, [pc, #268]	@ (8001418 <DMA2_Stream6_IRQHandler+0x120>)
+ 800130a:	2201      	movs	r2, #1
+ 800130c:	715a      	strb	r2, [r3, #5]
+		TIM1_CH3_DMA_Flag.Fifo_Error_Flag = true;
+ 800130e:	4b43      	ldr	r3, [pc, #268]	@ (800141c <DMA2_Stream6_IRQHandler+0x124>)
+ 8001310:	2201      	movs	r2, #1
+ 8001312:	715a      	strb	r2, [r3, #5]
+		TIM8_CH3_DMA_Flag.Fifo_Error_Flag = true;
+ 8001314:	4b42      	ldr	r3, [pc, #264]	@ (8001420 <DMA2_Stream6_IRQHandler+0x128>)
+ 8001316:	2201      	movs	r2, #1
+ 8001318:	715a      	strb	r2, [r3, #5]
+		USART6_TX_DMA_Flag.Fifo_Error_Flag = true;
+ 800131a:	4b42      	ldr	r3, [pc, #264]	@ (8001424 <DMA2_Stream6_IRQHandler+0x12c>)
+ 800131c:	2201      	movs	r2, #1
+ 800131e:	715a      	strb	r2, [r3, #5]
+		DMA2_Stream6_Flag.Fifo_Error_Flag = true;
+ 8001320:	4b41      	ldr	r3, [pc, #260]	@ (8001428 <DMA2_Stream6_IRQHandler+0x130>)
+ 8001322:	2201      	movs	r2, #1
+ 8001324:	715a      	strb	r2, [r3, #5]
+		DMA2 -> HIFCR |= DMA_HIFCR_CFEIF6;
+ 8001326:	4b3b      	ldr	r3, [pc, #236]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 8001328:	68db      	ldr	r3, [r3, #12]
+ 800132a:	4a3a      	ldr	r2, [pc, #232]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 800132c:	f443 3380 	orr.w	r3, r3, #65536	@ 0x10000
+ 8001330:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_DMEIF6)
+ 8001332:	4b38      	ldr	r3, [pc, #224]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 8001334:	685b      	ldr	r3, [r3, #4]
+ 8001336:	f403 2380 	and.w	r3, r3, #262144	@ 0x40000
+ 800133a:	2b00      	cmp	r3, #0
+ 800133c:	d014      	beq.n	8001368 <DMA2_Stream6_IRQHandler+0x70>
+	{
+		TIM1_CH2_DMA_Flag.Direct_Mode_Error_Flag= true;
+ 800133e:	4b36      	ldr	r3, [pc, #216]	@ (8001418 <DMA2_Stream6_IRQHandler+0x120>)
+ 8001340:	2201      	movs	r2, #1
+ 8001342:	711a      	strb	r2, [r3, #4]
+		TIM1_CH3_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8001344:	4b35      	ldr	r3, [pc, #212]	@ (800141c <DMA2_Stream6_IRQHandler+0x124>)
+ 8001346:	2201      	movs	r2, #1
+ 8001348:	711a      	strb	r2, [r3, #4]
+		TIM8_CH3_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 800134a:	4b35      	ldr	r3, [pc, #212]	@ (8001420 <DMA2_Stream6_IRQHandler+0x128>)
+ 800134c:	2201      	movs	r2, #1
+ 800134e:	711a      	strb	r2, [r3, #4]
+		USART6_TX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8001350:	4b34      	ldr	r3, [pc, #208]	@ (8001424 <DMA2_Stream6_IRQHandler+0x12c>)
+ 8001352:	2201      	movs	r2, #1
+ 8001354:	711a      	strb	r2, [r3, #4]
+		DMA2_Stream6_Flag.Direct_Mode_Error_Flag = true;
+ 8001356:	4b34      	ldr	r3, [pc, #208]	@ (8001428 <DMA2_Stream6_IRQHandler+0x130>)
+ 8001358:	2201      	movs	r2, #1
+ 800135a:	711a      	strb	r2, [r3, #4]
+		DMA2 -> HIFCR |= DMA_HIFCR_CDMEIF6;
+ 800135c:	4b2d      	ldr	r3, [pc, #180]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 800135e:	68db      	ldr	r3, [r3, #12]
+ 8001360:	4a2c      	ldr	r2, [pc, #176]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 8001362:	f443 2380 	orr.w	r3, r3, #262144	@ 0x40000
+ 8001366:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_TEIF6)
+ 8001368:	4b2a      	ldr	r3, [pc, #168]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 800136a:	685b      	ldr	r3, [r3, #4]
+ 800136c:	f403 2300 	and.w	r3, r3, #524288	@ 0x80000
+ 8001370:	2b00      	cmp	r3, #0
+ 8001372:	d014      	beq.n	800139e <DMA2_Stream6_IRQHandler+0xa6>
+	{
+		TIM1_CH2_DMA_Flag.Transfer_Error_Flag = true;
+ 8001374:	4b28      	ldr	r3, [pc, #160]	@ (8001418 <DMA2_Stream6_IRQHandler+0x120>)
+ 8001376:	2201      	movs	r2, #1
+ 8001378:	70da      	strb	r2, [r3, #3]
+		TIM1_CH3_DMA_Flag.Transfer_Error_Flag = true;
+ 800137a:	4b28      	ldr	r3, [pc, #160]	@ (800141c <DMA2_Stream6_IRQHandler+0x124>)
+ 800137c:	2201      	movs	r2, #1
+ 800137e:	70da      	strb	r2, [r3, #3]
+		TIM8_CH3_DMA_Flag.Transfer_Error_Flag = true;
+ 8001380:	4b27      	ldr	r3, [pc, #156]	@ (8001420 <DMA2_Stream6_IRQHandler+0x128>)
+ 8001382:	2201      	movs	r2, #1
+ 8001384:	70da      	strb	r2, [r3, #3]
+		USART6_TX_DMA_Flag.Transfer_Error_Flag = true;
+ 8001386:	4b27      	ldr	r3, [pc, #156]	@ (8001424 <DMA2_Stream6_IRQHandler+0x12c>)
+ 8001388:	2201      	movs	r2, #1
+ 800138a:	70da      	strb	r2, [r3, #3]
+		DMA2_Stream6_Flag.Transfer_Error_Flag = true;
+ 800138c:	4b26      	ldr	r3, [pc, #152]	@ (8001428 <DMA2_Stream6_IRQHandler+0x130>)
+ 800138e:	2201      	movs	r2, #1
+ 8001390:	70da      	strb	r2, [r3, #3]
+		DMA2 -> HIFCR |= DMA_HIFCR_CTEIF6;
+ 8001392:	4b20      	ldr	r3, [pc, #128]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 8001394:	68db      	ldr	r3, [r3, #12]
+ 8001396:	4a1f      	ldr	r2, [pc, #124]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 8001398:	f443 2300 	orr.w	r3, r3, #524288	@ 0x80000
+ 800139c:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_HTIF6)
+ 800139e:	4b1d      	ldr	r3, [pc, #116]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 80013a0:	685b      	ldr	r3, [r3, #4]
+ 80013a2:	f403 1380 	and.w	r3, r3, #1048576	@ 0x100000
+ 80013a6:	2b00      	cmp	r3, #0
+ 80013a8:	d014      	beq.n	80013d4 <DMA2_Stream6_IRQHandler+0xdc>
+	{
+		TIM1_CH2_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80013aa:	4b1b      	ldr	r3, [pc, #108]	@ (8001418 <DMA2_Stream6_IRQHandler+0x120>)
+ 80013ac:	2201      	movs	r2, #1
+ 80013ae:	709a      	strb	r2, [r3, #2]
+		TIM1_CH3_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80013b0:	4b1a      	ldr	r3, [pc, #104]	@ (800141c <DMA2_Stream6_IRQHandler+0x124>)
+ 80013b2:	2201      	movs	r2, #1
+ 80013b4:	709a      	strb	r2, [r3, #2]
+		TIM8_CH3_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80013b6:	4b1a      	ldr	r3, [pc, #104]	@ (8001420 <DMA2_Stream6_IRQHandler+0x128>)
+ 80013b8:	2201      	movs	r2, #1
+ 80013ba:	709a      	strb	r2, [r3, #2]
+		USART6_TX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80013bc:	4b19      	ldr	r3, [pc, #100]	@ (8001424 <DMA2_Stream6_IRQHandler+0x12c>)
+ 80013be:	2201      	movs	r2, #1
+ 80013c0:	709a      	strb	r2, [r3, #2]
+		DMA2_Stream6_Flag.Half_Transfer_Complete_Flag = true;
+ 80013c2:	4b19      	ldr	r3, [pc, #100]	@ (8001428 <DMA2_Stream6_IRQHandler+0x130>)
+ 80013c4:	2201      	movs	r2, #1
+ 80013c6:	709a      	strb	r2, [r3, #2]
+		DMA2 -> HIFCR |= DMA_HIFCR_CHTIF6;
+ 80013c8:	4b12      	ldr	r3, [pc, #72]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 80013ca:	68db      	ldr	r3, [r3, #12]
+ 80013cc:	4a11      	ldr	r2, [pc, #68]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 80013ce:	f443 1380 	orr.w	r3, r3, #1048576	@ 0x100000
+ 80013d2:	60d3      	str	r3, [r2, #12]
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_TCIF6)
+ 80013d4:	4b0f      	ldr	r3, [pc, #60]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 80013d6:	685b      	ldr	r3, [r3, #4]
+ 80013d8:	f403 1300 	and.w	r3, r3, #2097152	@ 0x200000
+ 80013dc:	2b00      	cmp	r3, #0
+ 80013de:	d014      	beq.n	800140a <DMA2_Stream6_IRQHandler+0x112>
+	{
+		TIM1_CH2_DMA_Flag.Transfer_Complete_Flag = true;
+ 80013e0:	4b0d      	ldr	r3, [pc, #52]	@ (8001418 <DMA2_Stream6_IRQHandler+0x120>)
+ 80013e2:	2201      	movs	r2, #1
+ 80013e4:	705a      	strb	r2, [r3, #1]
+		TIM1_CH3_DMA_Flag.Transfer_Complete_Flag = true;
+ 80013e6:	4b0d      	ldr	r3, [pc, #52]	@ (800141c <DMA2_Stream6_IRQHandler+0x124>)
+ 80013e8:	2201      	movs	r2, #1
+ 80013ea:	705a      	strb	r2, [r3, #1]
+		TIM8_CH3_DMA_Flag.Transfer_Complete_Flag = true;
+ 80013ec:	4b0c      	ldr	r3, [pc, #48]	@ (8001420 <DMA2_Stream6_IRQHandler+0x128>)
+ 80013ee:	2201      	movs	r2, #1
+ 80013f0:	705a      	strb	r2, [r3, #1]
+		USART6_TX_DMA_Flag.Transfer_Complete_Flag = true;
+ 80013f2:	4b0c      	ldr	r3, [pc, #48]	@ (8001424 <DMA2_Stream6_IRQHandler+0x12c>)
+ 80013f4:	2201      	movs	r2, #1
+ 80013f6:	705a      	strb	r2, [r3, #1]
+		DMA2_Stream6_Flag.Transfer_Complete_Flag = true;
+ 80013f8:	4b0b      	ldr	r3, [pc, #44]	@ (8001428 <DMA2_Stream6_IRQHandler+0x130>)
+ 80013fa:	2201      	movs	r2, #1
+ 80013fc:	705a      	strb	r2, [r3, #1]
+		DMA2 -> HIFCR |= DMA_HIFCR_CTCIF6;
+ 80013fe:	4b05      	ldr	r3, [pc, #20]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 8001400:	68db      	ldr	r3, [r3, #12]
+ 8001402:	4a04      	ldr	r2, [pc, #16]	@ (8001414 <DMA2_Stream6_IRQHandler+0x11c>)
+ 8001404:	f443 1300 	orr.w	r3, r3, #2097152	@ 0x200000
+ 8001408:	60d3      	str	r3, [r2, #12]
+	}
+}
+ 800140a:	bf00      	nop
+ 800140c:	46bd      	mov	sp, r7
+ 800140e:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001412:	4770      	bx	lr
+ 8001414:	40026400 	.word	0x40026400
+ 8001418:	20000100 	.word	0x20000100
+ 800141c:	20000108 	.word	0x20000108
+ 8001420:	20000140 	.word	0x20000140
+ 8001424:	200000d8 	.word	0x200000d8
+ 8001428:	20000280 	.word	0x20000280
+
+0800142c <DMA2_Stream7_IRQHandler>:
+ * transfer error, half transfer complete, and transfer complete. For each
+ * event, it sets the corresponding flag in the `DMA2_Stream7_Flag` structure
+ * and clears the respective interrupt flag in the DMA interrupt flag clear register.
+ */
+void DMA2_Stream7_IRQHandler(void)
+{
+ 800142c:	b480      	push	{r7}
+ 800142e:	af00      	add	r7, sp, #0
+	if(DMA2 -> HISR & DMA_HISR_FEIF7)
+ 8001430:	4b3e      	ldr	r3, [pc, #248]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 8001432:	685b      	ldr	r3, [r3, #4]
+ 8001434:	f403 0380 	and.w	r3, r3, #4194304	@ 0x400000
+ 8001438:	2b00      	cmp	r3, #0
+ 800143a:	d011      	beq.n	8001460 <DMA2_Stream7_IRQHandler+0x34>
+	{
+		USART1_TX_DMA_Flag.Triggered = true;
+ 800143c:	4b3c      	ldr	r3, [pc, #240]	@ (8001530 <DMA2_Stream7_IRQHandler+0x104>)
+ 800143e:	2201      	movs	r2, #1
+ 8001440:	701a      	strb	r2, [r3, #0]
+		DMA2 -> HIFCR |= DMA_HIFCR_CFEIF7;
+ 8001442:	4b3a      	ldr	r3, [pc, #232]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 8001444:	68db      	ldr	r3, [r3, #12]
+ 8001446:	4a39      	ldr	r2, [pc, #228]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 8001448:	f443 0380 	orr.w	r3, r3, #4194304	@ 0x400000
+ 800144c:	60d3      	str	r3, [r2, #12]
+		TIM8_CH4_DMA_Flag.Fifo_Error_Flag = true;
+ 800144e:	4b39      	ldr	r3, [pc, #228]	@ (8001534 <DMA2_Stream7_IRQHandler+0x108>)
+ 8001450:	2201      	movs	r2, #1
+ 8001452:	715a      	strb	r2, [r3, #5]
+		USART1_TX_DMA_Flag.Fifo_Error_Flag = true;
+ 8001454:	4b36      	ldr	r3, [pc, #216]	@ (8001530 <DMA2_Stream7_IRQHandler+0x104>)
+ 8001456:	2201      	movs	r2, #1
+ 8001458:	715a      	strb	r2, [r3, #5]
+		DMA2_Stream7_Flag.Fifo_Error_Flag = true;
+ 800145a:	4b37      	ldr	r3, [pc, #220]	@ (8001538 <DMA2_Stream7_IRQHandler+0x10c>)
+ 800145c:	2201      	movs	r2, #1
+ 800145e:	715a      	strb	r2, [r3, #5]
+
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_DMEIF7)
+ 8001460:	4b32      	ldr	r3, [pc, #200]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 8001462:	685b      	ldr	r3, [r3, #4]
+ 8001464:	f003 7380 	and.w	r3, r3, #16777216	@ 0x1000000
+ 8001468:	2b00      	cmp	r3, #0
+ 800146a:	d011      	beq.n	8001490 <DMA2_Stream7_IRQHandler+0x64>
+	{
+		USART1_TX_DMA_Flag.Triggered = true;
+ 800146c:	4b30      	ldr	r3, [pc, #192]	@ (8001530 <DMA2_Stream7_IRQHandler+0x104>)
+ 800146e:	2201      	movs	r2, #1
+ 8001470:	701a      	strb	r2, [r3, #0]
+		DMA2 -> HIFCR |= DMA_HIFCR_CDMEIF7;
+ 8001472:	4b2e      	ldr	r3, [pc, #184]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 8001474:	68db      	ldr	r3, [r3, #12]
+ 8001476:	4a2d      	ldr	r2, [pc, #180]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 8001478:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
+ 800147c:	60d3      	str	r3, [r2, #12]
+		TIM8_CH4_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 800147e:	4b2d      	ldr	r3, [pc, #180]	@ (8001534 <DMA2_Stream7_IRQHandler+0x108>)
+ 8001480:	2201      	movs	r2, #1
+ 8001482:	711a      	strb	r2, [r3, #4]
+		USART1_TX_DMA_Flag.Direct_Mode_Error_Flag = true;
+ 8001484:	4b2a      	ldr	r3, [pc, #168]	@ (8001530 <DMA2_Stream7_IRQHandler+0x104>)
+ 8001486:	2201      	movs	r2, #1
+ 8001488:	711a      	strb	r2, [r3, #4]
+		DMA2_Stream7_Flag.Direct_Mode_Error_Flag = true;
+ 800148a:	4b2b      	ldr	r3, [pc, #172]	@ (8001538 <DMA2_Stream7_IRQHandler+0x10c>)
+ 800148c:	2201      	movs	r2, #1
+ 800148e:	711a      	strb	r2, [r3, #4]
+
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_TEIF7)
+ 8001490:	4b26      	ldr	r3, [pc, #152]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 8001492:	685b      	ldr	r3, [r3, #4]
+ 8001494:	f003 7300 	and.w	r3, r3, #33554432	@ 0x2000000
+ 8001498:	2b00      	cmp	r3, #0
+ 800149a:	d011      	beq.n	80014c0 <DMA2_Stream7_IRQHandler+0x94>
+	{
+		USART1_TX_DMA_Flag.Triggered = true;
+ 800149c:	4b24      	ldr	r3, [pc, #144]	@ (8001530 <DMA2_Stream7_IRQHandler+0x104>)
+ 800149e:	2201      	movs	r2, #1
+ 80014a0:	701a      	strb	r2, [r3, #0]
+		DMA2 -> HIFCR |= DMA_HIFCR_CTEIF7;
+ 80014a2:	4b22      	ldr	r3, [pc, #136]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 80014a4:	68db      	ldr	r3, [r3, #12]
+ 80014a6:	4a21      	ldr	r2, [pc, #132]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 80014a8:	f043 7300 	orr.w	r3, r3, #33554432	@ 0x2000000
+ 80014ac:	60d3      	str	r3, [r2, #12]
+		TIM8_CH4_DMA_Flag.Transfer_Error_Flag = true;
+ 80014ae:	4b21      	ldr	r3, [pc, #132]	@ (8001534 <DMA2_Stream7_IRQHandler+0x108>)
+ 80014b0:	2201      	movs	r2, #1
+ 80014b2:	70da      	strb	r2, [r3, #3]
+		USART1_TX_DMA_Flag.Transfer_Error_Flag = true;
+ 80014b4:	4b1e      	ldr	r3, [pc, #120]	@ (8001530 <DMA2_Stream7_IRQHandler+0x104>)
+ 80014b6:	2201      	movs	r2, #1
+ 80014b8:	70da      	strb	r2, [r3, #3]
+		DMA2_Stream7_Flag.Transfer_Error_Flag = true;
+ 80014ba:	4b1f      	ldr	r3, [pc, #124]	@ (8001538 <DMA2_Stream7_IRQHandler+0x10c>)
+ 80014bc:	2201      	movs	r2, #1
+ 80014be:	70da      	strb	r2, [r3, #3]
+
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_HTIF7)
+ 80014c0:	4b1a      	ldr	r3, [pc, #104]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 80014c2:	685b      	ldr	r3, [r3, #4]
+ 80014c4:	f003 6380 	and.w	r3, r3, #67108864	@ 0x4000000
+ 80014c8:	2b00      	cmp	r3, #0
+ 80014ca:	d011      	beq.n	80014f0 <DMA2_Stream7_IRQHandler+0xc4>
+	{
+		USART1_TX_DMA_Flag.Triggered = true;
+ 80014cc:	4b18      	ldr	r3, [pc, #96]	@ (8001530 <DMA2_Stream7_IRQHandler+0x104>)
+ 80014ce:	2201      	movs	r2, #1
+ 80014d0:	701a      	strb	r2, [r3, #0]
+		DMA2 -> HIFCR |= DMA_HIFCR_CHTIF7;
+ 80014d2:	4b16      	ldr	r3, [pc, #88]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 80014d4:	68db      	ldr	r3, [r3, #12]
+ 80014d6:	4a15      	ldr	r2, [pc, #84]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 80014d8:	f043 6380 	orr.w	r3, r3, #67108864	@ 0x4000000
+ 80014dc:	60d3      	str	r3, [r2, #12]
+		TIM8_CH4_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80014de:	4b15      	ldr	r3, [pc, #84]	@ (8001534 <DMA2_Stream7_IRQHandler+0x108>)
+ 80014e0:	2201      	movs	r2, #1
+ 80014e2:	709a      	strb	r2, [r3, #2]
+		USART1_TX_DMA_Flag.Half_Transfer_Complete_Flag = true;
+ 80014e4:	4b12      	ldr	r3, [pc, #72]	@ (8001530 <DMA2_Stream7_IRQHandler+0x104>)
+ 80014e6:	2201      	movs	r2, #1
+ 80014e8:	709a      	strb	r2, [r3, #2]
+		DMA2_Stream7_Flag.Half_Transfer_Complete_Flag = true;
+ 80014ea:	4b13      	ldr	r3, [pc, #76]	@ (8001538 <DMA2_Stream7_IRQHandler+0x10c>)
+ 80014ec:	2201      	movs	r2, #1
+ 80014ee:	709a      	strb	r2, [r3, #2]
+
+	}
+	/************************************************************************************************************/
+	if(DMA2 -> HISR & DMA_HISR_TCIF7)
+ 80014f0:	4b0e      	ldr	r3, [pc, #56]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 80014f2:	685b      	ldr	r3, [r3, #4]
+ 80014f4:	f003 6300 	and.w	r3, r3, #134217728	@ 0x8000000
+ 80014f8:	2b00      	cmp	r3, #0
+ 80014fa:	d011      	beq.n	8001520 <DMA2_Stream7_IRQHandler+0xf4>
+	{
+		USART1_TX_DMA_Flag.Triggered = true;
+ 80014fc:	4b0c      	ldr	r3, [pc, #48]	@ (8001530 <DMA2_Stream7_IRQHandler+0x104>)
+ 80014fe:	2201      	movs	r2, #1
+ 8001500:	701a      	strb	r2, [r3, #0]
+		DMA2 -> HIFCR |= DMA_HIFCR_CTCIF7;
+ 8001502:	4b0a      	ldr	r3, [pc, #40]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 8001504:	68db      	ldr	r3, [r3, #12]
+ 8001506:	4a09      	ldr	r2, [pc, #36]	@ (800152c <DMA2_Stream7_IRQHandler+0x100>)
+ 8001508:	f043 6300 	orr.w	r3, r3, #134217728	@ 0x8000000
+ 800150c:	60d3      	str	r3, [r2, #12]
+		TIM8_CH4_DMA_Flag.Transfer_Complete_Flag = true;
+ 800150e:	4b09      	ldr	r3, [pc, #36]	@ (8001534 <DMA2_Stream7_IRQHandler+0x108>)
+ 8001510:	2201      	movs	r2, #1
+ 8001512:	705a      	strb	r2, [r3, #1]
+		USART1_TX_DMA_Flag.Transfer_Complete_Flag = true;
+ 8001514:	4b06      	ldr	r3, [pc, #24]	@ (8001530 <DMA2_Stream7_IRQHandler+0x104>)
+ 8001516:	2201      	movs	r2, #1
+ 8001518:	705a      	strb	r2, [r3, #1]
+		DMA2_Stream7_Flag.Transfer_Complete_Flag = true;
+ 800151a:	4b07      	ldr	r3, [pc, #28]	@ (8001538 <DMA2_Stream7_IRQHandler+0x10c>)
+ 800151c:	2201      	movs	r2, #1
+ 800151e:	705a      	strb	r2, [r3, #1]
+
+	}
+}
+ 8001520:	bf00      	nop
+ 8001522:	46bd      	mov	sp, r7
+ 8001524:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001528:	4770      	bx	lr
+ 800152a:	bf00      	nop
+ 800152c:	40026400 	.word	0x40026400
+ 8001530:	20000090 	.word	0x20000090
+ 8001534:	20000148 	.word	0x20000148
+ 8001538:	20000288 	.word	0x20000288
+
+0800153c <__NVIC_SetPriority>:
+  \param [in]      IRQn  Interrupt number.
+  \param [in]  priority  Priority to set.
+  \note    The priority cannot be set for every processor exception.
+ */
+__STATIC_INLINE void __NVIC_SetPriority(IRQn_Type IRQn, uint32_t priority)
+{
+ 800153c:	b480      	push	{r7}
+ 800153e:	b083      	sub	sp, #12
+ 8001540:	af00      	add	r7, sp, #0
+ 8001542:	4603      	mov	r3, r0
+ 8001544:	6039      	str	r1, [r7, #0]
+ 8001546:	71fb      	strb	r3, [r7, #7]
+  if ((int32_t)(IRQn) >= 0)
+ 8001548:	f997 3007 	ldrsb.w	r3, [r7, #7]
+ 800154c:	2b00      	cmp	r3, #0
+ 800154e:	db0a      	blt.n	8001566 <__NVIC_SetPriority+0x2a>
+  {
+    NVIC->IP[((uint32_t)IRQn)]               = (uint8_t)((priority << (8U - __NVIC_PRIO_BITS)) & (uint32_t)0xFFUL);
+ 8001550:	683b      	ldr	r3, [r7, #0]
+ 8001552:	b2da      	uxtb	r2, r3
+ 8001554:	490c      	ldr	r1, [pc, #48]	@ (8001588 <__NVIC_SetPriority+0x4c>)
+ 8001556:	f997 3007 	ldrsb.w	r3, [r7, #7]
+ 800155a:	0112      	lsls	r2, r2, #4
+ 800155c:	b2d2      	uxtb	r2, r2
+ 800155e:	440b      	add	r3, r1
+ 8001560:	f883 2300 	strb.w	r2, [r3, #768]	@ 0x300
+  }
+  else
+  {
+    SCB->SHP[(((uint32_t)IRQn) & 0xFUL)-4UL] = (uint8_t)((priority << (8U - __NVIC_PRIO_BITS)) & (uint32_t)0xFFUL);
+  }
+}
+ 8001564:	e00a      	b.n	800157c <__NVIC_SetPriority+0x40>
+    SCB->SHP[(((uint32_t)IRQn) & 0xFUL)-4UL] = (uint8_t)((priority << (8U - __NVIC_PRIO_BITS)) & (uint32_t)0xFFUL);
+ 8001566:	683b      	ldr	r3, [r7, #0]
+ 8001568:	b2da      	uxtb	r2, r3
+ 800156a:	4908      	ldr	r1, [pc, #32]	@ (800158c <__NVIC_SetPriority+0x50>)
+ 800156c:	79fb      	ldrb	r3, [r7, #7]
+ 800156e:	f003 030f 	and.w	r3, r3, #15
+ 8001572:	3b04      	subs	r3, #4
+ 8001574:	0112      	lsls	r2, r2, #4
+ 8001576:	b2d2      	uxtb	r2, r2
+ 8001578:	440b      	add	r3, r1
+ 800157a:	761a      	strb	r2, [r3, #24]
+}
+ 800157c:	bf00      	nop
+ 800157e:	370c      	adds	r7, #12
+ 8001580:	46bd      	mov	sp, r7
+ 8001582:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001586:	4770      	bx	lr
+ 8001588:	e000e100 	.word	0xe000e100
+ 800158c:	e000ed00 	.word	0xe000ed00
+
+08001590 <SysTick_Config>:
+  \note    When the variable <b>__Vendor_SysTickConfig</b> is set to 1, then the
+           function <b>SysTick_Config</b> is not included. In this case, the file <b><i>device</i>.h</b>
+           must contain a vendor-specific implementation of this function.
+ */
+__STATIC_INLINE uint32_t SysTick_Config(uint32_t ticks)
+{
+ 8001590:	b580      	push	{r7, lr}
+ 8001592:	b082      	sub	sp, #8
+ 8001594:	af00      	add	r7, sp, #0
+ 8001596:	6078      	str	r0, [r7, #4]
+  if ((ticks - 1UL) > SysTick_LOAD_RELOAD_Msk)
+ 8001598:	687b      	ldr	r3, [r7, #4]
+ 800159a:	3b01      	subs	r3, #1
+ 800159c:	f1b3 7f80 	cmp.w	r3, #16777216	@ 0x1000000
+ 80015a0:	d301      	bcc.n	80015a6 <SysTick_Config+0x16>
+  {
+    return (1UL);                                                   /* Reload value impossible */
+ 80015a2:	2301      	movs	r3, #1
+ 80015a4:	e00f      	b.n	80015c6 <SysTick_Config+0x36>
+  }
+
+  SysTick->LOAD  = (uint32_t)(ticks - 1UL);                         /* set reload register */
+ 80015a6:	4a0a      	ldr	r2, [pc, #40]	@ (80015d0 <SysTick_Config+0x40>)
+ 80015a8:	687b      	ldr	r3, [r7, #4]
+ 80015aa:	3b01      	subs	r3, #1
+ 80015ac:	6053      	str	r3, [r2, #4]
+  NVIC_SetPriority (SysTick_IRQn, (1UL << __NVIC_PRIO_BITS) - 1UL); /* set Priority for Systick Interrupt */
+ 80015ae:	210f      	movs	r1, #15
+ 80015b0:	f04f 30ff 	mov.w	r0, #4294967295
+ 80015b4:	f7ff ffc2 	bl	800153c <__NVIC_SetPriority>
+  SysTick->VAL   = 0UL;                                             /* Load the SysTick Counter Value */
+ 80015b8:	4b05      	ldr	r3, [pc, #20]	@ (80015d0 <SysTick_Config+0x40>)
+ 80015ba:	2200      	movs	r2, #0
+ 80015bc:	609a      	str	r2, [r3, #8]
+  SysTick->CTRL  = SysTick_CTRL_CLKSOURCE_Msk |
+ 80015be:	4b04      	ldr	r3, [pc, #16]	@ (80015d0 <SysTick_Config+0x40>)
+ 80015c0:	2207      	movs	r2, #7
+ 80015c2:	601a      	str	r2, [r3, #0]
+                   SysTick_CTRL_TICKINT_Msk   |
+                   SysTick_CTRL_ENABLE_Msk;                         /* Enable SysTick IRQ and SysTick Timer */
+  return (0UL);                                                     /* Function successful */
+ 80015c4:	2300      	movs	r3, #0
+}
+ 80015c6:	4618      	mov	r0, r3
+ 80015c8:	3708      	adds	r7, #8
+ 80015ca:	46bd      	mov	sp, r7
+ 80015cc:	bd80      	pop	{r7, pc}
+ 80015ce:	bf00      	nop
+ 80015d0:	e000e010 	.word	0xe000e010
+
+080015d4 <MCU_Clock_Setup>:
+{
+	return (SystemCoreClock >> APBPrescTable[(RCC->CFGR & RCC_CFGR_PPRE2)>> RCC_CFGR_PPRE2_Pos]);
+}
+
+__STATIC_INLINE void MCU_Clock_Setup(void)
+{
+ 80015d4:	b580      	push	{r7, lr}
+ 80015d6:	b082      	sub	sp, #8
+ 80015d8:	af00      	add	r7, sp, #0
+//	uint8_t pll_m = 4;
+//	uint8_t pll_n = 168; //192
+//	uint8_t pll_p = 0;
+//	uint8_t pll_q = 7;
+
+	SystemInit();
+ 80015da:	f000 f8ad 	bl	8001738 <SystemInit>
+
+	uint8_t pll_m = 8;
+ 80015de:	2308      	movs	r3, #8
+ 80015e0:	71fb      	strb	r3, [r7, #7]
+	uint16_t pll_n = 336; //192
+ 80015e2:	f44f 73a8 	mov.w	r3, #336	@ 0x150
+ 80015e6:	80bb      	strh	r3, [r7, #4]
+	uint8_t pll_p = 0;
+ 80015e8:	2300      	movs	r3, #0
+ 80015ea:	70fb      	strb	r3, [r7, #3]
+	uint8_t pll_q = 7;
+ 80015ec:	2307      	movs	r3, #7
+ 80015ee:	70bb      	strb	r3, [r7, #2]
+
+	RCC->PLLCFGR = 0x00000000;
+ 80015f0:	4b3c      	ldr	r3, [pc, #240]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 80015f2:	2200      	movs	r2, #0
+ 80015f4:	605a      	str	r2, [r3, #4]
+	RCC -> CR |= RCC_CR_HSEON;
+ 80015f6:	4b3b      	ldr	r3, [pc, #236]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 80015f8:	681b      	ldr	r3, [r3, #0]
+ 80015fa:	4a3a      	ldr	r2, [pc, #232]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 80015fc:	f443 3380 	orr.w	r3, r3, #65536	@ 0x10000
+ 8001600:	6013      	str	r3, [r2, #0]
+	while(!(RCC -> CR & RCC_CR_HSERDY)){}
+ 8001602:	bf00      	nop
+ 8001604:	4b37      	ldr	r3, [pc, #220]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 8001606:	681b      	ldr	r3, [r3, #0]
+ 8001608:	f403 3300 	and.w	r3, r3, #131072	@ 0x20000
+ 800160c:	2b00      	cmp	r3, #0
+ 800160e:	d0f9      	beq.n	8001604 <MCU_Clock_Setup+0x30>
+	RCC -> APB1ENR |= RCC_APB1ENR_PWREN;
+ 8001610:	4b34      	ldr	r3, [pc, #208]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 8001612:	6c1b      	ldr	r3, [r3, #64]	@ 0x40
+ 8001614:	4a33      	ldr	r2, [pc, #204]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 8001616:	f043 5380 	orr.w	r3, r3, #268435456	@ 0x10000000
+ 800161a:	6413      	str	r3, [r2, #64]	@ 0x40
+	PWR ->CR |= PWR_CR_VOS;
+ 800161c:	4b32      	ldr	r3, [pc, #200]	@ (80016e8 <MCU_Clock_Setup+0x114>)
+ 800161e:	681b      	ldr	r3, [r3, #0]
+ 8001620:	4a31      	ldr	r2, [pc, #196]	@ (80016e8 <MCU_Clock_Setup+0x114>)
+ 8001622:	f443 4380 	orr.w	r3, r3, #16384	@ 0x4000
+ 8001626:	6013      	str	r3, [r2, #0]
+	FLASH -> ACR |= FLASH_ACR_ICEN | FLASH_ACR_PRFTEN | FLASH_ACR_DCEN | FLASH_ACR_LATENCY_5WS;
+ 8001628:	4b30      	ldr	r3, [pc, #192]	@ (80016ec <MCU_Clock_Setup+0x118>)
+ 800162a:	681b      	ldr	r3, [r3, #0]
+ 800162c:	4a2f      	ldr	r2, [pc, #188]	@ (80016ec <MCU_Clock_Setup+0x118>)
+ 800162e:	f443 63e0 	orr.w	r3, r3, #1792	@ 0x700
+ 8001632:	f043 0305 	orr.w	r3, r3, #5
+ 8001636:	6013      	str	r3, [r2, #0]
+	RCC->PLLCFGR |= (pll_q << 24) | (pll_p << 16) | (pll_n << 6) | (pll_m << 0);
+ 8001638:	4b2a      	ldr	r3, [pc, #168]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 800163a:	685b      	ldr	r3, [r3, #4]
+ 800163c:	78ba      	ldrb	r2, [r7, #2]
+ 800163e:	0611      	lsls	r1, r2, #24
+ 8001640:	78fa      	ldrb	r2, [r7, #3]
+ 8001642:	0412      	lsls	r2, r2, #16
+ 8001644:	4311      	orrs	r1, r2
+ 8001646:	88ba      	ldrh	r2, [r7, #4]
+ 8001648:	0192      	lsls	r2, r2, #6
+ 800164a:	4311      	orrs	r1, r2
+ 800164c:	79fa      	ldrb	r2, [r7, #7]
+ 800164e:	430a      	orrs	r2, r1
+ 8001650:	4611      	mov	r1, r2
+ 8001652:	4a24      	ldr	r2, [pc, #144]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 8001654:	430b      	orrs	r3, r1
+ 8001656:	6053      	str	r3, [r2, #4]
+	RCC ->PLLCFGR |= 1 << 22;
+ 8001658:	4b22      	ldr	r3, [pc, #136]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 800165a:	685b      	ldr	r3, [r3, #4]
+ 800165c:	4a21      	ldr	r2, [pc, #132]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 800165e:	f443 0380 	orr.w	r3, r3, #4194304	@ 0x400000
+ 8001662:	6053      	str	r3, [r2, #4]
+	RCC -> CFGR |= RCC_CFGR_HPRE_DIV1;
+ 8001664:	4b1f      	ldr	r3, [pc, #124]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 8001666:	4a1f      	ldr	r2, [pc, #124]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 8001668:	689b      	ldr	r3, [r3, #8]
+ 800166a:	6093      	str	r3, [r2, #8]
+	RCC -> CFGR |= RCC_CFGR_PPRE1_DIV4;
+ 800166c:	4b1d      	ldr	r3, [pc, #116]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 800166e:	689b      	ldr	r3, [r3, #8]
+ 8001670:	4a1c      	ldr	r2, [pc, #112]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 8001672:	f443 53a0 	orr.w	r3, r3, #5120	@ 0x1400
+ 8001676:	6093      	str	r3, [r2, #8]
+	RCC -> CFGR |= RCC_CFGR_PPRE2_DIV2;
+ 8001678:	4b1a      	ldr	r3, [pc, #104]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 800167a:	689b      	ldr	r3, [r3, #8]
+ 800167c:	4a19      	ldr	r2, [pc, #100]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 800167e:	f443 4300 	orr.w	r3, r3, #32768	@ 0x8000
+ 8001682:	6093      	str	r3, [r2, #8]
+
+
+
+
+	RCC -> CR |= RCC_CR_PLLON;
+ 8001684:	4b17      	ldr	r3, [pc, #92]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 8001686:	681b      	ldr	r3, [r3, #0]
+ 8001688:	4a16      	ldr	r2, [pc, #88]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 800168a:	f043 7380 	orr.w	r3, r3, #16777216	@ 0x1000000
+ 800168e:	6013      	str	r3, [r2, #0]
+
+
+
+	while(!(RCC->CR & RCC_CR_PLLRDY)){}
+ 8001690:	bf00      	nop
+ 8001692:	4b14      	ldr	r3, [pc, #80]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 8001694:	681b      	ldr	r3, [r3, #0]
+ 8001696:	f003 7300 	and.w	r3, r3, #33554432	@ 0x2000000
+ 800169a:	2b00      	cmp	r3, #0
+ 800169c:	d0f9      	beq.n	8001692 <MCU_Clock_Setup+0xbe>
+	RCC -> CFGR |= RCC_CFGR_SW_PLL;
+ 800169e:	4b11      	ldr	r3, [pc, #68]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 80016a0:	689b      	ldr	r3, [r3, #8]
+ 80016a2:	4a10      	ldr	r2, [pc, #64]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 80016a4:	f043 0302 	orr.w	r3, r3, #2
+ 80016a8:	6093      	str	r3, [r2, #8]
+	while((RCC -> CFGR & RCC_CFGR_SWS_PLL) != RCC_CFGR_SWS_PLL);
+ 80016aa:	bf00      	nop
+ 80016ac:	4b0d      	ldr	r3, [pc, #52]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 80016ae:	689b      	ldr	r3, [r3, #8]
+ 80016b0:	f003 0308 	and.w	r3, r3, #8
+ 80016b4:	2b08      	cmp	r3, #8
+ 80016b6:	d1f9      	bne.n	80016ac <MCU_Clock_Setup+0xd8>
+	SystemCoreClockUpdate();
+ 80016b8:	f000 f850 	bl	800175c <SystemCoreClockUpdate>
+	SysTick_Config(SystemCoreClock/168);
+ 80016bc:	4b0c      	ldr	r3, [pc, #48]	@ (80016f0 <MCU_Clock_Setup+0x11c>)
+ 80016be:	681b      	ldr	r3, [r3, #0]
+ 80016c0:	08db      	lsrs	r3, r3, #3
+ 80016c2:	4a0c      	ldr	r2, [pc, #48]	@ (80016f4 <MCU_Clock_Setup+0x120>)
+ 80016c4:	fba2 2303 	umull	r2, r3, r2, r3
+ 80016c8:	085b      	lsrs	r3, r3, #1
+ 80016ca:	4618      	mov	r0, r3
+ 80016cc:	f7ff ff60 	bl	8001590 <SysTick_Config>
+	RCC -> APB2ENR |= RCC_APB2ENR_SYSCFGEN;
+ 80016d0:	4b04      	ldr	r3, [pc, #16]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 80016d2:	6c5b      	ldr	r3, [r3, #68]	@ 0x44
+ 80016d4:	4a03      	ldr	r2, [pc, #12]	@ (80016e4 <MCU_Clock_Setup+0x110>)
+ 80016d6:	f443 4380 	orr.w	r3, r3, #16384	@ 0x4000
+ 80016da:	6453      	str	r3, [r2, #68]	@ 0x44
+}
+ 80016dc:	bf00      	nop
+ 80016de:	3708      	adds	r7, #8
+ 80016e0:	46bd      	mov	sp, r7
+ 80016e2:	bd80      	pop	{r7, pc}
+ 80016e4:	40023800 	.word	0x40023800
+ 80016e8:	40007000 	.word	0x40007000
+ 80016ec:	40023c00 	.word	0x40023c00
+ 80016f0:	20000000 	.word	0x20000000
+ 80016f4:	18618619 	.word	0x18618619
+
+080016f8 <Delay_Config>:
+}
+
+
+
+__STATIC_INLINE uint32_t Delay_Config(void)
+{
+ 80016f8:	b480      	push	{r7}
+ 80016fa:	af00      	add	r7, sp, #0
+
+	SysTick->CTRL = 0;
+ 80016fc:	4b09      	ldr	r3, [pc, #36]	@ (8001724 <Delay_Config+0x2c>)
+ 80016fe:	2200      	movs	r2, #0
+ 8001700:	601a      	str	r2, [r3, #0]
+	SysTick->LOAD = 0x00FFFFFF;
+ 8001702:	4b08      	ldr	r3, [pc, #32]	@ (8001724 <Delay_Config+0x2c>)
+ 8001704:	f06f 427f 	mvn.w	r2, #4278190080	@ 0xff000000
+ 8001708:	605a      	str	r2, [r3, #4]
+	SysTick->VAL = 0;
+ 800170a:	4b06      	ldr	r3, [pc, #24]	@ (8001724 <Delay_Config+0x2c>)
+ 800170c:	2200      	movs	r2, #0
+ 800170e:	609a      	str	r2, [r3, #8]
+	SysTick->CTRL = 5;
+ 8001710:	4b04      	ldr	r3, [pc, #16]	@ (8001724 <Delay_Config+0x2c>)
+ 8001712:	2205      	movs	r2, #5
+ 8001714:	601a      	str	r2, [r3, #0]
+	return (0UL);                                                     /* Function successful */
+ 8001716:	2300      	movs	r3, #0
+}
+ 8001718:	4618      	mov	r0, r3
+ 800171a:	46bd      	mov	sp, r7
+ 800171c:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001720:	4770      	bx	lr
+ 8001722:	bf00      	nop
+ 8001724:	e000e010 	.word	0xe000e010
+
+08001728 <main>:
+#include "main.h"
+#include "Logs/Logs.h"
+#include "W5500_Defs.h"
+
+int main(void)
+{
+ 8001728:	b580      	push	{r7, lr}
+ 800172a:	af00      	add	r7, sp, #0
+	MCU_Clock_Setup();
+ 800172c:	f7ff ff52 	bl	80015d4 <MCU_Clock_Setup>
+	Delay_Config();
+ 8001730:	f7ff ffe2 	bl	80016f8 <Delay_Config>
+
+
+
+	for(;;)
+ 8001734:	bf00      	nop
+ 8001736:	e7fd      	b.n	8001734 <main+0xc>
+
+08001738 <SystemInit>:
+  *         configuration.
+  * @param  None
+  * @retval None
+  */
+void SystemInit(void)
+{
+ 8001738:	b480      	push	{r7}
+ 800173a:	af00      	add	r7, sp, #0
+  /* FPU settings ------------------------------------------------------------*/
+  #if (__FPU_PRESENT == 1) && (__FPU_USED == 1)
+    SCB->CPACR |= ((3UL << 10*2)|(3UL << 11*2));  /* set CP10 and CP11 Full Access */
+ 800173c:	4b06      	ldr	r3, [pc, #24]	@ (8001758 <SystemInit+0x20>)
+ 800173e:	f8d3 3088 	ldr.w	r3, [r3, #136]	@ 0x88
+ 8001742:	4a05      	ldr	r2, [pc, #20]	@ (8001758 <SystemInit+0x20>)
+ 8001744:	f443 0370 	orr.w	r3, r3, #15728640	@ 0xf00000
+ 8001748:	f8c2 3088 	str.w	r3, [r2, #136]	@ 0x88
+
+  /* Configure the Vector Table location -------------------------------------*/
+#if defined(USER_VECT_TAB_ADDRESS)
+  SCB->VTOR = VECT_TAB_BASE_ADDRESS | VECT_TAB_OFFSET; /* Vector Table Relocation in Internal SRAM */
+#endif /* USER_VECT_TAB_ADDRESS */
+}
+ 800174c:	bf00      	nop
+ 800174e:	46bd      	mov	sp, r7
+ 8001750:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001754:	4770      	bx	lr
+ 8001756:	bf00      	nop
+ 8001758:	e000ed00 	.word	0xe000ed00
+
+0800175c <SystemCoreClockUpdate>:
+  *     
+  * @param  None
+  * @retval None
+  */
+void SystemCoreClockUpdate(void)
+{
+ 800175c:	b480      	push	{r7}
+ 800175e:	b087      	sub	sp, #28
+ 8001760:	af00      	add	r7, sp, #0
+  uint32_t tmp = 0, pllvco = 0, pllp = 2, pllsource = 0, pllm = 2;
+ 8001762:	2300      	movs	r3, #0
+ 8001764:	613b      	str	r3, [r7, #16]
+ 8001766:	2300      	movs	r3, #0
+ 8001768:	617b      	str	r3, [r7, #20]
+ 800176a:	2302      	movs	r3, #2
+ 800176c:	60fb      	str	r3, [r7, #12]
+ 800176e:	2300      	movs	r3, #0
+ 8001770:	60bb      	str	r3, [r7, #8]
+ 8001772:	2302      	movs	r3, #2
+ 8001774:	607b      	str	r3, [r7, #4]
+  
+  /* Get SYSCLK source -------------------------------------------------------*/
+  tmp = RCC->CFGR & RCC_CFGR_SWS;
+ 8001776:	4b34      	ldr	r3, [pc, #208]	@ (8001848 <SystemCoreClockUpdate+0xec>)
+ 8001778:	689b      	ldr	r3, [r3, #8]
+ 800177a:	f003 030c 	and.w	r3, r3, #12
+ 800177e:	613b      	str	r3, [r7, #16]
+
+  switch (tmp)
+ 8001780:	693b      	ldr	r3, [r7, #16]
+ 8001782:	2b08      	cmp	r3, #8
+ 8001784:	d011      	beq.n	80017aa <SystemCoreClockUpdate+0x4e>
+ 8001786:	693b      	ldr	r3, [r7, #16]
+ 8001788:	2b08      	cmp	r3, #8
+ 800178a:	d844      	bhi.n	8001816 <SystemCoreClockUpdate+0xba>
+ 800178c:	693b      	ldr	r3, [r7, #16]
+ 800178e:	2b00      	cmp	r3, #0
+ 8001790:	d003      	beq.n	800179a <SystemCoreClockUpdate+0x3e>
+ 8001792:	693b      	ldr	r3, [r7, #16]
+ 8001794:	2b04      	cmp	r3, #4
+ 8001796:	d004      	beq.n	80017a2 <SystemCoreClockUpdate+0x46>
+ 8001798:	e03d      	b.n	8001816 <SystemCoreClockUpdate+0xba>
+  {
+    case 0x00:  /* HSI used as system clock source */
+      SystemCoreClock = HSI_VALUE;
+ 800179a:	4b2c      	ldr	r3, [pc, #176]	@ (800184c <SystemCoreClockUpdate+0xf0>)
+ 800179c:	4a2c      	ldr	r2, [pc, #176]	@ (8001850 <SystemCoreClockUpdate+0xf4>)
+ 800179e:	601a      	str	r2, [r3, #0]
+      break;
+ 80017a0:	e03d      	b.n	800181e <SystemCoreClockUpdate+0xc2>
+    case 0x04:  /* HSE used as system clock source */
+      SystemCoreClock = HSE_VALUE;
+ 80017a2:	4b2a      	ldr	r3, [pc, #168]	@ (800184c <SystemCoreClockUpdate+0xf0>)
+ 80017a4:	4a2b      	ldr	r2, [pc, #172]	@ (8001854 <SystemCoreClockUpdate+0xf8>)
+ 80017a6:	601a      	str	r2, [r3, #0]
+      break;
+ 80017a8:	e039      	b.n	800181e <SystemCoreClockUpdate+0xc2>
+    case 0x08:  /* PLL used as system clock source */
+
+      /* PLL_VCO = (HSE_VALUE or HSI_VALUE / PLL_M) * PLL_N
+         SYSCLK = PLL_VCO / PLL_P
+         */    
+      pllsource = (RCC->PLLCFGR & RCC_PLLCFGR_PLLSRC) >> 22;
+ 80017aa:	4b27      	ldr	r3, [pc, #156]	@ (8001848 <SystemCoreClockUpdate+0xec>)
+ 80017ac:	685b      	ldr	r3, [r3, #4]
+ 80017ae:	0d9b      	lsrs	r3, r3, #22
+ 80017b0:	f003 0301 	and.w	r3, r3, #1
+ 80017b4:	60bb      	str	r3, [r7, #8]
+      pllm = RCC->PLLCFGR & RCC_PLLCFGR_PLLM;
+ 80017b6:	4b24      	ldr	r3, [pc, #144]	@ (8001848 <SystemCoreClockUpdate+0xec>)
+ 80017b8:	685b      	ldr	r3, [r3, #4]
+ 80017ba:	f003 033f 	and.w	r3, r3, #63	@ 0x3f
+ 80017be:	607b      	str	r3, [r7, #4]
+      
+      if (pllsource != 0)
+ 80017c0:	68bb      	ldr	r3, [r7, #8]
+ 80017c2:	2b00      	cmp	r3, #0
+ 80017c4:	d00c      	beq.n	80017e0 <SystemCoreClockUpdate+0x84>
+      {
+        /* HSE used as PLL clock source */
+        pllvco = (HSE_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);
+ 80017c6:	4a23      	ldr	r2, [pc, #140]	@ (8001854 <SystemCoreClockUpdate+0xf8>)
+ 80017c8:	687b      	ldr	r3, [r7, #4]
+ 80017ca:	fbb2 f3f3 	udiv	r3, r2, r3
+ 80017ce:	4a1e      	ldr	r2, [pc, #120]	@ (8001848 <SystemCoreClockUpdate+0xec>)
+ 80017d0:	6852      	ldr	r2, [r2, #4]
+ 80017d2:	0992      	lsrs	r2, r2, #6
+ 80017d4:	f3c2 0208 	ubfx	r2, r2, #0, #9
+ 80017d8:	fb02 f303 	mul.w	r3, r2, r3
+ 80017dc:	617b      	str	r3, [r7, #20]
+ 80017de:	e00b      	b.n	80017f8 <SystemCoreClockUpdate+0x9c>
+      }
+      else
+      {
+        /* HSI used as PLL clock source */
+        pllvco = (HSI_VALUE / pllm) * ((RCC->PLLCFGR & RCC_PLLCFGR_PLLN) >> 6);
+ 80017e0:	4a1b      	ldr	r2, [pc, #108]	@ (8001850 <SystemCoreClockUpdate+0xf4>)
+ 80017e2:	687b      	ldr	r3, [r7, #4]
+ 80017e4:	fbb2 f3f3 	udiv	r3, r2, r3
+ 80017e8:	4a17      	ldr	r2, [pc, #92]	@ (8001848 <SystemCoreClockUpdate+0xec>)
+ 80017ea:	6852      	ldr	r2, [r2, #4]
+ 80017ec:	0992      	lsrs	r2, r2, #6
+ 80017ee:	f3c2 0208 	ubfx	r2, r2, #0, #9
+ 80017f2:	fb02 f303 	mul.w	r3, r2, r3
+ 80017f6:	617b      	str	r3, [r7, #20]
+      }
+
+      pllp = (((RCC->PLLCFGR & RCC_PLLCFGR_PLLP) >>16) + 1 ) *2;
+ 80017f8:	4b13      	ldr	r3, [pc, #76]	@ (8001848 <SystemCoreClockUpdate+0xec>)
+ 80017fa:	685b      	ldr	r3, [r3, #4]
+ 80017fc:	0c1b      	lsrs	r3, r3, #16
+ 80017fe:	f003 0303 	and.w	r3, r3, #3
+ 8001802:	3301      	adds	r3, #1
+ 8001804:	005b      	lsls	r3, r3, #1
+ 8001806:	60fb      	str	r3, [r7, #12]
+      SystemCoreClock = pllvco/pllp;
+ 8001808:	697a      	ldr	r2, [r7, #20]
+ 800180a:	68fb      	ldr	r3, [r7, #12]
+ 800180c:	fbb2 f3f3 	udiv	r3, r2, r3
+ 8001810:	4a0e      	ldr	r2, [pc, #56]	@ (800184c <SystemCoreClockUpdate+0xf0>)
+ 8001812:	6013      	str	r3, [r2, #0]
+      break;
+ 8001814:	e003      	b.n	800181e <SystemCoreClockUpdate+0xc2>
+    default:
+      SystemCoreClock = HSI_VALUE;
+ 8001816:	4b0d      	ldr	r3, [pc, #52]	@ (800184c <SystemCoreClockUpdate+0xf0>)
+ 8001818:	4a0d      	ldr	r2, [pc, #52]	@ (8001850 <SystemCoreClockUpdate+0xf4>)
+ 800181a:	601a      	str	r2, [r3, #0]
+      break;
+ 800181c:	bf00      	nop
+  }
+  /* Compute HCLK frequency --------------------------------------------------*/
+  /* Get HCLK prescaler */
+  tmp = AHBPrescTable[((RCC->CFGR & RCC_CFGR_HPRE) >> 4)];
+ 800181e:	4b0a      	ldr	r3, [pc, #40]	@ (8001848 <SystemCoreClockUpdate+0xec>)
+ 8001820:	689b      	ldr	r3, [r3, #8]
+ 8001822:	091b      	lsrs	r3, r3, #4
+ 8001824:	f003 030f 	and.w	r3, r3, #15
+ 8001828:	4a0b      	ldr	r2, [pc, #44]	@ (8001858 <SystemCoreClockUpdate+0xfc>)
+ 800182a:	5cd3      	ldrb	r3, [r2, r3]
+ 800182c:	613b      	str	r3, [r7, #16]
+  /* HCLK frequency */
+  SystemCoreClock >>= tmp;
+ 800182e:	4b07      	ldr	r3, [pc, #28]	@ (800184c <SystemCoreClockUpdate+0xf0>)
+ 8001830:	681a      	ldr	r2, [r3, #0]
+ 8001832:	693b      	ldr	r3, [r7, #16]
+ 8001834:	fa22 f303 	lsr.w	r3, r2, r3
+ 8001838:	4a04      	ldr	r2, [pc, #16]	@ (800184c <SystemCoreClockUpdate+0xf0>)
+ 800183a:	6013      	str	r3, [r2, #0]
+}
+ 800183c:	bf00      	nop
+ 800183e:	371c      	adds	r7, #28
+ 8001840:	46bd      	mov	sp, r7
+ 8001842:	f85d 7b04 	ldr.w	r7, [sp], #4
+ 8001846:	4770      	bx	lr
+ 8001848:	40023800 	.word	0x40023800
+ 800184c:	20000000 	.word	0x20000000
+ 8001850:	00f42400 	.word	0x00f42400
+ 8001854:	017d7840 	.word	0x017d7840
+ 8001858:	08001910 	.word	0x08001910
+
+0800185c <Reset_Handler>:
+
+  .section .text.Reset_Handler
+  .weak Reset_Handler
+  .type Reset_Handler, %function
+Reset_Handler:
+  ldr   r0, =_estack
+ 800185c:	480d      	ldr	r0, [pc, #52]	@ (8001894 <LoopForever+0x2>)
+  mov   sp, r0          /* set stack pointer */
+ 800185e:	4685      	mov	sp, r0
+/* Call the clock system initialization function.*/
+  bl  SystemInit
+ 8001860:	f7ff ff6a 	bl	8001738 <SystemInit>
+
+/* Copy the data segment initializers from flash to SRAM */
+  ldr r0, =_sdata
+ 8001864:	480c      	ldr	r0, [pc, #48]	@ (8001898 <LoopForever+0x6>)
+  ldr r1, =_edata
+ 8001866:	490d      	ldr	r1, [pc, #52]	@ (800189c <LoopForever+0xa>)
+  ldr r2, =_sidata
+ 8001868:	4a0d      	ldr	r2, [pc, #52]	@ (80018a0 <LoopForever+0xe>)
+  movs r3, #0
+ 800186a:	2300      	movs	r3, #0
+  b LoopCopyDataInit
+ 800186c:	e002      	b.n	8001874 <LoopCopyDataInit>
+
+0800186e <CopyDataInit>:
+
+CopyDataInit:
+  ldr r4, [r2, r3]
+ 800186e:	58d4      	ldr	r4, [r2, r3]
+  str r4, [r0, r3]
+ 8001870:	50c4      	str	r4, [r0, r3]
+  adds r3, r3, #4
+ 8001872:	3304      	adds	r3, #4
+
+08001874 <LoopCopyDataInit>:
+
+LoopCopyDataInit:
+  adds r4, r0, r3
+ 8001874:	18c4      	adds	r4, r0, r3
+  cmp r4, r1
+ 8001876:	428c      	cmp	r4, r1
+  bcc CopyDataInit
+ 8001878:	d3f9      	bcc.n	800186e <CopyDataInit>
+
+/* Zero fill the bss segment. */
+  ldr r2, =_sbss
+ 800187a:	4a0a      	ldr	r2, [pc, #40]	@ (80018a4 <LoopForever+0x12>)
+  ldr r4, =_ebss
+ 800187c:	4c0a      	ldr	r4, [pc, #40]	@ (80018a8 <LoopForever+0x16>)
+  movs r3, #0
+ 800187e:	2300      	movs	r3, #0
+  b LoopFillZerobss
+ 8001880:	e001      	b.n	8001886 <LoopFillZerobss>
+
+08001882 <FillZerobss>:
+
+FillZerobss:
+  str  r3, [r2]
+ 8001882:	6013      	str	r3, [r2, #0]
+  adds r2, r2, #4
+ 8001884:	3204      	adds	r2, #4
+
+08001886 <LoopFillZerobss>:
+
+LoopFillZerobss:
+  cmp r2, r4
+ 8001886:	42a2      	cmp	r2, r4
+  bcc FillZerobss
+ 8001888:	d3fb      	bcc.n	8001882 <FillZerobss>
+
+/* Call static constructors */
+  bl __libc_init_array
+ 800188a:	f000 f811 	bl	80018b0 <__libc_init_array>
+/* Call the application's entry point.*/
+  bl main
+ 800188e:	f7ff ff4b 	bl	8001728 <main>
+
+08001892 <LoopForever>:
+
+LoopForever:
+  b LoopForever
+ 8001892:	e7fe      	b.n	8001892 <LoopForever>
+  ldr   r0, =_estack
+ 8001894:	20020000 	.word	0x20020000
+  ldr r0, =_sdata
+ 8001898:	20000000 	.word	0x20000000
+  ldr r1, =_edata
+ 800189c:	20000004 	.word	0x20000004
+  ldr r2, =_sidata
+ 80018a0:	08001928 	.word	0x08001928
+  ldr r2, =_sbss
+ 80018a4:	20000004 	.word	0x20000004
+  ldr r4, =_ebss
+ 80018a8:	20000290 	.word	0x20000290
+
+080018ac <ADC_IRQHandler>:
+ * @retval : None
+*/
+  .section .text.Default_Handler,"ax",%progbits
+Default_Handler:
+Infinite_Loop:
+  b Infinite_Loop
+ 80018ac:	e7fe      	b.n	80018ac <ADC_IRQHandler>
+	...
+
+080018b0 <__libc_init_array>:
+ 80018b0:	b570      	push	{r4, r5, r6, lr}
+ 80018b2:	4d0d      	ldr	r5, [pc, #52]	@ (80018e8 <__libc_init_array+0x38>)
+ 80018b4:	4c0d      	ldr	r4, [pc, #52]	@ (80018ec <__libc_init_array+0x3c>)
+ 80018b6:	1b64      	subs	r4, r4, r5
+ 80018b8:	10a4      	asrs	r4, r4, #2
+ 80018ba:	2600      	movs	r6, #0
+ 80018bc:	42a6      	cmp	r6, r4
+ 80018be:	d109      	bne.n	80018d4 <__libc_init_array+0x24>
+ 80018c0:	4d0b      	ldr	r5, [pc, #44]	@ (80018f0 <__libc_init_array+0x40>)
+ 80018c2:	4c0c      	ldr	r4, [pc, #48]	@ (80018f4 <__libc_init_array+0x44>)
+ 80018c4:	f000 f818 	bl	80018f8 <_init>
+ 80018c8:	1b64      	subs	r4, r4, r5
+ 80018ca:	10a4      	asrs	r4, r4, #2
+ 80018cc:	2600      	movs	r6, #0
+ 80018ce:	42a6      	cmp	r6, r4
+ 80018d0:	d105      	bne.n	80018de <__libc_init_array+0x2e>
+ 80018d2:	bd70      	pop	{r4, r5, r6, pc}
+ 80018d4:	f855 3b04 	ldr.w	r3, [r5], #4
+ 80018d8:	4798      	blx	r3
+ 80018da:	3601      	adds	r6, #1
+ 80018dc:	e7ee      	b.n	80018bc <__libc_init_array+0xc>
+ 80018de:	f855 3b04 	ldr.w	r3, [r5], #4
+ 80018e2:	4798      	blx	r3
+ 80018e4:	3601      	adds	r6, #1
+ 80018e6:	e7f2      	b.n	80018ce <__libc_init_array+0x1e>
+ 80018e8:	08001920 	.word	0x08001920
+ 80018ec:	08001920 	.word	0x08001920
+ 80018f0:	08001920 	.word	0x08001920
+ 80018f4:	08001924 	.word	0x08001924
+
+080018f8 <_init>:
+ 80018f8:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 80018fa:	bf00      	nop
+ 80018fc:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 80018fe:	bc08      	pop	{r3}
+ 8001900:	469e      	mov	lr, r3
+ 8001902:	4770      	bx	lr
+
+08001904 <_fini>:
+ 8001904:	b5f8      	push	{r3, r4, r5, r6, r7, lr}
+ 8001906:	bf00      	nop
+ 8001908:	bcf8      	pop	{r3, r4, r5, r6, r7}
+ 800190a:	bc08      	pop	{r3}
+ 800190c:	469e      	mov	lr, r3
+ 800190e:	4770      	bx	lr

@@ -1,0 +1,9 @@
+../W5500/W5500_LL.c:11:6:Write_1_Byte	24	static
+../W5500/W5500_LL.c:22:6:Write_2_Byte	32	static
+../W5500/W5500_LL.c:34:6:Write_4_Byte	32	static
+../W5500/W5500_LL.c:48:6:Write_Multiple_Bytes	32	static
+../W5500/W5500_LL.c:65:6:Read_1_Byte	32	static
+../W5500/W5500_LL.c:76:6:Read_2_Byte	32	static
+../W5500/W5500_LL.c:89:6:Read_4_Byte	32	static
+../W5500/W5500_LL.c:103:6:Read_Multiple_Bytes	32	static
+../W5500/W5500_LL.c:119:6:Read_Buffer	32	static

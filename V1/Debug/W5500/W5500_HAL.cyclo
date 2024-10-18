@@ -1,0 +1,16 @@
+../W5500/W5500_HAL.c:13:9:W5500_Read_ID	1
+../W5500/W5500_HAL.c:20:6:W5500_Read_Gateway_Address	1
+../W5500/W5500_HAL.c:27:6:W5500_Read_Source_IP_Address	1
+../W5500/W5500_HAL.c:34:6:W5500_Read_Subnet_Mask_Address	1
+../W5500/W5500_HAL.c:41:6:W5500_Read_Source_Hardware_Address	1
+../W5500/W5500_HAL.c:49:6:W5500_Read_Interrupt_Low_Level_Timer	1
+../W5500/W5500_HAL.c:56:9:W5500_Read_Interrupt_Register	1
+../W5500/W5500_HAL.c:63:6:W5500_Read_Destination_Hardware_Address	1
+../W5500/W5500_HAL.c:71:6:W5500_Read_Session_ID	1
+../W5500/W5500_HAL.c:78:6:W5500_Read_Maximum_Segment_Size	1
+../W5500/W5500_HAL.c:85:9:W5500_Read_Phy_Configuration	1
+../W5500/W5500_HAL.c:92:9:W5500_Read_Socket_1_Mode_Register	1
+../W5500/W5500_HAL.c:99:6:W5500_Setup_Gateway_Address	1
+../W5500/W5500_HAL.c:109:6:W5500_Setup_Subnet_Mask_Address	1
+../W5500/W5500_HAL.c:119:6:W5500_Setup_Source_Hardware_Address	1
+../W5500/W5500_HAL.c:132:6:W5500_Setup_Source_IP_Address	1
