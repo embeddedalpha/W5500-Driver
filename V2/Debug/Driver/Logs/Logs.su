@@ -1,8 +1,0 @@
-../Inc/core_cm4.h:2064:26:ITM_SendChar	16	static,ignoring_inline_asm
-../Driver/Logs/Logs.c:11:5:_write	32	static
-../Driver/Logs/Logs.c:20:20:_get_log_level_string	16	static
-../Driver/Logs/Logs.c:33:13:_log	24	static
-../Driver/Logs/Logs.c:41:6:log_error	16	static
-../Driver/Logs/Logs.c:49:6:log_info	16	static
-../Driver/Logs/Logs.c:57:6:log_debug	16	static
-../Driver/Logs/Logs.c:70:6:log_debug_array	32	static
