@@ -1,0 +1,6 @@
+../Inc/core_cm4.h:1684:22:__NVIC_EnableIRQ	2
+../Inc/core_cm4.h:1814:22:__NVIC_SetPriority	2
+../Driver/GPIO/GPIO.c:25:6:GPIO_Interrupt_Setup	7
+../Driver/GPIO/GPIO.c:68:5:GPIO_Clock_Disable	7
+../Driver/GPIO/GPIO.c:101:5:GPIO_Clock_Enable	7
+../Driver/GPIO/GPIO.c:139:6:GPIO_Pin_Init	5

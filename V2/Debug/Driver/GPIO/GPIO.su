@@ -1,0 +1,6 @@
+../Inc/core_cm4.h:1684:22:__NVIC_EnableIRQ	16	static,ignoring_inline_asm
+../Inc/core_cm4.h:1814:22:__NVIC_SetPriority	16	static
+../Driver/GPIO/GPIO.c:25:6:GPIO_Interrupt_Setup	32	static
+../Driver/GPIO/GPIO.c:68:5:GPIO_Clock_Disable	16	static
+../Driver/GPIO/GPIO.c:101:5:GPIO_Clock_Enable	16	static
+../Driver/GPIO/GPIO.c:139:6:GPIO_Pin_Init	16	static
