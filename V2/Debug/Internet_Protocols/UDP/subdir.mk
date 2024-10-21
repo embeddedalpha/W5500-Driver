@@ -5,23 +5,23 @@
 
 # Add inputs and outputs from these tool invocations to the build variables 
 C_SRCS += \
-../Driver/SPI/SPI.c 
+../Internet_Protocols/UDP/UDP.c 
 
 OBJS += \
-./Driver/SPI/SPI.o 
+./Internet_Protocols/UDP/UDP.o 
 
 C_DEPS += \
-./Driver/SPI/SPI.d 
+./Internet_Protocols/UDP/UDP.d 
 
 
 # Each subdirectory must supply rules for building sources it contributes
-Driver/SPI/%.o Driver/SPI/%.su Driver/SPI/%.cyclo: ../Driver/SPI/%.c Driver/SPI/subdir.mk
+Internet_Protocols/UDP/%.o Internet_Protocols/UDP/%.su Internet_Protocols/UDP/%.cyclo: ../Internet_Protocols/UDP/%.c Internet_Protocols/UDP/subdir.mk
 	arm-none-eabi-gcc "$<" -mcpu=cortex-m4 -std=gnu11 -g3 -DDEBUG -DSTM32 -DSTM32F4 -DSTM32F407VGTx -c -I../Inc -I"B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver" -I"B:/STM32F407V_Firmware_C_Lang/W5500_Driver/W5500_Driver" -I"B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Internet_Protocols" -O0 -ffunction-sections -fdata-sections -Wall -fstack-usage -fcyclomatic-complexity -MMD -MP -MF"$(@:%.o=%.d)" -MT"$@" --specs=nano.specs -mfpu=fpv4-sp-d16 -mfloat-abi=hard -mthumb -o "$@"
 
-clean: clean-Driver-2f-SPI
+clean: clean-Internet_Protocols-2f-UDP
 
-clean-Driver-2f-SPI:
-	-$(RM) ./Driver/SPI/SPI.cyclo ./Driver/SPI/SPI.d ./Driver/SPI/SPI.o ./Driver/SPI/SPI.su
+clean-Internet_Protocols-2f-UDP:
+	-$(RM) ./Internet_Protocols/UDP/UDP.cyclo ./Internet_Protocols/UDP/UDP.d ./Internet_Protocols/UDP/UDP.o ./Internet_Protocols/UDP/UDP.su
 
-.PHONY: clean-Driver-2f-SPI
+.PHONY: clean-Internet_Protocols-2f-UDP
 

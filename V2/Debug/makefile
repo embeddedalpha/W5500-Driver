@@ -9,11 +9,11 @@ RM := rm -rf
 
 # All of the sources participating in the build are defined here
 -include sources.mk
--include W5500_Driver/Middleware/subdir.mk
--include W5500_Driver/Low_Level/subdir.mk
--include W5500_Driver/HAL/subdir.mk
+-include W5500_Driver/W5500_Middleware/subdir.mk
+-include W5500_Driver/W5500_Low_Level/subdir.mk
 -include Startup/subdir.mk
 -include Src/subdir.mk
+-include Internet_Protocols/UDP/subdir.mk
 -include Driver/SPI/subdir.mk
 -include Driver/Logs/subdir.mk
 -include Driver/GPIO/subdir.mk

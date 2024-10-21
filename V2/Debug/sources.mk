@@ -26,9 +26,9 @@ Driver/DMA \
 Driver/GPIO \
 Driver/Logs \
 Driver/SPI \
+Internet_Protocols/UDP \
 Src \
 Startup \
-W5500_Driver/HAL \
-W5500_Driver/Low_Level \
-W5500_Driver/Middleware \
+W5500_Driver/W5500_Low_Level \
+W5500_Driver/W5500_Middleware \
 
