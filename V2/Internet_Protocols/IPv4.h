@@ -8,8 +8,7 @@
 #ifndef IPV4_H_
 #define IPV4_H_
 
-#include "stdint.h"
-#include "string.h"
+#include "main.h"
 
 #define ETH_ALEN 6         // Ethernet Address Length
 #define ETH_DATA_LEN 1500  // Ethernet Payload Length (maximum)
@@ -25,6 +24,10 @@
 
 inline uint16_t swap_bytes(unsigned short value) {
   return (value >> 8) | (value << 8);
+}
+
+inline uint16_t swap_bytes_32(unsigned short value) {
+  return (value >> 16) | (value << 16);
 }
 
 static const struct Ethernet_EtherTypes {
@@ -124,8 +127,8 @@ typedef struct IPv4_Frame_Type {
   uint8_t Time_to_Live;
   uint8_t Protocol;
   uint16_t Header_Checksum;
-  uint32_t Source_Address;
-  uint32_t Destination_Address;
+  uint8_t Source_Address[4];
+uint8_t Destination_Address[4];
   uint8_t data[IPv4_Frame_Max_Len];
   // uint8_t Acknowledgement_Number[4];
   // uint8_t Option_Flags[2];
@@ -141,11 +144,47 @@ typedef struct UDP_Frame_Type {
   uint16_t Length;
   uint16_t Checksum;
   uint8_t data[UDP_Frame_Max_Len];
-} UDP_Frame_Type;
+}__attribute__((__packed__)) UDP_Frame_Type;
 
-uint8_t *UDP_Packet_Assemble(UDP_Frame_Type *frame, char *buffer, uint16_t *len);
+
+
+typedef struct ARP_Frame_Type{
+  uint16_t Hardware_Type;
+  uint16_t Protocol_Type;
+  uint8_t Hardware_Address_Length;
+  uint8_t Protocol_Address_Length;
+  uint16_t Operation;
+  uint8_t Sender_Hardware_Address[ETH_ALEN];
+  uint8_t Sender_IP_Address[4];
+  uint8_t Target_Hardware_Address[ETH_ALEN];
+  uint8_t Target_IP_Address[4];
+}__attribute__((__packed__)) ARP_Frame_Type;
+
+
+uint8_t *UDP_Packet_Assemble(UDP_Frame_Type *frame, char *buffer,
+                             uint16_t *len);
 
 uint8_t *IPv4_Packet_Assemble(IPv4_Frame_Type *frame, uint8_t *buffer,
- uint16_t *len);
+                              uint16_t *len);
+
+uint8_t *Eth_Packet_Assemble(Ethernet_Frame_Type *frame, char *buffer,
+                             uint16_t *len);
+
+void Add_UDP_CRC(uint8_t *buffer, uint16_t len);
+void Add_IP_CRC(uint8_t *buffer, uint16_t len);
+
+
+inline uint16_t calculate_checksum(uint16_t *buf, int nwords) {
+    unsigned long sum;
+
+    for (sum = 0; nwords > 0; nwords--) {
+        sum += *buf++;
+        if (sum & 0xFFFF0000) {
+            sum = (sum & 0xFFFF) + (sum >> 16);  // wrap around
+        }
+    }
+
+    return (uint16_t)(sum);  // one's complement of sum
+}
 
 #endif /* IPV4_H_ */
