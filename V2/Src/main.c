@@ -18,6 +18,7 @@
 
 #include <stdint.h>
 #include "main.h"
+#include "IPv4.h"
 #include "Logs/Logs.h"
 
 int main(void)
