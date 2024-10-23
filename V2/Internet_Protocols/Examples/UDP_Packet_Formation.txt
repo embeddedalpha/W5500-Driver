@@ -1,0 +1,71 @@
+#include "IPv4.h"
+#include "string.h"
+#include <stdio.h>
+
+Ethernet_Frame_Type Ethernet_Frame;
+IPv4_Frame_Type IPv4_Frame;
+UDP_Frame_Type UDP_Frame;
+
+uint8_t data[ETH_FRAME_LEN];
+
+void Build_Ethernet_Frame();
+void Buld_IPv4_Frame();
+void UDP_CRC(uint8_t *buffer, uint16_t len);
+
+int main(void) {
+
+  const char *buef = "Kunal Salvi is the greatest programmer lol";
+  size_t len = strlen(buef);
+
+  
+  printf("String Len = %d \n", len);
+  UDP_Frame.Source_Port = swap_bytes(12345);
+  UDP_Frame.Destination_Port = swap_bytes(80);
+  uint8_t *buf = UDP_Packet_Assemble(&UDP_Frame, buef, &len);
+
+  printf("UDP Len = %d \n", len);
+
+  IPv4_Frame.Source_Address[0] = 192;
+  IPv4_Frame.Source_Address[1] = 168;
+  IPv4_Frame.Source_Address[2] = 1;
+  IPv4_Frame.Source_Address[3] = 1;
+  IPv4_Frame.Destination_Address[0] = 192;
+  IPv4_Frame.Destination_Address[1] = 168;
+  IPv4_Frame.Destination_Address[2] = 1;
+  IPv4_Frame.Destination_Address[3] = 2;
+
+  uint8_t *ipbuf = IPv4_Packet_Assemble(&IPv4_Frame, buf, &len);
+  printf("IPv4 Len = %d \n", len);
+
+  Ethernet_Frame.dest_mac[0] = 0xAA;
+  Ethernet_Frame.dest_mac[1] = 0xAA;
+  Ethernet_Frame.dest_mac[2] = 0xAA;
+  Ethernet_Frame.dest_mac[3] = 0xAA;
+  Ethernet_Frame.dest_mac[4] = 0xAA;
+  Ethernet_Frame.dest_mac[5] = 0xAa;
+
+  Ethernet_Frame.src_mac[0] = 0xBb;
+  Ethernet_Frame.src_mac[1] = 0xBb;
+  Ethernet_Frame.src_mac[2] = 0xBb;
+  Ethernet_Frame.src_mac[3] = 0xBb;
+  Ethernet_Frame.src_mac[4] = 0xBb;
+  Ethernet_Frame.src_mac[5] = 0xBb;
+
+  Ethernet_Frame.EtherType = swap_bytes(Ethernet_EtherTypes.IPv4);
+
+  uint8_t *ethbuf = Eth_Packet_Assemble(&Ethernet_Frame, ipbuf, &len);
+
+  memcpy(data, ethbuf, len);
+
+  printf("Eth Len = %d \n", len);
+
+  Add_IP_CRC(data, len);
+  Add_UDP_CRC(data, len);
+
+  for (int i = 0; i < len; i++) {
+    printf("%x \t", data[i]);
+  }
+
+  return 0;
+}
+
