@@ -26,6 +26,8 @@ Driver/DMA \
 Driver/GPIO \
 Driver/Logs \
 Driver/SPI \
+Internet_Protocols/Ethernet \
+Internet_Protocols/IPv4 \
 Internet_Protocols/UDP \
 Src \
 Startup \

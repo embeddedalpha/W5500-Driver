@@ -1,4 +1,4 @@
-Internet_Protocols/UDP/UDP.o: ../Internet_Protocols/UDP/UDP.c \
+Internet_Protocols/IPv4/IPv4.o: ../Internet_Protocols/IPv4/IPv4.c \
  B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Internet_Protocols/IPv4.h \
  ../Inc/main.h ../Inc/stm32f407xx.h ../Inc/core_cm4.h \
  ../Inc/cmsis_version.h ../Inc/cmsis_compiler.h ../Inc/cmsis_gcc.h \

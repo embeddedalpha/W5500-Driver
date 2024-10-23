@@ -14,6 +14,8 @@ RM := rm -rf
 -include Startup/subdir.mk
 -include Src/subdir.mk
 -include Internet_Protocols/UDP/subdir.mk
+-include Internet_Protocols/IPv4/subdir.mk
+-include Internet_Protocols/Ethernet/subdir.mk
 -include Driver/SPI/subdir.mk
 -include Driver/Logs/subdir.mk
 -include Driver/GPIO/subdir.mk
