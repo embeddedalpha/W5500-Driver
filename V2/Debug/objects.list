@@ -2,6 +2,7 @@
 "./Driver/GPIO/GPIO.o"
 "./Driver/Logs/Logs.o"
 "./Driver/SPI/SPI.o"
+"./Internet_Protocols/DHCP/DHCP.o"
 "./Internet_Protocols/Ethernet/Ethernet.o"
 "./Internet_Protocols/IPv4/IPv4.o"
 "./Internet_Protocols/UDP/UDP.o"
