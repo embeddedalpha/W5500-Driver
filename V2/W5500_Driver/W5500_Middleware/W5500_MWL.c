@@ -19,6 +19,15 @@ uint8_t temp_data[4];
 
 void EXTI0_IRQHandler(void){
 
+	uint8_t socket_interrupt_buffer[8];
+
+	for(int i = 0; i < 8; i++)
+	{
+		socket_interrupt_buffer[i] = LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_IR, i, &temp_data[0], 1);
+	}
+
+
+
 
 
 }
@@ -63,9 +72,21 @@ bool W5500_Init(W5500_Config *config)
 				// Do DHCP Routine to get Dynamic IP
 			}
 
-
-
 			//Setup Interrupts
+
+
+
+
+			GPIO_Interrupt_Setup(config->Interrupt_Pin.pin, GPIO_Configuration.Interrupt_Edge.FALLING_EDGE, 0);
+
+//			for(uint8_t i = 0; i < 8; i++)
+//			{
+//				temp_data[0] = 0b00011111;
+//				LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_IMR, i, data, 1);
+//			}
+
+
+
 
 
 
@@ -123,15 +144,15 @@ void W5500_Check_Speed(W5500_Config *config)
 	 }
 }
 
-void W5500_Set_Destination_MAC(W5500_Config *config, uint8_t socket_number)
-{
-	LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_DHAR0, socket_number, config->Socket_Config[socket_number].Destination_MAC, 6);
-}
-
-void W5500_Get_Destination_MAC(W5500_Config *config, uint8_t socket_number)
-{
-	LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_DHAR0, socket_number, config->Socket_Config[socket_number].Destination_MAC, 6);
-}
+//void W5500_Set_Destination_MAC(W5500_Config *config, uint8_t socket_number)
+//{
+//	LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_DHAR0, socket_number, config->Socket_Config[socket_number].Destination_MAC, 6);
+//}
+//
+//void W5500_Get_Destination_MAC(W5500_Config *config, uint8_t socket_number)
+//{
+//	LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_DHAR0, socket_number, config->Socket_Config[socket_number].Destination_MAC, 6);
+//}
 
 void W5500_Set_Mode(W5500_Config *config)
 {
@@ -147,3 +168,5 @@ void W5500_Ping(uint8_t Target_IP[])
 
 
 }
+
+

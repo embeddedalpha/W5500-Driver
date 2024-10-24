@@ -65,17 +65,14 @@ typedef struct W5500_Config
      */
     struct Socket_Config
     {
-        bool Enable;               /*!< Enables or disables the socket. */
-        uint8_t  Mode;             /*!< Mode of the socket (e.g., TCP, UDP). */
-        uint8_t  RX_Buffer_Size;   /*!< Size of the RX buffer for the socket. */
-        uint8_t  TX_Buffer_Size;   /*!< Size of the TX buffer for the socket. */
+    	bool Enable;
         uint16_t TX_Pointer;       /*!< TX pointer to keep track of transmitted data. */
         uint16_t RX_Pointer;       /*!< RX pointer to keep track of received data. */
         uint16_t Source_Port;      /*!< Source port number for this socket. */
         uint16_t Destination_Port; /*!< Destination port number for this socket. */
         uint8_t  Destination_IP[4];/*!< Destination IP address for this socket. */
         uint8_t  Destination_MAC[6];/*!< Destination MAC address for this socket. */
-    } Socket_Config[8]; /*!< Array of socket configurations for up to 8 sockets. */
+    } TCP_Socket, UDP_Socket; /*!< Array of socket configurations for up to 8 sockets. */
 
 } W5500_Config;
 

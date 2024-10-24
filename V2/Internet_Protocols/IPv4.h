@@ -161,6 +161,37 @@ typedef struct ARP_Frame_Type{
 }__attribute__((__packed__)) ARP_Frame_Type;
 
 
+static const struct DHCP_Frame_Data{
+	uint8_t op_Message;
+	uint8_t op_Reply;
+	uint8_t htype_Ethernet;
+	uint8_t hlen_MAC;
+	uint8_t hops_0;
+	uint16_t secs_0;
+}DHCP_Frame_Data = {
+
+};
+
+typedef struct DHCP_Frame_Type{
+	uint8_t op;
+	uint8_t htype;
+	uint8_t hlen;
+	uint8_t hops;
+	uint32_t xid;
+	uint16_t secs;
+	uint16_t flags;
+	uint8_t ciaddr;
+	uint8_t yiaddr;
+	uint8_t siaddr;
+	uint8_t giaddr;
+	uint8_t chaddr;
+	uint8_t sname;
+	uint8_t file;
+	uint8_t options;
+
+}__attribute__((__packed__)) DHCP_Frame_Type;
+
+
 uint8_t *UDP_Packet_Assemble(UDP_Frame_Type *frame, char *buffer,
                              uint16_t *len);
 
