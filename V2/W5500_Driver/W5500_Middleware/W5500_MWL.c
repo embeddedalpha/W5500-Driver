@@ -82,12 +82,26 @@ bool W5500_Init(W5500_Config *config)
 //			}
 
 
-			temp_data[0] = 0x02;
+			temp_data[0] = 0x04;
 			LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_TXBUF_SIZE, 0, temp_data[0], 1);
 
 
-			temp_data[0] = 0x02;
-			LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_TXBUF_SIZE, 0, temp_data[0], 1);
+			temp_data[0] = 0x08; //For UDP
+			LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_TXBUF_SIZE, 1, temp_data[0], 1);
+
+			temp_data[0] = 0x08; //For UDP
+			LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_TXBUF_SIZE, 2, temp_data[0], 1);
+
+
+			temp_data[0] = 0x04;
+			LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_RXBUF_SIZE, 0, temp_data[0], 1);
+
+
+			temp_data[0] = 0x08; //For UDP
+			LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_RXBUF_SIZE, 1, temp_data[0], 1);
+
+			temp_data[0] = 0x08; //For UDP
+			LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_RXBUF_SIZE, 2, temp_data[0], 1);
 
 
 
@@ -165,7 +179,7 @@ void W5500_Set_Mode(W5500_Config *config)
 
 }
 
-void W5500_Ping(uint8_t Target_IP[])
+void W5500_Ping(uint8_t *Target_IP[])
 {
 
 

@@ -26,12 +26,14 @@ extern bool Network_Speed_Flag;
 
 
 
-// Socket 0 reserved for MACRAW so it can do DHCP and non-UDP and TCP protocols
+// Socket 0 reserved for MACRAW so it can do DHCP and non-UDP and TCP protocols.
+// 2K TX memory and 2K RX Memory is reserved for this
 
 // Socket 1 reserved for UDP so it can do UDP based protocols
+// 7K TX memory and 7K RX Memory is reserved for this
 
 // Socket 2 reserved for TCP so it can do TCP based protocols
-
+// 7K TX memory and 7K RX Memory is reserved for this
 /**
  * @brief Configuration structure for W5500 Ethernet controller.
  *

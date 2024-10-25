@@ -143,8 +143,19 @@ bool LL_W5500_Write_Socket_Buffer(uint16_t address, uint8_t socket_number, uint8
 	return 0;
 }
 
+
+bool LL_W5500_Write_Socket_0_Buffer( uint8_t *tx_data[], uint16_t len)
+{
+	uint8_t temp_buffer[2];
+
+	LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_TX_FSR0, 0, temp_buffer, 2);
+
+}
+
 bool LL_W5500_Read_Socket_Buffer(uint16_t address, uint8_t socket_number, uint8_t *rx_data[], uint16_t len)
 {
+
+
 	if(socket_number > 7) return 0;
 	if(len)
 	{

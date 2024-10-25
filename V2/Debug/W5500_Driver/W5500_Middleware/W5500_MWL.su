@@ -4,8 +4,8 @@ B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/GPIO/GPIO.h:62:23:GPIO_Pin_Low
 B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/GPIO/GPIO.h:104:23:GPIO_Pin_High	16	static
 ../W5500_Driver/W5500_Middleware/W5500_MWL.c:20:6:EXTI0_IRQHandler	24	static
 ../W5500_Driver/W5500_Middleware/W5500_MWL.c:36:6:W5500_Init	48	static
-../W5500_Driver/W5500_Middleware/W5500_MWL.c:111:6:W5500_Check_Chip	24	static
-../W5500_Driver/W5500_Middleware/W5500_MWL.c:123:6:W5500_Check_Link	16	static
-../W5500_Driver/W5500_Middleware/W5500_MWL.c:135:6:W5500_Check_Speed	16	static
-../W5500_Driver/W5500_Middleware/W5500_MWL.c:157:6:W5500_Set_Mode	16	static
-../W5500_Driver/W5500_Middleware/W5500_MWL.c:166:6:W5500_Ping	16	static
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:127:6:W5500_Check_Chip	24	static
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:139:6:W5500_Check_Link	16	static
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:151:6:W5500_Check_Speed	16	static
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:173:6:W5500_Set_Mode	16	static
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:182:6:W5500_Ping	16	static

@@ -1364,6 +1364,8 @@ Discarded input sections
                 0x00000000       0xbc ./W5500_Driver/W5500_Low_Level/W5500_LL.o
  .text.LL_W5500_Write_Socket_Buffer
                 0x00000000       0xa8 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
+ .text.LL_W5500_Write_Socket_0_Buffer
+                0x00000000       0x24 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
  .text.LL_W5500_Read_Socket_Buffer
                 0x00000000       0xa4 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
  .debug_macro   0x00000000      0xaba ./W5500_Driver/W5500_Low_Level/W5500_LL.o
@@ -1488,7 +1490,7 @@ Discarded input sections
  .bss.Network_Speed_Flag
                 0x00000000        0x1 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
  .text.W5500_Init
-                0x00000000      0x104 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
+                0x00000000      0x18c ./W5500_Driver/W5500_Middleware/W5500_MWL.o
  .text.W5500_Check_Chip
                 0x00000000       0x40 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
  .text.W5500_Check_Link
@@ -2635,25 +2637,25 @@ LOAD D:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
 LOAD D:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libm.a
 LOAD D:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/thumb/v7e-m+fp/hard\libgcc.a
 
-.debug_info     0x00000000     0x8367
+.debug_info     0x00000000     0x83e1
  .debug_info    0x00000000     0x1a05 ./Driver/DMA/DMA.o
  .debug_info    0x00001a05     0x1bcc ./Driver/SPI/SPI.o
  .debug_info    0x000035d1      0xba4 ./Src/main.o
  .debug_info    0x00004175      0x50b ./Src/system_stm32f4xx.o
  .debug_info    0x00004680       0x30 ./Startup/startup_stm32f407vgtx.o
- .debug_info    0x000046b0     0x1ce1 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
- .debug_info    0x00006391     0x1fd6 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
+ .debug_info    0x000046b0     0x1d33 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
+ .debug_info    0x000063e3     0x1ffe ./W5500_Driver/W5500_Middleware/W5500_MWL.o
 
-.debug_abbrev   0x00000000      0xd73
+.debug_abbrev   0x00000000      0xd74
  .debug_abbrev  0x00000000      0x23f ./Driver/DMA/DMA.o
  .debug_abbrev  0x0000023f      0x31d ./Driver/SPI/SPI.o
  .debug_abbrev  0x0000055c      0x1ff ./Src/main.o
  .debug_abbrev  0x0000075b      0x11a ./Src/system_stm32f4xx.o
  .debug_abbrev  0x00000875       0x24 ./Startup/startup_stm32f407vgtx.o
- .debug_abbrev  0x00000899      0x226 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
- .debug_abbrev  0x00000abf      0x2b4 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
+ .debug_abbrev  0x00000899      0x227 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
+ .debug_abbrev  0x00000ac0      0x2b4 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
 
-.debug_aranges  0x00000000      0x2f0
+.debug_aranges  0x00000000      0x2f8
  .debug_aranges
                 0x00000000       0xe0 ./Driver/DMA/DMA.o
  .debug_aranges
@@ -2665,12 +2667,12 @@ LOAD D:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_aranges
                 0x00000208       0x28 ./Startup/startup_stm32f407vgtx.o
  .debug_aranges
-                0x00000230       0x50 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
+                0x00000230       0x58 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
  .debug_aranges
-                0x00000280       0x70 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
+                0x00000288       0x70 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
 
 .debug_rnglists
-                0x00000000      0x232
+                0x00000000      0x238
  .debug_rnglists
                 0x00000000       0xb7 ./Driver/DMA/DMA.o
  .debug_rnglists
@@ -2682,9 +2684,9 @@ LOAD D:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_rnglists
                 0x0000018c       0x19 ./Startup/startup_stm32f407vgtx.o
  .debug_rnglists
-                0x000001a5       0x3d ./W5500_Driver/W5500_Low_Level/W5500_LL.o
+                0x000001a5       0x43 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
  .debug_rnglists
-                0x000001e2       0x50 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
+                0x000001e8       0x50 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
 
 .debug_macro    0x00000000    0x1a142
  .debug_macro   0x00000000      0x268 ./Driver/DMA/DMA.o
@@ -2744,16 +2746,16 @@ LOAD D:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .debug_macro   0x00019be6      0x2a4 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
  .debug_macro   0x00019e8a      0x2b8 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
 
-.debug_line     0x00000000     0x586b
+.debug_line     0x00000000     0x58ce
  .debug_line    0x00000000     0x15ae ./Driver/DMA/DMA.o
  .debug_line    0x000015ae     0x1fd3 ./Driver/SPI/SPI.o
  .debug_line    0x00003581      0x88c ./Src/main.o
  .debug_line    0x00003e0d      0x539 ./Src/system_stm32f4xx.o
  .debug_line    0x00004346       0x7b ./Startup/startup_stm32f407vgtx.o
- .debug_line    0x000043c1      0x9f6 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
- .debug_line    0x00004db7      0xab4 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
+ .debug_line    0x000043c1      0xa11 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
+ .debug_line    0x00004dd2      0xafc ./W5500_Driver/W5500_Middleware/W5500_MWL.o
 
-.debug_str      0x00000000    0x90149
+.debug_str      0x00000000    0x90174
  .debug_str     0x00000000    0x8ebcf ./Driver/DMA/DMA.o
                               0x8eeb9 (size before relaxing)
  .debug_str     0x0008ebcf      0x7bf ./Driver/SPI/SPI.o
@@ -2764,10 +2766,10 @@ LOAD D:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
                               0x8858e (size before relaxing)
  .debug_str     0x0008f8a3       0x3f ./Startup/startup_stm32f407vgtx.o
                                  0x70 (size before relaxing)
- .debug_str     0x0008f8e2      0x43a ./W5500_Driver/W5500_Low_Level/W5500_LL.o
-                              0x8e963 (size before relaxing)
- .debug_str     0x0008fd1c      0x42d ./W5500_Driver/W5500_Middleware/W5500_MWL.o
-                              0x8eca4 (size before relaxing)
+ .debug_str     0x0008f8e2      0x465 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
+                              0x8e98e (size before relaxing)
+ .debug_str     0x0008fd47      0x42d ./W5500_Driver/W5500_Middleware/W5500_MWL.o
+                              0x8ecd1 (size before relaxing)
 
 .comment        0x00000000       0x43
  .comment       0x00000000       0x43 ./Driver/DMA/DMA.o
@@ -2778,14 +2780,14 @@ LOAD D:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.ext
  .comment       0x00000043       0x44 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
  .comment       0x00000043       0x44 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
 
-.debug_frame    0x00000000      0xa9c
+.debug_frame    0x00000000      0xac0
  .debug_frame   0x00000000      0x378 ./Driver/DMA/DMA.o
  .debug_frame   0x00000378      0x31c ./Driver/SPI/SPI.o
  .debug_frame   0x00000694       0xbc ./Src/main.o
  .debug_frame   0x00000750       0x58 ./Src/system_stm32f4xx.o
- .debug_frame   0x000007a8      0x114 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
- .debug_frame   0x000008bc      0x1b4 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
- .debug_frame   0x00000a70       0x2c D:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-init.o)
+ .debug_frame   0x000007a8      0x138 ./W5500_Driver/W5500_Low_Level/W5500_LL.o
+ .debug_frame   0x000008e0      0x1b4 ./W5500_Driver/W5500_Middleware/W5500_MWL.o
+ .debug_frame   0x00000a94       0x2c D:/ST/STM32CubeIDE_1.13.2/STM32CubeIDE/plugins/com.st.stm32cube.ide.mcu.externaltools.gnu-tools-for-stm32.12.3.rel1.win32_1.0.100.202403111256/tools/bin/../lib/gcc/arm-none-eabi/12.3.1/../../../../arm-none-eabi/lib/thumb/v7e-m+fp/hard\libc_nano.a(libc_a-init.o)
 
 .debug_line_str
                 0x00000000       0x54
