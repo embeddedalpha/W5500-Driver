@@ -73,10 +73,6 @@ bool W5500_Init(W5500_Config *config)
 			}
 
 			//Setup Interrupts
-
-
-
-
 			GPIO_Interrupt_Setup(config->Interrupt_Pin.pin, GPIO_Configuration.Interrupt_Edge.FALLING_EDGE, 0);
 
 //			for(uint8_t i = 0; i < 8; i++)
@@ -86,6 +82,12 @@ bool W5500_Init(W5500_Config *config)
 //			}
 
 
+			temp_data[0] = 0x02;
+			LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_TXBUF_SIZE, 0, temp_data[0], 1);
+
+
+			temp_data[0] = 0x02;
+			LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_TXBUF_SIZE, 0, temp_data[0], 1);
 
 
 

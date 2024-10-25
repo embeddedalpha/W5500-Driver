@@ -25,7 +25,12 @@ extern bool W5500_Service_Flag;
 extern bool Network_Speed_Flag;
 
 
-// Socket 0 reserved for MACRAW so ICMP,
+
+// Socket 0 reserved for MACRAW so it can do DHCP and non-UDP and TCP protocols
+
+// Socket 1 reserved for UDP so it can do UDP based protocols
+
+// Socket 2 reserved for TCP so it can do TCP based protocols
 
 /**
  * @brief Configuration structure for W5500 Ethernet controller.
@@ -74,8 +79,9 @@ typedef struct W5500_Config
         uint8_t  Destination_MAC[6];/*!< Destination MAC address for this socket. */
     } TCP_Socket, UDP_Socket; /*!< Array of socket configurations for up to 8 sockets. */
 
-} W5500_Config;
 
+
+} W5500_Config;
 /**
  * @brief Initializes the W5500 chip with the given configuration.
  *
@@ -141,6 +147,6 @@ void W5500_Set_Destination_MAC(W5500_Config *config, uint8_t socket_number);
 void W5500_Get_Destination_MAC(W5500_Config *config, uint8_t socket_number);
 
 
-void W5500_Ping(uint8_t Target_IP[]);
+void W5500_Ping(uint8_t *Target_IP[]);
 
 #endif /* W5500_MIDDLEWARE_W5500_MWL_H_ */
