@@ -29,9 +29,12 @@ bool LL_W5500_Write_Socket_Configuration_Register(uint16_t Socket_Register, uint
 
 bool LL_W5500_Read_Socket_Configuration_Register(uint16_t Socket_Register, uint8_t socket_number, uint8_t *data, uint16_t len);
 
-bool LL_W5500_Write_Socket_Buffer(uint16_t address, uint8_t socket_number, uint8_t tx_data[], uint16_t len);
+bool LL_W5500_Write_Socket_0_Buffer(uint8_t socket_number, uint8_t tx_data[], uint16_t len);
 
-bool LL_W5500_Read_Socket_Buffer(uint16_t address, uint8_t socket_number, uint8_t *rx_data[], uint16_t len);
+bool LL_W5500_Write_Socket_1_Buffer(uint8_t socket_number, uint8_t tx_data[], uint16_t len);
+
+bool LL_W5500_Write_Socket_2_Buffer(uint8_t socket_number, uint8_t tx_data[], uint16_t len);
+
 
 
 
