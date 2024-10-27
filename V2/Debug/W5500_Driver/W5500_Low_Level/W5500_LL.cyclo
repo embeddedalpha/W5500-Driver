@@ -4,5 +4,5 @@
 ../W5500_Driver/W5500_Low_Level/W5500_LL.c:69:6:LL_W5500_Write_Socket_Configuration_Register	4
 ../W5500_Driver/W5500_Low_Level/W5500_LL.c:94:6:LL_W5500_Read_Socket_Configuration_Register	4
 ../W5500_Driver/W5500_Low_Level/W5500_LL.c:119:6:LL_W5500_Write_Socket_Buffer	3
-../W5500_Driver/W5500_Low_Level/W5500_LL.c:147:6:LL_W5500_Write_Socket_0_Buffer	1
-../W5500_Driver/W5500_Low_Level/W5500_LL.c:156:6:LL_W5500_Read_Socket_Buffer	3
+../W5500_Driver/W5500_Low_Level/W5500_LL.c:147:6:LL_W5500_Write_Socket_0_Buffer	3
+../W5500_Driver/W5500_Low_Level/W5500_LL.c:183:6:LL_W5500_Read_Socket_Buffer	3
