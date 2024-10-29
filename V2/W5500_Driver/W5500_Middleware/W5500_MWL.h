@@ -93,7 +93,7 @@ typedef struct W5500_Config
  * @param config Pointer to the W5500 configuration structure.
  * @return True if the initialization is successful, false otherwise.
  */
-bool W5500_Init(W5500_Config *config);
+bool MWL_W5500_Init(W5500_Config *config);
 
 /**
  * @brief Checks if the W5500 chip is responding.
@@ -104,7 +104,7 @@ bool W5500_Init(W5500_Config *config);
  * @param config Pointer to the W5500 configuration structure.
  * @return True if the chip is detected and responding, false otherwise.
  */
-bool W5500_Check_Chip(W5500_Config *config);
+bool MWL_W5500_Check_Chip(W5500_Config *config);
 
 /**
  * @brief Checks the link status of the W5500 Ethernet connection.
@@ -114,7 +114,7 @@ bool W5500_Check_Chip(W5500_Config *config);
  * @param config Pointer to the W5500 configuration structure.
  * @return True if the Ethernet link is active, false otherwise.
  */
-bool W5500_Check_Link(W5500_Config *config);
+bool MWL_W5500_Check_Link(W5500_Config *config);
 
 /**
  * @brief Checks the speed of the Ethernet link.
@@ -124,7 +124,7 @@ bool W5500_Check_Link(W5500_Config *config);
  *
  * @param config Pointer to the W5500 configuration structure.
  */
-void W5500_Check_Speed(W5500_Config *config);
+void MWL_W5500_Check_Speed(W5500_Config *config);
 
 /**
  * @brief Sets the destination MAC address for a specific socket.
@@ -135,7 +135,7 @@ void W5500_Check_Speed(W5500_Config *config);
  * @param config Pointer to the W5500 configuration structure.
  * @param socket_number Socket number for which to set the destination MAC address.
  */
-void W5500_Set_Destination_MAC(W5500_Config *config, uint8_t socket_number);
+void MWL_W5500_Set_Destination_MAC(W5500_Config *config, uint8_t socket_number);
 
 /**
  * @brief Retrieves the destination MAC address for a specific socket.
@@ -146,9 +146,9 @@ void W5500_Set_Destination_MAC(W5500_Config *config, uint8_t socket_number);
  * @param config Pointer to the W5500 configuration structure.
  * @param socket_number Socket number for which to retrieve the destination MAC address.
  */
-void W5500_Get_Destination_MAC(W5500_Config *config, uint8_t socket_number);
+void MWL_W5500_Get_Destination_MAC(W5500_Config *config, uint8_t socket_number);
 
 
-void W5500_Ping(uint8_t *Target_IP[]);
+void MWL_W5500_Ping(uint8_t *Target_IP[]);
 
 #endif /* W5500_MIDDLEWARE_W5500_MWL_H_ */

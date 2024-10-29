@@ -9,7 +9,7 @@
 #include <W5500_Middleware/W5500_MWL.h>
 
 bool Network_UpLink_Flag;
-bool W5500_Service_Flag;
+bool MWL_W5500_Service_Flag;
 bool Network_Speed_Flag;
 
 uint8_t temp_data[4];
@@ -33,7 +33,7 @@ void EXTI0_IRQHandler(void){
 }
 
 
-bool W5500_Init(W5500_Config *config)
+bool MWL_W5500_Init(W5500_Config *config)
 {
 	LL_W5500_Init_Link(&config->SPI_Handler);
 
@@ -124,7 +124,7 @@ bool W5500_Init(W5500_Config *config)
 }
 
 
-bool W5500_Check_Chip(W5500_Config *config)
+bool MWL_W5500_Check_Chip(W5500_Config *config)
 {
 	uint8_t counter = 100;
 	while(counter != 0)
@@ -136,7 +136,7 @@ bool W5500_Check_Chip(W5500_Config *config)
 	return 0;
 }
 
-bool W5500_Check_Link(W5500_Config *config)
+bool MWL_W5500_Check_Link(W5500_Config *config)
 {
 
 	 LL_W5500_Read_Common_Register(W5500_Control_Register.Common_Register.PHYCFGR, temp_data, 1);
@@ -148,7 +148,7 @@ bool W5500_Check_Link(W5500_Config *config)
 	 return 0;
 }
 
-void W5500_Check_Speed(W5500_Config *config)
+void MWL_W5500_Check_Speed(W5500_Config *config)
 {
 	 LL_W5500_Read_Common_Register(W5500_Control_Register.Common_Register.PHYCFGR, temp_data, 1);
 	 if((temp_data[0] & 0x02) == 0x02){
@@ -160,17 +160,17 @@ void W5500_Check_Speed(W5500_Config *config)
 	 }
 }
 
-//void W5500_Set_Destination_MAC(W5500_Config *config, uint8_t socket_number)
+//void MWL_W5500_Set_Destination_MAC(W5500_Config *config, uint8_t socket_number)
 //{
 //	LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_DHAR0, socket_number, config->Socket_Config[socket_number].Destination_MAC, 6);
 //}
 //
-//void W5500_Get_Destination_MAC(W5500_Config *config, uint8_t socket_number)
+//void MWL_W5500_Get_Destination_MAC(W5500_Config *config, uint8_t socket_number)
 //{
 //	LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_DHAR0, socket_number, config->Socket_Config[socket_number].Destination_MAC, 6);
 //}
 
-void W5500_Set_Mode(W5500_Config *config)
+void MWL_W5500_Set_Mode(W5500_Config *config)
 {
 	LL_W5500_Read_Common_Register(W5500_Control_Register.Common_Register.PHYCFGR, temp_data, 1);
 	temp_data[0] &= ~0x38;
@@ -179,10 +179,66 @@ void W5500_Set_Mode(W5500_Config *config)
 
 }
 
-void W5500_Ping(uint8_t *Target_IP[])
+void MWL_W5500_Ping(uint8_t *Target_IP[])
 {
 
 
 }
+
+void MWL_W5500_Get_RX_Buffer_Details(uint8_t socket_number, uint16_t *read_pointer,uint16_t *write_pointer, uint16_t *rx_packet_size)
+{
+
+	LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_RX_WR0, socket_number, temp_data, 2);
+	*write_pointer = (temp_data[0] << 8) | (temp_data[1]);
+
+	LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_RX_RD0, socket_number, temp_data, 2);
+	*read_pointer = (temp_data[0] << 8) | (temp_data[1]);
+
+	LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_RX_RSR0, socket_number, temp_data, 2);
+	*rx_packet_size = (temp_data[0] << 8) | (temp_data[1]);
+}
+
+bool MWL_W5500_Socket_UDP_OPEN(W5500_Config *config,uint8_t socket_number)
+{
+		temp_data[0] = W5500_COMMAND_SOCKET_OPEN;
+		LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_CR, socket_number, temp_data, 1);
+		LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_SR, socket_number, temp_data, 1);
+		if (temp_data[0] != W5500_STATUS_SOCK_UDP) return 0;
+		return 1;
+}
+
+
+void MWL_W5500_Socket_TCP_OPEN(W5500_Config *config,uint8_t socket_number)
+{
+
+	do {
+		temp_data[0] = W5500_COMMAND_SOCKET_OPEN;
+		LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_CR, socket_number, temp_data, 1);
+		LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_SR, socket_number, temp_data, 1);
+
+	} while (temp_data[0] != W5500_STATUS_SOCK_INIT);
+
+}
+
+void MWL_W5500_Socket_MACRAW_OPEN(W5500_Config *config,uint8_t socket_number)
+{
+
+	do {
+		temp_data[0] = W5500_COMMAND_SOCKET_OPEN;
+		LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_CR, socket_number, temp_data, 1);
+		LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_SR, socket_number, temp_data, 1);
+
+	} while (temp_data[0] != W5500_STATUS_SOCK_MACRAW);
+
+}
+
+void MWL_W5500_Socket_Close(uint8_t socket_number)
+{
+	temp_data[0] = W5500_COMMAND_SOCKET_CLOSE;
+	LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_CR, socket_number, temp_data, 1);
+}
+
+
+
 
 
