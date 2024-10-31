@@ -9,3 +9,8 @@ B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/GPIO/GPIO.h:104:23:GPIO_Pin_Hi
 ../W5500_Driver/W5500_Middleware/W5500_MWL.c:151:6:W5500_Check_Speed	16	static
 ../W5500_Driver/W5500_Middleware/W5500_MWL.c:173:6:W5500_Set_Mode	16	static
 ../W5500_Driver/W5500_Middleware/W5500_MWL.c:182:6:W5500_Ping	16	static
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:188:6:W5500_Get_RX_Buffer_Details	24	static
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:201:6:W5500_Socket_UDP_OPEN	16	static
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:211:6:W5500_Socket_TCP_OPEN	16	static
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:223:6:W5500_Socket_MACRAW_OPEN	16	static
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:235:6:W5500_Socket_Close	16	static

@@ -3,7 +3,17 @@ Src/main.o: ../Src/main.c ../Inc/main.h ../Inc/stm32f407xx.h \
  ../Inc/cmsis_gcc.h ../Inc/mpu_armv7.h ../Inc/system_stm32f4xx.h \
  ../Inc/stm32f4xx.h \
  B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Internet_Protocols/IPv4.h \
- B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/Logs/Logs.h
+ B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/Logs/Logs.h \
+ B:/STM32F407V_Firmware_C_Lang/W5500_Driver/W5500_Driver/W5500_Middleware/W5500_MWL.h \
+ B:/STM32F407V_Firmware_C_Lang/W5500_Driver/W5500_Driver/W5500_Middleware/W5500_MWL_Defs.h \
+ B:/STM32F407V_Firmware_C_Lang/W5500_Driver/W5500_Driver/W5500_Low_Level/W5500_LL.h \
+ B:/STM32F407V_Firmware_C_Lang/W5500_Driver/W5500_Driver/W5500_Low_Level/W5500_LL_Regs.h \
+ B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/GPIO/GPIO.h \
+ B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/GPIO/GPIO_Defs.h \
+ B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/SPI/SPI.h \
+ B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/DMA/DMA.h \
+ B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/DMA/DMA_Defs.h \
+ B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/SPI/SPI_Defs.h
 ../Inc/main.h:
 ../Inc/stm32f407xx.h:
 ../Inc/core_cm4.h:
@@ -15,3 +25,13 @@ Src/main.o: ../Src/main.c ../Inc/main.h ../Inc/stm32f407xx.h \
 ../Inc/stm32f4xx.h:
 B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Internet_Protocols/IPv4.h:
 B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/Logs/Logs.h:
+B:/STM32F407V_Firmware_C_Lang/W5500_Driver/W5500_Driver/W5500_Middleware/W5500_MWL.h:
+B:/STM32F407V_Firmware_C_Lang/W5500_Driver/W5500_Driver/W5500_Middleware/W5500_MWL_Defs.h:
+B:/STM32F407V_Firmware_C_Lang/W5500_Driver/W5500_Driver/W5500_Low_Level/W5500_LL.h:
+B:/STM32F407V_Firmware_C_Lang/W5500_Driver/W5500_Driver/W5500_Low_Level/W5500_LL_Regs.h:
+B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/GPIO/GPIO.h:
+B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/GPIO/GPIO_Defs.h:
+B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/SPI/SPI.h:
+B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/DMA/DMA.h:
+B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/DMA/DMA_Defs.h:
+B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/SPI/SPI_Defs.h:

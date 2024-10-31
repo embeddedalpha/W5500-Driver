@@ -128,10 +128,11 @@ bool LL_W5500_Write_Socket_0_Buffer(uint8_t socket_number, uint8_t tx_data[], ui
 	LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_TX_WR0, 0, buffer, 2);
 
 	write_pointer = (buffer[0] << 8) | (buffer[1] << 0);
+	uint8_t control_phase = ((socket_number + (socket_number*3) + 1) << 3 ) | (1 << 2);
 
 	SPI_NSS_Low(w5500_spi);
-	SPI_TRX_Byte(w5500_spi, (0xFF00 & address)>>8);
-	SPI_TRX_Byte(w5500_spi, (0x00FF & address)>>0);
+	SPI_TRX_Byte(w5500_spi, (0xFF00 & write_pointer)>>8);
+	SPI_TRX_Byte(w5500_spi, (0x00FF & write_pointer)>>0);
 	SPI_TRX_Byte(w5500_spi, control_phase);
 
 
@@ -159,10 +160,11 @@ bool LL_W5500_Write_Socket_1_Buffer(uint8_t socket_number, uint8_t tx_data[], ui
 	LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_TX_WR0, 1, buffer, 2);
 
 	write_pointer = (buffer[0] << 8) | (buffer[1] << 0);
+	uint8_t control_phase = ((socket_number + (socket_number*3) + 1) << 3 ) | (1 << 2);
 
 	SPI_NSS_Low(w5500_spi);
-	SPI_TRX_Byte(w5500_spi, (0xFF00 & address)>>8);
-	SPI_TRX_Byte(w5500_spi, (0x00FF & address)>>0);
+	SPI_TRX_Byte(w5500_spi, (0xFF00 & write_pointer)>>8);
+	SPI_TRX_Byte(w5500_spi, (0x00FF & write_pointer)>>0);
 	SPI_TRX_Byte(w5500_spi, control_phase);
 
 
@@ -189,10 +191,10 @@ bool LL_W5500_Write_Socket_2_Buffer(uint8_t socket_number, uint8_t tx_data[], ui
 	LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_TX_WR0, 2, buffer, 2);
 
 	write_pointer = (buffer[0] << 8) | (buffer[1] << 0);
-
+	uint8_t control_phase = ((socket_number + (socket_number*3) + 1) << 3 ) | (1 << 2);
 	SPI_NSS_Low(w5500_spi);
-	SPI_TRX_Byte(w5500_spi, (0xFF00 & address)>>8);
-	SPI_TRX_Byte(w5500_spi, (0x00FF & address)>>0);
+	SPI_TRX_Byte(w5500_spi, (0xFF00 & write_pointer)>>8);
+	SPI_TRX_Byte(w5500_spi, (0x00FF & write_pointer)>>0);
 	SPI_TRX_Byte(w5500_spi, control_phase);
 
 

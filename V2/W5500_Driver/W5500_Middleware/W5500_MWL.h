@@ -73,13 +73,11 @@ typedef struct W5500_Config
     struct Socket_Config
     {
     	bool Enable;
-        uint16_t TX_Pointer;       /*!< TX pointer to keep track of transmitted data. */
-        uint16_t RX_Pointer;       /*!< RX pointer to keep track of received data. */
         uint16_t Source_Port;      /*!< Source port number for this socket. */
         uint16_t Destination_Port; /*!< Destination port number for this socket. */
         uint8_t  Destination_IP[4];/*!< Destination IP address for this socket. */
         uint8_t  Destination_MAC[6];/*!< Destination MAC address for this socket. */
-    } TCP_Socket, UDP_Socket; /*!< Array of socket configurations for up to 8 sockets. */
+    } TCP_Socket, UDP_Socket, MACRAW; /*!< Array of socket configurations for up to 8 sockets. */
 
 
 
@@ -93,7 +91,7 @@ typedef struct W5500_Config
  * @param config Pointer to the W5500 configuration structure.
  * @return True if the initialization is successful, false otherwise.
  */
-bool MWL_W5500_Init(W5500_Config *config);
+bool W5500_Init(W5500_Config *config);
 
 /**
  * @brief Checks if the W5500 chip is responding.
@@ -104,7 +102,7 @@ bool MWL_W5500_Init(W5500_Config *config);
  * @param config Pointer to the W5500 configuration structure.
  * @return True if the chip is detected and responding, false otherwise.
  */
-bool MWL_W5500_Check_Chip(W5500_Config *config);
+bool W5500_Check_Chip(W5500_Config *config);
 
 /**
  * @brief Checks the link status of the W5500 Ethernet connection.
@@ -114,7 +112,7 @@ bool MWL_W5500_Check_Chip(W5500_Config *config);
  * @param config Pointer to the W5500 configuration structure.
  * @return True if the Ethernet link is active, false otherwise.
  */
-bool MWL_W5500_Check_Link(W5500_Config *config);
+bool W5500_Check_Link(W5500_Config *config);
 
 /**
  * @brief Checks the speed of the Ethernet link.
@@ -124,7 +122,7 @@ bool MWL_W5500_Check_Link(W5500_Config *config);
  *
  * @param config Pointer to the W5500 configuration structure.
  */
-void MWL_W5500_Check_Speed(W5500_Config *config);
+void W5500_Check_Speed(W5500_Config *config);
 
 /**
  * @brief Sets the destination MAC address for a specific socket.
@@ -135,7 +133,7 @@ void MWL_W5500_Check_Speed(W5500_Config *config);
  * @param config Pointer to the W5500 configuration structure.
  * @param socket_number Socket number for which to set the destination MAC address.
  */
-void MWL_W5500_Set_Destination_MAC(W5500_Config *config, uint8_t socket_number);
+void W5500_Set_Destination_MAC(W5500_Config *config, uint8_t socket_number);
 
 /**
  * @brief Retrieves the destination MAC address for a specific socket.
@@ -146,9 +144,9 @@ void MWL_W5500_Set_Destination_MAC(W5500_Config *config, uint8_t socket_number);
  * @param config Pointer to the W5500 configuration structure.
  * @param socket_number Socket number for which to retrieve the destination MAC address.
  */
-void MWL_W5500_Get_Destination_MAC(W5500_Config *config, uint8_t socket_number);
+void W5500_Get_Destination_MAC(W5500_Config *config, uint8_t socket_number);
 
 
-void MWL_W5500_Ping(uint8_t *Target_IP[]);
+void W5500_Ping(uint8_t *Target_IP[]);
 
 #endif /* W5500_MIDDLEWARE_W5500_MWL_H_ */

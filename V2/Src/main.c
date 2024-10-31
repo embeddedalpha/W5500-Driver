@@ -20,11 +20,15 @@
 #include "main.h"
 #include "IPv4.h"
 #include "Logs/Logs.h"
+#include "W5500_Middleware/W5500_MWL.h"
+
 
 int main(void)
 {
 	MCU_Clock_Setup();
 	Delay_Config();
+
+
 
 
 
