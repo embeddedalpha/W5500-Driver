@@ -198,47 +198,196 @@ void W5500_Get_RX_Buffer_Details(uint8_t socket_number, uint16_t *read_pointer,u
 	*rx_packet_size = (temp_data[0] << 8) | (temp_data[1]);
 }
 
-bool W5500_Socket_UDP_OPEN(W5500_Config *config,uint8_t socket_number)
+
+
+bool W5500_Socket_Close(W5500_Config *config, uint8_t socket_number)
 {
-		temp_data[0] = W5500_COMMAND_SOCKET_OPEN;
-		LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_CR, socket_number, temp_data, 1);
-		LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_SR, socket_number, temp_data, 1);
-		if (temp_data[0] != W5500_STATUS_SOCK_UDP) return 0;
-		return 1;
-}
-
-
-void W5500_Socket_TCP_OPEN(W5500_Config *config,uint8_t socket_number)
-{
-
-	do {
-		temp_data[0] = W5500_COMMAND_SOCKET_OPEN;
+	if((config->Socket[socket_number].Enable == true))
+	{
+		#ifdef W5500_Debug_Flag
+				log_info("Socket %d will be closed",socket_number);
+		#endif
+		temp_data[0] = W5500_COMMAND_SOCKET_CLOSE;
 		LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_CR, socket_number, temp_data, 1);
 		LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_SR, socket_number, temp_data, 1);
 
-	} while (temp_data[0] != W5500_STATUS_SOCK_INIT);
+		if(temp_data[0] == W5500_STATUS_SOCK_CLOSED)
+		{
+			#ifdef W5500_Debug_Flag
+					log_info("Socket %d is closed",socket_number);
+			#endif
+			return 1;
+		}
+		else
+		{
+			#ifdef W5500_Debug_Flag
+					log_error("Socket %d is not closed",socket_number);
+			#endif
+			return 1;
+		}
+
+	}
+	else
+	{
+		#ifdef W5500_Debug_Flag
+				log_error("Socket %d is not enabled. Try enabling it!",socket_number);
+		#endif
+		return 0;
+	}
+
+return 0;
 
 }
 
-void W5500_Socket_MACRAW_OPEN(W5500_Config *config,uint8_t socket_number)
+bool W5500_Socket_Open(W5500_Config *config, uint8_t socket_number)
 {
-
-	do {
-		temp_data[0] = W5500_COMMAND_SOCKET_OPEN;
-		LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_CR, socket_number, temp_data, 1);
-		LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_SR, socket_number, temp_data, 1);
-
-	} while (temp_data[0] != W5500_STATUS_SOCK_MACRAW);
-
+	if((config->Socket[socket_number].Enable == true))
+	{
+		#ifdef W5500_Debug_Flag
+				log_info("Socket %d will be opened",socket_number);
+		#endif
+		if(config->Socket->mode == W5500_Configuration.Socket_Config.Mode.UDP){
+			temp_data[0] = W5500_COMMAND_SOCKET_OPEN;
+			LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_CR, socket_number, temp_data, 1);
+			LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_SR, socket_number, temp_data, 1);
+			if(temp_data[0] == W5500_STATUS_SOCK_UDP)
+			{
+				#ifdef W5500_Debug_Flag
+						log_info("Socket %d is opened as UDP",socket_number);
+				#endif
+				return 1;
+			}
+			else
+			{
+				while(!W5500_Socket_Close(config, socket_number));
+				#ifdef W5500_Debug_Flag
+						log_error("Socket %d cannot be opened and is closed. Try opening again",socket_number);
+				#endif
+				return 0;
+			}
+		}
+		else if(config->Socket->mode == W5500_Configuration.Socket_Config.Mode.TCP){
+			temp_data[0] = W5500_COMMAND_SOCKET_OPEN;
+			LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_CR, socket_number, temp_data, 1);
+			LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_SR, socket_number, temp_data, 1);
+			if(temp_data[0] == W5500_STATUS_SOCK_INIT)
+			{
+				#ifdef W5500_Debug_Flag
+						log_info("Socket %d is opened as TCP",socket_number);
+				#endif
+				return 1;
+			}
+			else
+			{
+				while(!W5500_Socket_Close(config, socket_number));
+				#ifdef W5500_Debug_Flag
+						log_error("Socket %d cannot be opened and is being closed. Try opening again",socket_number);
+				#endif
+				return 0;
+			}
+		}
+		else if(config->Socket->mode == W5500_Configuration.Socket_Config.Mode.MACRAW){
+			temp_data[0] = W5500_COMMAND_SOCKET_OPEN;
+			LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_CR, socket_number, temp_data, 1);
+			LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_SR, socket_number, temp_data, 1);
+			if(temp_data[0] == W5500_STATUS_SOCK_MACRAW)
+			{
+				#ifdef W5500_Debug_Flag
+						log_info("Socket %d is opened as MACRAW",socket_number);
+				#endif
+				return 1;
+			}
+			else
+			{
+				while(!W5500_Socket_Close(config, socket_number));
+				#ifdef W5500_Debug_Flag
+						log_error("Socket %d cannot be opened and is being closed. Try opening again",socket_number);
+				#endif
+				return 0;
+			}
+		}
+	}
+	else
+	{
+		#ifdef W5500_Debug_Flag
+				log_error("Socket %d is not enabled. Try enabling it!",socket_number);
+		#endif
+	}
+	return 0;
 }
 
-void W5500_Socket_Close(uint8_t socket_number)
+bool W5500_Socket_Listen(W5500_Config *config, uint8_t socket_number)
 {
-	temp_data[0] = W5500_COMMAND_SOCKET_CLOSE;
+	if(config->Socket[socket_number].Enable == true)
+	{
+		if(config->Socket[socket_number].mode == W5500_Configuration.Socket_Config.Mode.TCP)
+		{
+			temp_data[0] = W5500_COMMAND_SOCKET_OPEN;
+			LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_CR, socket_number, temp_data, 1);
+			LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_SR, socket_number, temp_data, 1);
+			if(temp_data[0] == W5500_STATUS_SOCK_MACRAW)
+			{
+#ifdef W5500_Debug_Flag
+			log_info("Socket %d is listening on %d",socket_number,config->Socket[socket_number].Destination_Port);
+#endif
+			}
+		}
+		else
+		{
+			return 0;
+		}
+	}
+	else
+	{
+		return 0;
+	}
+
+	return 0;
+}
+
+
+bool W5500_Socket_Send(W5500_Config *config, uint8_t socket_number)
+{
+	temp_data[0] = W5500_COMMAND_SOCKET_SEND;
 	LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_CR, socket_number, temp_data, 1);
+	LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_IR, socket_number, temp_data, 1);
+	if(temp_data[0] && (1 << 4))
+	{
+#ifdef W5500_Debug_Flag
+	log_info("Data sent to address %d",config->Socket[socket_number].Destination_Port);
+#endif
+	return 1;
+	}
+	else
+	{
+#ifdef W5500_Debug_Flag
+	log_info("Data is not sent to address %d",config->Socket[socket_number].Destination_Port);
+#endif
+		return 0;
+	}
+
+	return 0;
 }
 
+bool W5500_Socket_Receive(W5500_Config *config, uint8_t socket_number)
+{
+	temp_data[0] = W5500_COMMAND_SOCKET_RECV;
+	LL_W5500_Write_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_CR, socket_number, temp_data, 1);
+	LL_W5500_Read_Socket_Configuration_Register(W5500_Control_Register.Socket_Register.Sn_IR, socket_number, temp_data, 1);
+	if(temp_data[0] && (1 << 2))
+	{
+#ifdef W5500_Debug_Flag
+	log_info("Data is received from address %d",config->Socket[socket_number].Destination_Port);
+#endif
+	return 1;
+	}
+	else
+	{
+#ifdef W5500_Debug_Flag
+	log_info("Data is not received from address %d",config->Socket[socket_number].Destination_Port);
+#endif
+		return 0;
+	}
 
-
-
-
+	return 0;
+}

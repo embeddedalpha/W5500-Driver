@@ -29,25 +29,25 @@ Idx Name          Size      VMA       LMA       File off  Algn
                   ALLOC
  12 .ARM.attributes 00000030  00000000  00000000  00003004  2**0
                   CONTENTS, READONLY
- 13 .debug_info   00009dc7  00000000  00000000  00003034  2**0
+ 13 .debug_info   0000a214  00000000  00000000  00003034  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 14 .debug_abbrev 00000dcf  00000000  00000000  0000cdfb  2**0
+ 14 .debug_abbrev 00000e27  00000000  00000000  0000d248  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 15 .debug_aranges 00000328  00000000  00000000  0000dbd0  2**3
+ 15 .debug_aranges 00000330  00000000  00000000  0000e070  2**3
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 16 .debug_rnglists 0000025f  00000000  00000000  0000def8  2**0
+ 16 .debug_rnglists 0000026a  00000000  00000000  0000e3a0  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 17 .debug_macro  0001a232  00000000  00000000  0000e157  2**0
+ 17 .debug_macro  0001a25d  00000000  00000000  0000e60a  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 18 .debug_line   00005c70  00000000  00000000  00028389  2**0
+ 18 .debug_line   00005db0  00000000  00000000  00028867  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 19 .debug_str    000904cc  00000000  00000000  0002dff9  2**0
+ 19 .debug_str    00090523  00000000  00000000  0002e617  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 20 .comment      00000043  00000000  00000000  000be4c5  2**0
+ 20 .comment      00000043  00000000  00000000  000beb3a  2**0
                   CONTENTS, READONLY
- 21 .debug_frame  00000ba0  00000000  00000000  000be508  2**2
+ 21 .debug_frame  00000bc4  00000000  00000000  000beb80  2**2
                   CONTENTS, READONLY, DEBUGGING, OCTETS
- 22 .debug_line_str 00000054  00000000  00000000  000bf0a8  2**0
+ 22 .debug_line_str 00000054  00000000  00000000  000bf744  2**0
                   CONTENTS, READONLY, DEBUGGING, OCTETS
 
 Disassembly of section .text:
@@ -3723,9 +3723,9 @@ __STATIC_INLINE uint32_t Delay_Config(void)
  8001828:	e000e010 	.word	0xe000e010
 
 0800182c <main>:
-#include "W5500_Middleware/W5500_MWL.h"
 
-
+#define MODBUS_IP 0
+#define BACNET_IP 1
 
 int main(void)
 {
@@ -3735,6 +3735,8 @@ int main(void)
  8001830:	f7ff ff52 	bl	80016d8 <MCU_Clock_Setup>
 	Delay_Config();
  8001834:	f7ff ffe2 	bl	80017fc <Delay_Config>
+
+
 
 
 

@@ -17,8 +17,18 @@
 #define W5500_MIDDLEWARE_W5500_MWL_H_
 
 #include "main.h"
+
+#define W5500_Debug_Flag 1
+#ifdef W5500_Debug_Flag
+	#include "Logs/Logs.h"
+#endif
+
 #include "W5500_MWL_Defs.h"
 #include <W5500_Low_Level/W5500_LL.h>
+
+
+
+
 
 extern bool Network_UpLink_Flag;
 extern bool W5500_Service_Flag;
@@ -73,11 +83,14 @@ typedef struct W5500_Config
     struct Socket_Config
     {
     	bool Enable;
+    	uint8_t mode;
+    	uint8_t TX_Buffer_Space;
+    	uint8_t RX_Buffer_Space;
         uint16_t Source_Port;      /*!< Source port number for this socket. */
         uint16_t Destination_Port; /*!< Destination port number for this socket. */
         uint8_t  Destination_IP[4];/*!< Destination IP address for this socket. */
         uint8_t  Destination_MAC[6];/*!< Destination MAC address for this socket. */
-    } TCP_Socket, UDP_Socket, MACRAW; /*!< Array of socket configurations for up to 8 sockets. */
+    } Socket[8]; /*!< Array of socket configurations for up to 8 sockets. */
 
 
 
@@ -146,7 +159,10 @@ void W5500_Set_Destination_MAC(W5500_Config *config, uint8_t socket_number);
  */
 void W5500_Get_Destination_MAC(W5500_Config *config, uint8_t socket_number);
 
-
-void W5500_Ping(uint8_t *Target_IP[]);
+bool W5500_Socket_Open(W5500_Config *config, uint8_t socket_number);
+bool W5500_Socket_Close(W5500_Config *config, uint8_t socket_number);
+bool W5500_Socket_Listen(W5500_Config *config, uint8_t socket_number);
+bool W5500_Socket_Send(W5500_Config *config, uint8_t socket_number);
+bool W5500_Socket_Receive(W5500_Config *config, uint8_t socket_number);
 
 #endif /* W5500_MIDDLEWARE_W5500_MWL_H_ */

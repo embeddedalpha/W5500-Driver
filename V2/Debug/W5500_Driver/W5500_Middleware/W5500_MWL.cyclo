@@ -10,7 +10,8 @@ B:/STM32F407V_Firmware_C_Lang/W5500_Driver/Driver/GPIO/GPIO.h:104:23:GPIO_Pin_Hi
 ../W5500_Driver/W5500_Middleware/W5500_MWL.c:173:6:W5500_Set_Mode	1
 ../W5500_Driver/W5500_Middleware/W5500_MWL.c:182:6:W5500_Ping	1
 ../W5500_Driver/W5500_Middleware/W5500_MWL.c:188:6:W5500_Get_RX_Buffer_Details	1
-../W5500_Driver/W5500_Middleware/W5500_MWL.c:201:6:W5500_Socket_UDP_OPEN	2
-../W5500_Driver/W5500_Middleware/W5500_MWL.c:211:6:W5500_Socket_TCP_OPEN	2
-../W5500_Driver/W5500_Middleware/W5500_MWL.c:223:6:W5500_Socket_MACRAW_OPEN	2
-../W5500_Driver/W5500_Middleware/W5500_MWL.c:235:6:W5500_Socket_Close	1
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:203:6:W5500_Socket_Close	3
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:242:6:W5500_Socket_Open	11
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:319:6:W5500_Socket_Listen	4
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:349:6:W5500_Socket_Send	2
+../W5500_Driver/W5500_Middleware/W5500_MWL.c:372:6:W5500_Socket_Receive	2

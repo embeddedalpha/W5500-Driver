@@ -22,11 +22,16 @@
 #include "Logs/Logs.h"
 #include "W5500_Middleware/W5500_MWL.h"
 
+W5500_Config ip;
+
+#define MODBUS_IP 0
+#define BACNET_IP 1
 
 int main(void)
 {
 	MCU_Clock_Setup();
 	Delay_Config();
+
 
 
 
