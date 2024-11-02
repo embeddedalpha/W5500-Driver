@@ -164,5 +164,8 @@ bool W5500_Socket_Close(W5500_Config *config, uint8_t socket_number);
 bool W5500_Socket_Listen(W5500_Config *config, uint8_t socket_number);
 bool W5500_Socket_Send(W5500_Config *config, uint8_t socket_number);
 bool W5500_Socket_Receive(W5500_Config *config, uint8_t socket_number);
+bool W5500_Socket_Connect(W5500_Config *config, uint8_t socket_number);
+bool W5500_Socket_Disconnet(W5500_Config *config, uint8_t socket_number);
+
 
 #endif /* W5500_MIDDLEWARE_W5500_MWL_H_ */

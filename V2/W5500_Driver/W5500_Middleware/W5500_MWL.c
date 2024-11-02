@@ -179,11 +179,7 @@ void W5500_Set_Mode(W5500_Config *config)
 
 }
 
-void W5500_Ping(uint8_t *Target_IP[])
-{
 
-
-}
 
 void W5500_Get_RX_Buffer_Details(uint8_t socket_number, uint16_t *read_pointer,uint16_t *write_pointer, uint16_t *rx_packet_size)
 {
@@ -388,6 +384,9 @@ bool W5500_Socket_Receive(W5500_Config *config, uint8_t socket_number)
 #endif
 		return 0;
 	}
-
 	return 0;
 }
+
+
+
+
